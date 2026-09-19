@@ -1,0 +1,2047 @@
+﻿
+==== SUITE DE TESTS COMPLETE -- APPLICATION DE GESTION DES DONS ================
+Base           : http://localhost:3000
+Prefixe        : ZZTEST / suffixe 200968333
+Sections       : toutes
+Repetitions    : 1
+Nettoyage      : active
+AVERTISSEMENT : a executer uniquement sur une base de developpement.
+
+==== S0 : BOOTSTRAP : connexion et instantanes =================================
+   PASS  S0.0 serveur joignable
+   PASS  S0.2 connexion
+   PASS  S0.3 parametres charges
+   PASS  S0.4 profil mosquee
+   INFO  S0.5 contexte  -- {"base":"http://localhost:3000","mosqueId":"cmskapr0g0001u4eyb4b5e1mx","suffixe":"200968333","repetitions":1,"exposant":1.5,"waterFilling":{"wf_reserve":0.1,"wf_min_amt":1000,"wf_max_amt":50000}}
+
+==== S1 -- Authentification (login, profil, mot de passe, sessions) ============
+   PASS  S1.1.1 GET /api/auth/login (public, sans token)
+   PASS  S1.1.2 data.wilayas est un tableau
+   PASS  S1.1.3 au moins une wilaya
+   PASS  S1.1.4 wilayas = chaines non vides
+   PASS  S1.1.5 pas de champ mosques a l'etape 1
+   PASS  S1.1.6 GET ?wilaya -> communes
+   PASS  S1.1.7 data.communes est un tableau
+   PASS  S1.1.8 GET ?wilaya&commune -> mosquees
+   PASS  S1.1.9 data.mosques est un tableau
+   PASS  S1.1.10 chaque mosquee expose {id,name} uniquement
+   PASS  S1.1.11 aucune fuite de donnees sensibles dans la liste
+   PASS  S1.1.12 ?wilaya= (vide) ne plante pas
+   PASS  S1.1.13 wilaya inconnue -> 200
+   PASS  S1.1.14 wilaya inconnue -> communes vide
+   PASS  S1.1.15 wilaya 500 caracteres (troncature MAX_LOCATION_LENGTH) sans 500
+   PASS  S1.1.16 injection SQL dans wilaya neutralisee
+   PASS  S1.1.17 wilaya en arabe geree
+   PASS  S1.2.1 corps vide
+   PASS  S1.2.2 mosqueId seul
+   PASS  S1.2.3 password seul
+   PASS  S1.2.4 mosqueId inexistant
+   PASS  S1.2.5 mauvais mot de passe
+   PASS  S1.2.6 mot de passe vide
+   PASS  S1.2.7 valeurs null
+   PASS  S1.2.8 types incorrects -> pas de 500
+   PASS  S1.2.9 JSON invalide
+   PASS  S1.3.1 connexion valide
+   PASS  S1.3.2 data.token est une chaine
+   PASS  S1.3.3 token au format JWT (3 segments)
+   PASS  S1.3.4 data.user est un objet
+   PASS  S1.3.5 data.mosque est un objet
+   PASS  S1.3.6 aucun passwordHash dans la reponse
+   PASS  S1.3.7 champs utilisateur attendus
+   PASS  S1.3.8 cookie 'token' pose
+   PASS  S1.3.9 cookie HttpOnly
+   PASS  S1.3.10 cookie SameSite
+   PASS  S1.3.11 nouveau token accepte par /api/auth
+   PASS  S1.3.12 token precedent toujours valide
+   PASS  S1.4.1 GET /api/auth
+   PASS  S1.4.2 utilisateur retourne
+   PASS  S1.4.3 user.id string
+   PASS  S1.4.4 user.email string
+   PASS  S1.4.5 user.role dans l'enum
+   PASS  S1.4.6 pas de passwordHash
+   PASS  S1.4.7 email au format valide
+   PASS  S1.4.8 sans token -> 401
+   PASS  S1.4.9 token invalide -> 401
+   PASS  S1.4.10 token vide apres Bearer
+   PASS  S1.5.1 mise a jour prenom/nom/telephone
+   PASS  S1.5.2 firstName persiste
+   PASS  S1.5.3 lastName persiste
+   PASS  S1.5.4 phone persiste
+   PASS  S1.5.5 relecture coherente
+   PASS  S1.5.6 champs proteges ignores (pas de 500)
+   PASS  S1.5.7 role non escalade
+   PASS  S1.5.8 compte toujours actif
+   PASS  S1.5.9 profil restaure
+   PASS  S1.6.1 password sans currentPassword
+   PASS  S1.6.2 currentPassword incorrect
+   PASS  S1.6.3 nouveau mot de passe trop court (7)
+   FAIL  S1.6.4 nouveau mot de passe vide  -- {"expectedStatus":400,"gotStatus":200,"expectedMessage":null,"gotMessage":null,"envelopeSuccess":true,"body":"{\"success\":true,\"data\":{\"user\":{\"id\":\"cmskapqzl0000u4eycnyyo1i3\",\"firstName\":\"testfull\",\"lastName\":\"testfull\",\"email\":\"testfull@mosque.dz\",\"phone\":\"0555555555\",\"role\":\"IMAM\",\"isActive\":true,\"lastLogin\":\"2026-08-08T14:56:11.122Z\",\"tokenVersion\":10,\"cr....
+   PASS  S1.6.5 8 caracteres accepte (limite exacte)
+   PASS  S1.6.6 ancien mot de passe refuse
+   PASS  S1.6.7 nouveau mot de passe accepte
+   PASS  S1.6.8 second changement
+   PASS  S1.6.9 connexion avec le 2e mot de passe
+   PASS  S1.6.10 restauration du mot de passe initial
+   PASS  S1.6.11 reconnexion avec le mot de passe initial
+   PASS  S1.7.1 PUT logOutOtherDevices:true
+   PASS  S1.7.2 un nouveau token est renvoye
+   PASS  S1.7.3 le nouveau token differe de l'ancien
+   PASS  S1.7.4 ancien token invalide (tokenVersion)
+   PASS  S1.7.5 nouveau token valide
+   PASS  S1.7.6 ancien token rejete sur /api/families
+   PASS  S1.8.1 POST /api/auth/logout
+   PASS  S1.8.2 cookie efface (Max-Age=0 ou Expires passe)
+   PASS  S1.8.3 logout sans session ne plante pas
+   INFO  S1.8.4 statut du Bearer apres logout  -- {"status":200,"note":"Bearer encore valide (logout = suppression du cookie). Utiliser logOutOtherDevices pour invalider."}
+  -> S1 termine : 76 reussis, 1 echecs (3 s)
+
+==== S2 -- Creation de compte + mosquee (register) =============================
+   PASS  S2.1.1 corps vide
+   PASS  S2.1.2 champ manquant : firstName
+   PASS  S2.1.2 champ manquant : lastName
+   PASS  S2.1.2 champ manquant : email
+   PASS  S2.1.2 champ manquant : password
+   FAIL  S2.1.3 objet mosque absent accepte : la mosquee est optionnelle  -- {"status":400,"message":"Missing required registration fields."}
+   PASS  S2.1.4 mosque.name manquant -> refus 4xx
+   PASS  S2.1.4 mosque.wilaya manquant -> refus 4xx
+   PASS  S2.1.4 mosque.commune manquant -> refus 4xx
+   PASS  S2.1.5 champ compose d'espaces refuse
+   PASS  S2.2.1 email invalide : "pasunemail"
+   PASS  S2.2.1 email invalide : "a@b"
+   PASS  S2.2.1 email invalide : "a b@c.com"
+   PASS  S2.2.1 email invalide : "@nodomain.com"
+   PASS  S2.2.1 email invalide : "nolocal@"
+   PASS  S2.2.1 email invalide : "double@@at.com"
+   PASS  S2.2.2 mot de passe 1 caracteres
+   PASS  S2.2.2 mot de passe 5 caracteres
+   PASS  S2.2.2 mot de passe 7 caracteres
+   PASS  S2.2.3 JSON invalide
+   PASS  S2.3.1 creation de compte reussie
+   PASS  S2.3.2 code HTTP 201
+   PASS  S2.3.3 data.user
+   PASS  S2.3.4 data.mosque
+   PASS  S2.3.5 data.token
+   PASS  S2.3.6 role par defaut = IMAM
+   PASS  S2.3.7 compte actif immediatement
+   PASS  S2.3.8 email normalise en minuscules
+   PASS  S2.3.9 aucun passwordHash renvoye
+   PASS  S2.3.10 mosquee liee correcte
+   PASS  S2.3.11 token du compte B fonctionnel
+   PASS  S2.3.12 connexion au compte B via login
+   PASS  S2.3.13 MosqueSettings cree automatiquement
+   PASS  S2.3.14 smigThreshold par defaut
+   PASS  S2.3.15 autoCalculateSVF par defaut
+   PASS  S2.3.16 solde initial = 0
+   PASS  S2.3.17 mosquee visible dans la cascade de connexion
+   PASS  S2.4.1 email utilisateur deja pris
+   PASS  S2.4.2 email en MAJUSCULES considere identique
+   PASS  S2.4.3 email de mosquee deja pris
+   PASS  S2.4.4 mosquee identique (nom+wilaya+commune) -> 409
+   INFO  S2.9 nettoyage  -- Aucune route API ne supprime un compte : les comptes ZZ* restent en base. SQL de purge fourni dans le rapport Markdown.
+  -> S2 termine : 40 reussis, 1 echecs (1 s)
+
+==== S3 -- Profil mosquee (GET / PUT / unicite) ================================
+   PASS  S3.1.1 GET /api/mosque
+   PASS  S3.1.2 mosque.id
+   PASS  S3.1.3 mosque.name
+   PASS  S3.1.4 mosque.balance numerique
+   PASS  S3.1.5 solde non negatif
+   PASS  S3.1.6 mosque.wilaya (string|null)
+   PASS  S3.1.6 mosque.commune (string|null)
+   PASS  S3.1.6 mosque.address (string|null)
+   PASS  S3.1.6 mosque.phone (string|null)
+   PASS  S3.1.6 mosque.email (string|null)
+   PASS  S3.1.7 sans token -> 401
+   PASS  S3.2.1 PUT champs valides
+   PASS  S3.2.2 name persiste
+   PASS  S3.2.3 address persiste
+   PASS  S3.2.4 description persiste
+   PASS  S3.2.5 nom vide refuse
+   PASS  S3.2.6 nom compose d'espaces refuse
+   PASS  S3.2.7 email invalide refuse
+   PASS  S3.2.8 email deja utilise par une autre mosquee
+   PASS  S3.2.9 champs proteges (balance/id) ignores
+   PASS  S3.2.10 solde non modifiable via PUT /api/mosque
+   PASS  S3.2.11 description 3000 caracteres sans 500
+   PASS  S3.2.12 description unicode/arabe acceptee
+   PASS  S3.2.13 restauration du profil d'origine
+   PASS  S3.2.14 nom restaure
+  -> S3 termine : 25 reussis, 0 echecs (0 s)
+
+==== S4 -- Parametres : matrices de validation, poids SVF, reset, propagation ====
+   PASS  S4.1.1 GET /api/settings
+   PASS  S4.1.2 data.settings est un objet
+   PASS  S4.1.2 data.svfWeights est un objet
+   PASS  S4.1.2 data.svfDefaults est un objet
+   PASS  S4.1.2 data.waterFilling est un objet
+   PASS  S4.1.3 data.svfCustomized est un booleen
+   PASS  S4.1.4 settings.autoCalculateSVF : boolean
+   PASS  S4.1.4 settings.allowAnonymousDonations : boolean
+   PASS  S4.1.5 settings.svfMaxScore : entier
+   PASS  S4.1.5 settings.pointsIfIncomeBelowSMIG : entier
+   PASS  S4.1.5 settings.pointsIfIncomeBelow2xSMIG : entier
+   PASS  S4.1.5 settings.pointsIfIncomeBelow3xSMIG : entier
+   PASS  S4.1.5 settings.pointsPerChild : entier
+   PASS  S4.1.5 settings.childPointsCap : entier
+   PASS  S4.1.5 settings.pointsIfWidowedDivorced : entier
+   PASS  S4.1.5 settings.pointsIfNoSupport : entier
+   PASS  S4.1.5 settings.pointsIfDisability : entier
+   PASS  S4.1.5 settings.pointsIfChronicIllness : entier
+   PASS  S4.1.5 settings.pointsIfTenant : entier
+   PASS  S4.1.5 settings.malusPerAidReceived : entier
+   PASS  S4.1.5 settings.malusCap : entier
+   PASS  S4.1.5 settings.seniorAgeThreshold : entier
+   PASS  S4.1.5 settings.pointsIfSeniorHead : entier
+   PASS  S4.1.5 settings.youngHeadAgeThreshold : entier
+   PASS  S4.1.5 settings.pointsIfYoungHead : entier
+   PASS  S4.1.6 settings.smigThreshold : nombre
+   PASS  S4.1.6 settings.povertyThresholdPerPerson : nombre
+   PASS  S4.1.6 settings.svfWeightExponent : nombre
+   PASS  S4.1.6 settings.minimumDistributionAmount : nombre
+   PASS  S4.1.6 settings.reservePercentage : nombre
+   PASS  S4.1.7 settings.customCriteria : tableau
+   PASS  S4.1.8 waterFilling.wf_reserve numerique
+   PASS  S4.1.8 waterFilling.wf_min_amt numerique
+   PASS  S4.1.8 waterFilling.wf_max_amt numerique
+   PASS  S4.1.9 wf_reserve dans [0,1[
+   PASS  S4.1.10 wf_max_amt >= wf_min_amt
+   PASS  S4.1.11 tous les poids SVF sont exposes
+   PASS  S4.1.12 tous les poids sont numeriques
+   PASS  S4.1.13 sans token -> 401
+   PASS  S4.2.1 PUT autoCalculateSVF=true
+   PASS  S4.2.2 autoCalculateSVF persiste = true
+   PASS  S4.2.3 autoCalculateSVF relu = true
+   PASS  S4.2.1 PUT autoCalculateSVF=false
+   PASS  S4.2.2 autoCalculateSVF persiste = false
+   PASS  S4.2.3 autoCalculateSVF relu = false
+   PASS  S4.2.1 PUT autoCalculateSVF=true
+   PASS  S4.2.2 autoCalculateSVF persiste = true
+   PASS  S4.2.3 autoCalculateSVF relu = true
+   PASS  S4.2.4 autoCalculateSVF = oui -> pas de 500
+   PASS  S4.2.4 autoCalculateSVF = 1 -> pas de 500
+   PASS  S4.2.4 autoCalculateSVF = 0 -> pas de 500
+   PASS  S4.2.4 autoCalculateSVF = null -> pas de 500
+   PASS  S4.2.4 autoCalculateSVF = [] -> pas de 500
+   PASS  S4.2.4 autoCalculateSVF = {} -> pas de 500
+   PASS  S4.2.1 PUT allowAnonymousDonations=true
+   PASS  S4.2.2 allowAnonymousDonations persiste = true
+   PASS  S4.2.3 allowAnonymousDonations relu = true
+   PASS  S4.2.1 PUT allowAnonymousDonations=false
+   PASS  S4.2.2 allowAnonymousDonations persiste = false
+   PASS  S4.2.3 allowAnonymousDonations relu = false
+   PASS  S4.2.1 PUT allowAnonymousDonations=true
+   PASS  S4.2.2 allowAnonymousDonations persiste = true
+   PASS  S4.2.3 allowAnonymousDonations relu = true
+   PASS  S4.2.4 allowAnonymousDonations = oui -> pas de 500
+   PASS  S4.2.4 allowAnonymousDonations = 1 -> pas de 500
+   PASS  S4.2.4 allowAnonymousDonations = 0 -> pas de 500
+   PASS  S4.2.4 allowAnonymousDonations = null -> pas de 500
+   PASS  S4.2.4 allowAnonymousDonations = [] -> pas de 500
+   PASS  S4.2.4 allowAnonymousDonations = {} -> pas de 500
+   PASS  S4.3.1 svfMaxScore = 7 accepte
+   PASS  S4.3.2 svfMaxScore persiste
+   PASS  S4.3.3 svfMaxScore = 0 accepte
+   PASS  S4.3.4 svfMaxScore negatif refuse
+   PASS  S4.3.5 svfMaxScore = "abc" refuse
+   PASS  S4.3.6 svfMaxScore = "NaN" refuse
+   PASS  S4.3.7 svfMaxScore = "12" (chaine numerique) accepte
+   PASS  S4.3.8 svfMaxScore = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 svfMaxScore = MAX_INT32 gere
+   PASS  S4.3.10 svfMaxScore = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfIncomeBelowSMIG = 7 accepte
+   PASS  S4.3.2 pointsIfIncomeBelowSMIG persiste
+   PASS  S4.3.3 pointsIfIncomeBelowSMIG = 0 accepte
+   PASS  S4.3.4 pointsIfIncomeBelowSMIG negatif refuse
+   PASS  S4.3.5 pointsIfIncomeBelowSMIG = "abc" refuse
+   PASS  S4.3.6 pointsIfIncomeBelowSMIG = "NaN" refuse
+   PASS  S4.3.7 pointsIfIncomeBelowSMIG = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfIncomeBelowSMIG = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfIncomeBelowSMIG = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfIncomeBelowSMIG = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfIncomeBelow2xSMIG = 7 accepte
+   PASS  S4.3.2 pointsIfIncomeBelow2xSMIG persiste
+   PASS  S4.3.3 pointsIfIncomeBelow2xSMIG = 0 accepte
+   PASS  S4.3.4 pointsIfIncomeBelow2xSMIG negatif refuse
+   PASS  S4.3.5 pointsIfIncomeBelow2xSMIG = "abc" refuse
+   PASS  S4.3.6 pointsIfIncomeBelow2xSMIG = "NaN" refuse
+   PASS  S4.3.7 pointsIfIncomeBelow2xSMIG = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfIncomeBelow2xSMIG = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfIncomeBelow2xSMIG = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfIncomeBelow2xSMIG = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfIncomeBelow3xSMIG = 7 accepte
+   PASS  S4.3.2 pointsIfIncomeBelow3xSMIG persiste
+   PASS  S4.3.3 pointsIfIncomeBelow3xSMIG = 0 accepte
+   PASS  S4.3.4 pointsIfIncomeBelow3xSMIG negatif refuse
+   PASS  S4.3.5 pointsIfIncomeBelow3xSMIG = "abc" refuse
+   PASS  S4.3.6 pointsIfIncomeBelow3xSMIG = "NaN" refuse
+   PASS  S4.3.7 pointsIfIncomeBelow3xSMIG = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfIncomeBelow3xSMIG = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfIncomeBelow3xSMIG = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfIncomeBelow3xSMIG = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsPerChild = 7 accepte
+   PASS  S4.3.2 pointsPerChild persiste
+   PASS  S4.3.3 pointsPerChild = 0 accepte
+   PASS  S4.3.4 pointsPerChild negatif refuse
+   PASS  S4.3.5 pointsPerChild = "abc" refuse
+   PASS  S4.3.6 pointsPerChild = "NaN" refuse
+   PASS  S4.3.7 pointsPerChild = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsPerChild = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsPerChild = MAX_INT32 gere
+   PASS  S4.3.10 pointsPerChild = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 childPointsCap = 7 accepte
+   PASS  S4.3.2 childPointsCap persiste
+   PASS  S4.3.3 childPointsCap = 0 accepte
+   PASS  S4.3.4 childPointsCap negatif refuse
+   PASS  S4.3.5 childPointsCap = "abc" refuse
+   PASS  S4.3.6 childPointsCap = "NaN" refuse
+   PASS  S4.3.7 childPointsCap = "12" (chaine numerique) accepte
+   PASS  S4.3.8 childPointsCap = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 childPointsCap = MAX_INT32 gere
+   PASS  S4.3.10 childPointsCap = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfWidowedDivorced = 7 accepte
+   PASS  S4.3.2 pointsIfWidowedDivorced persiste
+   PASS  S4.3.3 pointsIfWidowedDivorced = 0 accepte
+   PASS  S4.3.4 pointsIfWidowedDivorced negatif refuse
+   PASS  S4.3.5 pointsIfWidowedDivorced = "abc" refuse
+   PASS  S4.3.6 pointsIfWidowedDivorced = "NaN" refuse
+   PASS  S4.3.7 pointsIfWidowedDivorced = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfWidowedDivorced = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfWidowedDivorced = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfWidowedDivorced = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfNoSupport = 7 accepte
+   PASS  S4.3.2 pointsIfNoSupport persiste
+   PASS  S4.3.3 pointsIfNoSupport = 0 accepte
+   PASS  S4.3.4 pointsIfNoSupport negatif refuse
+   PASS  S4.3.5 pointsIfNoSupport = "abc" refuse
+   PASS  S4.3.6 pointsIfNoSupport = "NaN" refuse
+   PASS  S4.3.7 pointsIfNoSupport = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfNoSupport = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfNoSupport = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfNoSupport = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfDisability = 7 accepte
+   PASS  S4.3.2 pointsIfDisability persiste
+   PASS  S4.3.3 pointsIfDisability = 0 accepte
+   PASS  S4.3.4 pointsIfDisability negatif refuse
+   PASS  S4.3.5 pointsIfDisability = "abc" refuse
+   PASS  S4.3.6 pointsIfDisability = "NaN" refuse
+   PASS  S4.3.7 pointsIfDisability = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfDisability = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfDisability = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfDisability = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfChronicIllness = 7 accepte
+   PASS  S4.3.2 pointsIfChronicIllness persiste
+   PASS  S4.3.3 pointsIfChronicIllness = 0 accepte
+   PASS  S4.3.4 pointsIfChronicIllness negatif refuse
+   PASS  S4.3.5 pointsIfChronicIllness = "abc" refuse
+   PASS  S4.3.6 pointsIfChronicIllness = "NaN" refuse
+   PASS  S4.3.7 pointsIfChronicIllness = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfChronicIllness = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfChronicIllness = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfChronicIllness = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfTenant = 7 accepte
+   PASS  S4.3.2 pointsIfTenant persiste
+   PASS  S4.3.3 pointsIfTenant = 0 accepte
+   PASS  S4.3.4 pointsIfTenant negatif refuse
+   PASS  S4.3.5 pointsIfTenant = "abc" refuse
+   PASS  S4.3.6 pointsIfTenant = "NaN" refuse
+   PASS  S4.3.7 pointsIfTenant = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfTenant = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfTenant = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfTenant = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 malusPerAidReceived = 7 accepte
+   PASS  S4.3.2 malusPerAidReceived persiste
+   PASS  S4.3.3 malusPerAidReceived = 0 accepte
+   PASS  S4.3.4 malusPerAidReceived negatif refuse
+   PASS  S4.3.5 malusPerAidReceived = "abc" refuse
+   PASS  S4.3.6 malusPerAidReceived = "NaN" refuse
+   PASS  S4.3.7 malusPerAidReceived = "12" (chaine numerique) accepte
+   PASS  S4.3.8 malusPerAidReceived = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 malusPerAidReceived = MAX_INT32 gere
+   PASS  S4.3.10 malusPerAidReceived = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 malusCap = 7 accepte
+   PASS  S4.3.2 malusCap persiste
+   PASS  S4.3.3 malusCap = 0 accepte
+   PASS  S4.3.4 malusCap negatif refuse
+   PASS  S4.3.5 malusCap = "abc" refuse
+   PASS  S4.3.6 malusCap = "NaN" refuse
+   PASS  S4.3.7 malusCap = "12" (chaine numerique) accepte
+   PASS  S4.3.8 malusCap = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 malusCap = MAX_INT32 gere
+   PASS  S4.3.10 malusCap = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 seniorAgeThreshold = 7 accepte
+   PASS  S4.3.2 seniorAgeThreshold persiste
+   PASS  S4.3.3 seniorAgeThreshold = 0 accepte
+   PASS  S4.3.4 seniorAgeThreshold negatif refuse
+   PASS  S4.3.5 seniorAgeThreshold = "abc" refuse
+   PASS  S4.3.6 seniorAgeThreshold = "NaN" refuse
+   PASS  S4.3.7 seniorAgeThreshold = "12" (chaine numerique) accepte
+   PASS  S4.3.8 seniorAgeThreshold = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 seniorAgeThreshold = MAX_INT32 gere
+   PASS  S4.3.10 seniorAgeThreshold = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfSeniorHead = 7 accepte
+   PASS  S4.3.2 pointsIfSeniorHead persiste
+   PASS  S4.3.3 pointsIfSeniorHead = 0 accepte
+   PASS  S4.3.4 pointsIfSeniorHead negatif refuse
+   PASS  S4.3.5 pointsIfSeniorHead = "abc" refuse
+   PASS  S4.3.6 pointsIfSeniorHead = "NaN" refuse
+   PASS  S4.3.7 pointsIfSeniorHead = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfSeniorHead = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfSeniorHead = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfSeniorHead = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 youngHeadAgeThreshold = 7 accepte
+   PASS  S4.3.2 youngHeadAgeThreshold persiste
+   PASS  S4.3.3 youngHeadAgeThreshold = 0 accepte
+   PASS  S4.3.4 youngHeadAgeThreshold negatif refuse
+   PASS  S4.3.5 youngHeadAgeThreshold = "abc" refuse
+   PASS  S4.3.6 youngHeadAgeThreshold = "NaN" refuse
+   PASS  S4.3.7 youngHeadAgeThreshold = "12" (chaine numerique) accepte
+   PASS  S4.3.8 youngHeadAgeThreshold = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 youngHeadAgeThreshold = MAX_INT32 gere
+   PASS  S4.3.10 youngHeadAgeThreshold = 10^11 (depassement Int) gere sans 500
+   PASS  S4.3.1 pointsIfYoungHead = 7 accepte
+   PASS  S4.3.2 pointsIfYoungHead persiste
+   PASS  S4.3.3 pointsIfYoungHead = 0 accepte
+   PASS  S4.3.4 pointsIfYoungHead negatif refuse
+   PASS  S4.3.5 pointsIfYoungHead = "abc" refuse
+   PASS  S4.3.6 pointsIfYoungHead = "NaN" refuse
+   PASS  S4.3.7 pointsIfYoungHead = "12" (chaine numerique) accepte
+   PASS  S4.3.8 pointsIfYoungHead = 3.7 (entier attendu) -> arrondi ou refus, pas de 500
+   PASS  S4.3.9 pointsIfYoungHead = MAX_INT32 gere
+   PASS  S4.3.10 pointsIfYoungHead = 10^11 (depassement Int) gere sans 500
+   PASS  S4.4.1 smigThreshold = 1.5 accepte
+   PASS  S4.4.2 smigThreshold negatif refuse
+   PASS  S4.4.3 smigThreshold non numerique refuse
+   PASS  S4.4.4 smigThreshold = Infinity refuse ou neutralise
+   PASS  S4.4.1 povertyThresholdPerPerson = 1.5 accepte
+   PASS  S4.4.2 povertyThresholdPerPerson negatif refuse
+   PASS  S4.4.3 povertyThresholdPerPerson non numerique refuse
+   PASS  S4.4.4 povertyThresholdPerPerson = Infinity refuse ou neutralise
+   PASS  S4.4.1 svfWeightExponent = 1.5 accepte
+   PASS  S4.4.2 svfWeightExponent negatif refuse
+   PASS  S4.4.3 svfWeightExponent non numerique refuse
+   PASS  S4.4.4 svfWeightExponent = Infinity refuse ou neutralise
+   PASS  S4.4.1 minimumDistributionAmount = 1.5 accepte
+   PASS  S4.4.2 minimumDistributionAmount negatif refuse
+   PASS  S4.4.3 minimumDistributionAmount non numerique refuse
+   PASS  S4.4.4 minimumDistributionAmount = Infinity refuse ou neutralise
+   PASS  S4.5.1 reservePercentage 0 (aucune reserve)
+   PASS  S4.5.2 reservePercentage 0 (aucune reserve) reste < 1
+   PASS  S4.5.1 reservePercentage 0.1 (10%)
+   PASS  S4.5.2 reservePercentage 0.1 (10%) reste < 1
+   PASS  S4.5.1 reservePercentage 0.25 (25%)
+   PASS  S4.5.2 reservePercentage 0.25 (25%) reste < 1
+   PASS  S4.5.1 reservePercentage 10 -> converti en 0.1
+   PASS  S4.5.2 reservePercentage 10 -> converti en 0.1 reste < 1
+   PASS  S4.5.1 reservePercentage 50 -> converti en 0.5
+   PASS  S4.5.2 reservePercentage 50 -> converti en 0.5 reste < 1
+   PASS  S4.5.1 reservePercentage 99 -> converti en 0.99
+   PASS  S4.5.2 reservePercentage 99 -> converti en 0.99 reste < 1
+   PASS  S4.5.3 reservePercentage = 100 refuse ou plafonne
+   PASS  S4.5.4 reservePercentage = 150 refuse ou plafonne
+   PASS  S4.5.5 reservePercentage negatif
+   PASS  S4.6.1 customCriteria = chaine refuse
+   PASS  S4.6.2 customCriteria = objet refuse
+   PASS  S4.6.3 customCriteria = nombre refuse
+   PASS  S4.6.4 customCriteria = [] accepte
+   PASS  S4.6.5 customCriteria avec un element
+   PASS  S4.6.6 customCriteria persiste tel quel
+   PASS  S4.6.7 customCriteria relu depuis la base
+   PASS  S4.7.1 corps vide
+   PASS  S4.7.2 uniquement des champs inconnus
+   PASS  S4.7.3 champ connu + champ inconnu -> accepte, inconnu ignore
+   PASS  S4.7.4 le champ inconnu n'est pas persiste
+   PASS  S4.7.5 JSON invalide
+   PASS  S4.7.6 PUT sans token
+   PASS  S4.8.1 PUT svfWeights partiel
+   PASS  S4.8.2 points_per_child = 6
+   PASS  S4.8.3 points_widow_divorced = 17
+   PASS  S4.8.4 les autres poids sont conserves (fusion, pas remplacement)
+   PASS  S4.8.5 svfCustomized passe a true
+   PASS  S4.8.6 recalculatedFamilies est un nombre
+   PASS  S4.8.7 poids inconnus/invalides ignores sans 500
+   PASS  S4.8.8 la cle bidon n'est pas persistee
+   PASS  S4.8.9 points_per_child='abc' n'a pas corrompu le poids
+   PASS  S4.8.10 svfWeights = abc -> pas de 500
+   PASS  S4.8.10 svfWeights = 42 -> pas de 500
+   PASS  S4.8.10 svfWeights = null -> pas de 500
+   PASS  S4.8.10 svfWeights = [] -> pas de 500
+   PASS  S4.8.11 colonne pointsPerChild se reflete dans svfWeights.points_per_child
+   PASS  S4.9.0 famille temoin creee
+   PASS  S4.9.1 poids veuf/divorce porte a 30
+   PASS  S4.9.2 recalculatedFamilies >= 1
+   PASS  S4.9.3 le score de la famille a change apres modification du poids
+   PASS  S4.9.4 delta = nouveau poids - ancien poids
+   PASS  S4.9.5 poids a 0 -> le facteur ne rapporte plus rien
+   PASS  S4.9.6 restauration du poids -> score initial retrouve
+   PASS  S4.9.7 5 changements successifs du poids enfant : score monotone croissant
+   PASS  S4.9.8 plafond enfants (max_points_children) respecte a chaque etape
+   PASS  S4.10.1 scope invalide
+   PASS  S4.10.2 scope manquant -> defaut all = 200
+   PASS  S4.10.3 scope numerique
+   PASS  S4.10.4 reset scope=svf
+   PASS  S4.10.5 points_per_child revenu a 5
+   PASS  S4.10.6 points_disability revenu a 15
+   PASS  S4.10.7 svfMaxScore = 100
+   PASS  S4.10.8 autoCalculateSVF = true
+   PASS  S4.10.9 povertyThresholdPerPerson = 20000
+   PASS  S4.10.10 svfWeightExponent = 1.5
+   PASS  S4.10.11 customCriteria = []
+   PASS  S4.10.12 svfCustomized repasse a false
+   PASS  S4.10.13 reset scope=water-filling
+   PASS  S4.10.14 reservePercentage revenu a 0.1
+   PASS  S4.10.15 minimumDistributionAmount revenu a 1000
+   PASS  S4.10.16 reset water-filling ne touche pas les poids SVF
+   PASS  S4.10.17 reset scope=all
+   PASS  S4.10.18 poids enfant remis a 5
+   PASS  S4.10.19 reserve remise a 0.1
+   PASS  S4.10.20 recalculatedFamilies renvoye
+   PASS  S4.10.21 reset sans token
+   INFO  S4.10.22 poids de reference apres reset  -- {"points_per_child":5,"points_widow_divorced":15,"points_disability":15,"smig_threshold":20000}
+   PASS  S4.11.1 8 ecritures successives sans erreur
+   PASS  S4.11.2 ecriture idempotente (meme valeur 2x)
+   PASS  S4.11.3 5 ecritures concurrentes : aucune erreur 500
+   PASS  S4.11.4 valeur finale coherente apres concurrence
+  -> S4 termine : 331 reussis, 0 echecs (11 s)
+
+==== S5 -- Familles : creation, validations, logement, filtres, edition, suppression ====
+   PASS  S5.1.0 corps vide
+   PASS  S5.1.1 champ requis manquant : firstName -> 400 + message explicite
+   PASS  S5.1.1 champ requis manquant : lastName -> 400 + message explicite
+   PASS  S5.1.1 champ requis manquant : dateOfBirth -> 400 + message explicite
+   PASS  S5.1.1 champ requis manquant : ccp -> 400 + message explicite
+   PASS  S5.1.1 champ requis manquant : wilaya -> 400 + message explicite
+   PASS  S5.1.1 champ requis manquant : address -> 400 + message explicite
+   PASS  S5.1.1 champ requis manquant : maritalStatus -> 400 + message explicite
+   PASS  S5.1.1 champ requis manquant : housingStatus -> 400 + message explicite
+   PASS  S5.1.2 champ requis vide : firstName -> refus
+   PASS  S5.1.2 champ requis vide : lastName -> refus
+   PASS  S5.1.2 champ requis vide : dateOfBirth -> refus
+   PASS  S5.1.2 champ requis vide : ccp -> refus
+   PASS  S5.1.2 champ requis vide : wilaya -> refus
+   PASS  S5.1.2 champ requis vide : address -> refus
+   PASS  S5.1.2 champ requis vide : maritalStatus -> refus
+   PASS  S5.1.2 champ requis vide : housingStatus -> refus
+   PASS  S5.1.3 firstName = null refuse
+   INFO  S5.1.4 address composee d'espaces  -- {"status":201,"note":"acceptee (pas de trim de validation)"}
+   PASS  S5.1.5 housingType N'EST PAS obligatoire au niveau du bloc REQUIRED
+   PASS  S5.1.6 JSON invalide
+   PASS  S5.1.7 sans token
+   PASS  S5.2.1 maritalStatus = SINGLE accepte
+   PASS  S5.2.2 SINGLE persiste
+   PASS  S5.2.1 maritalStatus = MARRIED accepte
+   PASS  S5.2.2 MARRIED persiste
+   PASS  S5.2.1 maritalStatus = DIVORCED accepte
+   PASS  S5.2.2 DIVORCED persiste
+   PASS  S5.2.1 maritalStatus = WIDOWED accepte
+   PASS  S5.2.2 WIDOWED persiste
+   PASS  S5.2.3 maritalStatus invalide "CELIBATAIRE" refuse
+   PASS  S5.2.3 maritalStatus invalide "married" refuse
+   PASS  S5.2.3 maritalStatus invalide "Married" refuse
+   PASS  S5.2.3 maritalStatus invalide "SEPARATED" refuse
+   PASS  S5.2.3 maritalStatus invalide "" refuse
+   PASS  S5.2.3 maritalStatus invalide "123" refuse
+   PASS  S5.2.3 maritalStatus invalide "MARRIED " refuse
+   PASS  S5.3.1 OWNER + HOUSE accepte
+   PASS  S5.3.1 OWNER + APARTMENT accepte
+   PASS  S5.3.1 OWNER + TEMPORARY accepte
+   PASS  S5.3.1 OWNER + OTHER accepte
+   PASS  S5.3.1 TENANT + HOUSE accepte
+   PASS  S5.3.1 TENANT + APARTMENT accepte
+   PASS  S5.3.1 TENANT + TEMPORARY accepte
+   PASS  S5.3.1 TENANT + OTHER accepte
+   PASS  S5.3.1 HOMELESS + HOUSE accepte
+   PASS  S5.3.1 HOMELESS + APARTMENT accepte
+   PASS  S5.3.1 HOMELESS + TEMPORARY accepte
+   PASS  S5.3.1 HOMELESS + OTHER accepte
+   PASS  S5.3.1 TEMPORARY + HOUSE accepte
+   PASS  S5.3.1 TEMPORARY + APARTMENT accepte
+   PASS  S5.3.1 TEMPORARY + TEMPORARY accepte
+   PASS  S5.3.1 TEMPORARY + OTHER accepte
+   PASS  S5.3.2 SDF (HOMELESS) + housingType absent -> ACCEPTE
+   PASS  S5.3.3 SDF + housingType absent : housingType stocke = OTHER
+   PASS  S5.3.2 SDF (HOMELESS) + housingType = null -> ACCEPTE
+   PASS  S5.3.3 SDF + housingType = null : housingType stocke = OTHER
+   PASS  S5.3.2 SDF (HOMELESS) + housingType = "" -> ACCEPTE
+   PASS  S5.3.3 SDF + housingType = "" : housingType stocke = OTHER
+   PASS  S5.3.4 OWNER sans housingType -> refus
+   PASS  S5.3.4 TENANT sans housingType -> refus
+   PASS  S5.3.4 TEMPORARY sans housingType -> refus
+   PASS  S5.3.5 housingType invalide "VILLA"
+   PASS  S5.3.5 housingType invalide "house"
+   PASS  S5.3.5 housingType invalide "MAISON"
+   PASS  S5.3.5 housingType invalide "XYZ"
+   PASS  S5.3.6 housingStatus invalide "PROPRIETAIRE"
+   PASS  S5.3.6 housingStatus invalide "owner"
+   PASS  S5.3.6 housingStatus invalide "SDF"
+   PASS  S5.3.6 housingStatus invalide "RENTER"
+   PASS  S5.3.7 housingStatus absent
+   PASS  S5.3.8 PUT OWNER -> HOMELESS sans housingType accepte
+   PASS  S5.3.9 housingType bascule sur OTHER
+   PASS  S5.3.10 PUT HOMELESS -> TENANT avec type valide
+   INFO  S5.3.11 PUT TENANT -> OWNER sans type (type existant conserve ?)  -- {"status":200,"type":"APARTMENT"}
+   PASS  S5.4.1 premiere famille avec ce CCP
+   PASS  S5.4.2 CCP duplique -> 409
+   PASS  S5.4.3 message de doublon explicite
+   INFO  S5.4.4 CCP avec espaces autour (trim ?)  -- {"status":201}
+   PASS  S5.4.5 CCP tres long gere sans 500
+   PASS  S5.4.6 CCP avec separateurs accepte
+   PASS  S5.5.1 creation avec attributs complets
+   PASS  S5.5.2 code HTTP 201
+   PASS  S5.5.3 family.id string
+   PASS  S5.5.4 family.svfScore numerique
+   PASS  S5.5.5 svfScore dans [0,100]
+   PASS  S5.5.6 family.priority dans l'enum
+   PASS  S5.5.7 family.status par defaut = ACTIVE
+   PASS  S5.5.8 status initial = ACTIVE
+   PASS  S5.5.9 monthlyIncome numerique
+   PASS  S5.5.10 monthlyIncome preserve (decimales)
+   PASS  S5.5.11 membersCount entier
+   PASS  S5.5.12 createdAt date ISO
+   PASS  S5.5.13 updatedAt date ISO
+   PASS  S5.5.14 dateOfBirth date ISO
+   PASS  S5.5.15 employmentStatus dans l'enum
+   PASS  S5.5.16 priority coherente avec le score
+   PASS  S5.5.17 aucune fuite passwordHash
+   PASS  S5.5.18 revenu negatif : refus ou normalisation, jamais 500
+   PASS  S5.5.19 revenu en chaine numerique gere
+   PASS  S5.5.20 employmentStatus invalide refuse
+   PASS  S5.5.21 dateOfBirth invalide refusee sans 500
+   INFO  S5.5.22 date de naissance dans le futur  -- {"status":400,"message":"dateOfBirth cannot be in the future.","note":"refusee"}
+   PASS  S5.6.1 creation avec 3 membres inline
+   PASS  S5.6.2 membersCount >= nombre de membres fournis
+   PASS  S5.6.3 3 membres crees
+   PASS  S5.6.4 exactement 1 chef
+   PASS  S5.6.5 2 enfants
+   PASS  S5.6.6 les 2 enfants inline comptent dans le score
+   PASS  S5.6.7 deux HEAD inline -> refus
+   PASS  S5.6.8 creation avec un SPOUSE inline sur chef SINGLE
+   PASS  S5.6.9 l'etat civil bascule automatiquement en MARRIED
+   PASS  S5.6.10 membersCount declare (10) conserve s'il est superieur au reel
+   PASS  S5.6.11 membersCount releve au nombre reel de membres (3)
+   PASS  S5.6.12 membersCount = 0 releve au plancher (>= 1)
+   PASS  S5.6.14 members non tableau gere sans 500
+   PASS  S5.6.15 members = [] accepte
+   PASS  S5.7.1 GET /api/families
+   PASS  S5.7.2 data.families tableau
+   PASS  S5.7.3 data.count numerique
+   PASS  S5.7.4 count coherent avec la liste
+   PASS  S5.7.5 champ present : id
+   PASS  S5.7.5 champ present : firstName
+   PASS  S5.7.5 champ present : lastName
+   PASS  S5.7.5 champ present : svfScore
+   PASS  S5.7.5 champ present : priority
+   PASS  S5.7.5 champ present : status
+   PASS  S5.7.5 champ present : membersCount
+   PASS  S5.7.6 tri par svfScore decroissant
+   PASS  S5.7.7 toutes les priorites sont valides
+   PASS  S5.7.8 tous les statuts sont valides
+   PASS  S5.7.9 tous les scores dans [0,100]
+   PASS  S5.7.10 priorite coherente avec le score pour chaque ligne
+   PASS  S5.7.11 filtre status=ACTIVE
+   PASS  S5.7.11 filtre status=INACTIVE
+   PASS  S5.7.11 filtre status=ARCHIVED
+   PASS  S5.7.12 filtre status=ACTIVE,INACTIVE (liste)
+   PASS  S5.7.13 filtre status=ALL renvoie tous les statuts
+   PASS  S5.7.14 status=ALL >= status=ACTIVE
+   PASS  S5.7.15 statut inconnu : ignore ou liste vide, jamais 500
+   PASS  S5.7.16 recherche par nom (search=)
+   PASS  S5.7.17 alias q= fonctionne aussi
+   PASS  S5.7.18 recherche insensible a la casse
+   PASS  S5.7.19 recherche par CCP
+   PASS  S5.7.20 recherche sans resultat -> liste vide
+   PASS  S5.7.21 injection SQL dans la recherche neutralisee
+   PASS  S5.7.22 filtre maxIncome
+   PASS  S5.7.23 filtre minSvf
+   PASS  S5.7.24 filtre priority=URGENT
+   PASS  S5.7.24 filtre priority=VULNERABLE
+   PASS  S5.7.24 filtre priority=MODERATE
+   PASS  S5.7.24 filtre priority=LOW
+   PASS  S5.7.25 filtre employmentStatus=UNEMPLOYED
+   PASS  S5.7.25 filtre employmentStatus=PART_TIME
+   PASS  S5.7.25 filtre employmentStatus=FULL_TIME
+   PASS  S5.7.25 filtre employmentStatus=RETIRED
+   PASS  S5.7.25 filtre employmentStatus=DISABLED
+   PASS  S5.7.25 filtre employmentStatus=NONE
+   PASS  S5.7.26 filtre maritalStatus=SINGLE
+   PASS  S5.7.26 filtre maritalStatus=MARRIED
+   PASS  S5.7.26 filtre maritalStatus=DIVORCED
+   PASS  S5.7.26 filtre maritalStatus=WIDOWED
+   PASS  S5.7.27 filtre invalide priority=SUPERURGENT ignore sans 500
+   PASS  S5.7.27 filtre invalide employmentStatus=XX ignore sans 500
+   PASS  S5.7.27 filtre invalide maritalStatus=XX ignore sans 500
+   PASS  S5.7.27 filtre invalide maxIncome=abc ignore sans 500
+   PASS  S5.7.27 filtre invalide minSvf=abc ignore sans 500
+   PASS  S5.7.28 combinaison de 4 filtres
+   PASS  S5.7.29 GET sans token
+   PASS  S5.8.1 GET famille par id
+   PASS  S5.8.2 id correspond
+   PASS  S5.8.3 la fiche detaillee inclut les membres
+   PASS  S5.8.4 2 membres presents
+   PASS  S5.8.5 id inexistant -> 404
+   PASS  S5.8.6 id malforme gere sans 500
+   PASS  S5.8.7 sans token
+   PASS  S5.9.1 PUT champs editables
+   PASS  S5.9.2 firstName mis a jour
+   PASS  S5.9.2 lastName mis a jour
+   PASS  S5.9.2 phone mis a jour
+   PASS  S5.9.2 address mis a jour
+   PASS  S5.9.2 wilaya mis a jour
+   PASS  S5.9.2 monthlyIncome mis a jour
+   PASS  S5.9.3 baisse de revenu -> score recalcule a la hausse
+   PASS  S5.9.4 updatedAt modifie
+   PASS  S5.9.5 status -> ACTIVE
+   PASS  S5.9.5 status -> INACTIVE
+   PASS  S5.9.5 status -> ARCHIVED
+   PASS  S5.9.6 statut invalide refuse
+   PASS  S5.9.7 champs proteges ignores sans 500
+   PASS  S5.9.8 svfScore non ecrasable directement
+   PASS  S5.9.9 id inchange
+   PASS  S5.9.10 PUT vide gere
+   PASS  S5.9.11 PUT sur id inexistant -> 404
+   PASS  S5.9.12 PUT sans token
+   PASS  S5.9.13 passage a WIDOWED augmente le score
+   PASS  S5.9.14 membersCount editable
+   PASS  S5.9.15 membersCount = 0 releve au plancher
+   PASS  S5.10.1 DELETE ?mode=soft
+   PASS  S5.10.2 la famille existe toujours apres archivage
+   PASS  S5.10.3 statut = ARCHIVED
+   PASS  S5.10.4 visible dans le filtre ARCHIVED
+   PASS  S5.10.5 absente du filtre ACTIVE
+   PASS  S5.10.6 les membres ne sont PAS supprimes par l'archivage
+   PASS  S5.10.7 reactivation via PUT status=ACTIVE
+   PASS  S5.10.8 re-archivage possible apres reactivation
+   PASS  S5.10.9 DELETE ?mode=hard
+   PASS  S5.10.10 la famille n'existe plus (404)
+   PASS  S5.10.11 les membres sont supprimes en cascade
+   PASS  S5.10.12 absente meme de status=ALL
+   PASS  S5.10.13 seconde suppression -> 404
+   PASS  S5.10.14 mode inconnu gere sans 500
+   PASS  S5.10.15 DELETE sur id inexistant -> 404
+   PASS  S5.10.16 DELETE sans token
+  -> S5 termine : 210 reussis, 0 echecs (7 s)
+
+==== S6 -- Membres et enfants : roles, garde-fous HEAD, promotion SPOUSE, compteurs ====
+   PASS  S6.1.1 corps vide
+   PASS  S6.1.2 firstName manquant -> 400
+   PASS  S6.1.3 role manquant -> 400
+   PASS  S6.1.4 firstName compose d'espaces refuse
+   PASS  S6.1.5 role invalide ENFANT refuse
+   PASS  S6.1.5 role invalide child refuse
+   PASS  S6.1.5 role invalide FILS refuse
+   PASS  S6.1.5 role invalide  refuse
+   PASS  S6.1.5 role invalide HEAD  refuse
+   PASS  S6.1.5 role invalide 42 refuse
+   PASS  S6.1.6 role CHILD accepte
+   PASS  S6.1.7 role CHILD persiste
+   PASS  S6.1.8 member.id string (CHILD)
+   PASS  S6.1.9 familyId correct (CHILD)
+   PASS  S6.1.6 role PARENT accepte
+   PASS  S6.1.7 role PARENT persiste
+   PASS  S6.1.8 member.id string (PARENT)
+   PASS  S6.1.9 familyId correct (PARENT)
+   PASS  S6.1.6 role OTHER accepte
+   PASS  S6.1.7 role OTHER persiste
+   PASS  S6.1.8 member.id string (OTHER)
+   PASS  S6.1.9 familyId correct (OTHER)
+   PASS  S6.1.6 role SPOUSE accepte
+   PASS  S6.1.7 role SPOUSE persiste
+   PASS  S6.1.8 member.id string (SPOUSE)
+   PASS  S6.1.9 familyId correct (SPOUSE)
+   PASS  S6.1.10 famille inexistante -> 404
+   PASS  S6.1.11 sans token
+   PASS  S6.1.12 JSON invalide
+   PASS  S6.1.13 les 5 roles du schema sont couverts
+   PASS  S6.2.1 creation membre complet
+   PASS  S6.2.2 code HTTP 201
+   PASS  S6.2.3 champ expose : id
+   PASS  S6.2.3 champ expose : familyId
+   PASS  S6.2.3 champ expose : firstName
+   PASS  S6.2.3 champ expose : lastName
+   PASS  S6.2.3 champ expose : dateOfBirth
+   PASS  S6.2.3 champ expose : role
+   PASS  S6.2.3 champ expose : hasDisability
+   PASS  S6.2.3 champ expose : diseases
+   PASS  S6.2.3 champ expose : occupation
+   PASS  S6.2.3 champ expose : monthlyIncome
+   PASS  S6.2.3 champ expose : createdAt
+   PASS  S6.2.3 champ expose : updatedAt
+   PASS  S6.2.4 hasDisability boolean
+   PASS  S6.2.5 hasDisability = true
+   PASS  S6.2.6 diseases (string|null)
+   PASS  S6.2.7 monthlyIncome numerique
+   PASS  S6.2.8 createdAt ISO
+   PASS  S6.2.9 dateOfBirth optionnelle
+   PASS  S6.2.10 dateOfBirth invalide geree sans 500
+   PASS  S6.2.11 prenom/nom en arabe acceptes
+   PASS  S6.2.12 texte arabe conserve tel quel
+   PASS  S6.2.13 chaine XSS stockee sans 500
+   PASS  S6.2.14 chaine renvoyee verbatim (echappement cote vue)
+   PASS  S6.2.15 prenom de 1000 caracteres gere sans 500
+   PASS  S6.3.0 chef present
+   PASS  S6.3.1 ajout d'un 2e HEAD -> 409
+   PASS  S6.3.2 promotion d'un membre en HEAD -> 409
+   PASS  S6.3.3 suppression du chef refusee (409)
+   INFO  S6.3.4 retrogradation du chef  -- {"status":409,"message":"The head of family cannot change role. Edit the family instead.","note":"refusee"}
+   PASS  S6.3.5a toute famille recoit automatiquement un chef
+   PASS  S6.3.5 un 2e HEAD reste refuse (le chef est cree automatiquement)
+   PASS  S6.4.1 etat initial = SINGLE
+   PASS  S6.4.2 ajout d'un SPOUSE sur un chef SINGLE
+   PASS  S6.4.3 SINGLE -> MARRIED automatiquement
+   PASS  S6.4.4 membersCount incremente (SINGLE)
+   PASS  S6.4.5b SINGLE -> MARRIED : le score reste stable
+   PASS  S6.4.7 suppression de l'epoux : pas de retro-degradation (SINGLE)
+   PASS  S6.4.1 etat initial = DIVORCED
+   PASS  S6.4.2 ajout d'un SPOUSE sur un chef DIVORCED
+   PASS  S6.4.3 DIVORCED -> MARRIED automatiquement
+   PASS  S6.4.4 membersCount incremente (DIVORCED)
+   PASS  S6.4.5 le bonus veuf/divorce disparait (DIVORCED)
+   PASS  S6.4.6 delta = -points_widow_divorced (DIVORCED)
+   PASS  S6.4.7 suppression de l'epoux : pas de retro-degradation (DIVORCED)
+   PASS  S6.4.1 etat initial = WIDOWED
+   PASS  S6.4.2 ajout d'un SPOUSE sur un chef WIDOWED
+   PASS  S6.4.3 WIDOWED -> MARRIED automatiquement
+   PASS  S6.4.4 membersCount incremente (WIDOWED)
+   PASS  S6.4.5 le bonus veuf/divorce disparait (WIDOWED)
+   PASS  S6.4.6 delta = -points_widow_divorced (WIDOWED)
+   PASS  S6.4.7 suppression de l'epoux : pas de retro-degradation (WIDOWED)
+   PASS  S6.4.8 PUT role OTHER -> SPOUSE
+   PASS  S6.4.9 l'etat civil bascule aussi via PUT
+   PASS  S6.4.10 deja MARRIED : etat inchange
+   PASS  S6.4.11 deja MARRIED : score inchange par l'ajout d'un epoux
+   PASS  S6.4.12 un CHILD ne change pas l'etat civil
+   PASS  S6.5.1 membersCount declare = 4 avec 1 seule ligne membre
+   PASS  S6.5.3 membersCount ne recule jamais apres P1
+   PASS  S6.5.4 membersCount >= nombre de lignes reelles apres P1
+   PASS  S6.5.6 ajout d'un OTHER ne change PAS le score
+   PASS  S6.5.3 membersCount ne recule jamais apres P2
+   PASS  S6.5.4 membersCount >= nombre de lignes reelles apres P2
+   PASS  S6.5.6 ajout d'un PARENT ne change PAS le score
+   PASS  S6.5.3 membersCount ne recule jamais apres E1
+   PASS  S6.5.4 membersCount >= nombre de lignes reelles apres E1
+   PASS  S6.5.5 +1 enfant -> +5 points (enfant n1)
+   PASS  S6.5.3 membersCount ne recule jamais apres E2
+   PASS  S6.5.4 membersCount >= nombre de lignes reelles apres E2
+   PASS  S6.5.5 +1 enfant -> +5 points (enfant n2)
+   PASS  S6.5.3 membersCount ne recule jamais apres E3
+   PASS  S6.5.4 membersCount >= nombre de lignes reelles apres E3
+   PASS  S6.5.5 +1 enfant -> +5 points (enfant n3)
+   PASS  S6.5.3 membersCount ne recule jamais apres E4
+   PASS  S6.5.4 membersCount >= nombre de lignes reelles apres E4
+   PASS  S6.5.5 +1 enfant -> +5 points (enfant n4)
+   INFO  S6.5.7 trace complete des ajouts  -- [{"etape":"initial","membersCount":4,"lignes":1,"score":40},{"etape":"+P1(OTHER)","membersCount":4,"lignes":2,"enfants":0,"score":40},{"etape":"+P2(PARENT)","membersCount":4,"lignes":3,"enfants":0,"score":40},{"etape":"+E1(CHILD)","membersCount":4,"lignes":4,"enfants":1,"score":45},{"etape":"+E2(CHILD)","membersCount":5,"lignes":5,"enfants":2,"score":50},{"etape":"+E3(CHILD)","membersCount":6,"lig...
+   PASS  S6.5.8 le score final depend des lignes CHILD, pas de membersCount
+   PASS  S6.5.9 suppression d'un enfant -> score reduit du bon montant
+   PASS  S6.5.10 membersCount apres suppression reste >= plancher
+   PASS  S6.5.11 7 enfants -> bonus plafonne a max_points_children
+   PASS  S6.5.12 score toujours <= 100 malgre le sur-nombre d'enfants
+   PASS  S6.6.1 GET membre par id
+   PASS  S6.6.2 id correspond
+   PASS  S6.6.3 PUT membre
+   PASS  S6.6.4 firstName mis a jour
+   PASS  S6.6.4 lastName mis a jour
+   PASS  S6.6.4 occupation mis a jour
+   PASS  S6.6.4 monthlyIncome mis a jour
+   PASS  S6.6.4 hasDisability mis a jour
+   PASS  S6.6.4 diseases mis a jour
+   PASS  S6.6.5 firstName vide refuse en PUT
+   PASS  S6.6.6 role invalide refuse en PUT
+   PASS  S6.6.7 changement de familyId ignore ou refuse
+   PASS  S6.6.8 GET membre inexistant -> 404
+   PASS  S6.6.9 PUT membre inexistant -> 404
+   PASS  S6.6.10 GET membre sans token
+   INFO  S6.6.11 handicap d'un membre non-chef  -- {"avant":40,"apres":40,"note":"n'affecte pas le score (attendu)"}
+   PASS  S6.6.12 DELETE membre
+   PASS  S6.6.13 membre supprime -> GET 404
+   PASS  S6.6.14 seconde suppression -> 404
+   PASS  S6.7.1 POST /children
+   PASS  S6.7.2 code HTTP 201
+   PASS  S6.7.3 role force a CHILD
+   PASS  S6.7.4 svfScore renvoye dans la reponse
+   PASS  S6.7.5 score augmente de points_per_child
+   PASS  S6.7.6 role=HEAD ignore sur /children (force CHILD)
+   PASS  S6.7.7 GET /children
+   PASS  S6.7.8 data.children tableau
+   PASS  S6.7.9 data.count numerique
+   PASS  S6.7.10 tous les elements ont le role CHILD
+   PASS  S6.7.11 count = longueur de la liste
+   PASS  S6.7.12 GET /children/count
+   PASS  S6.7.13 count.count entier
+   PASS  S6.7.13 count.schoolCount entier
+   PASS  S6.7.13 count.orphanCount entier
+   PASS  S6.7.14 count coherent avec GET /children
+   PASS  S6.7.15 schoolCount <= count
+   PASS  S6.7.16 orphanCount <= count
+   PASS  S6.7.17 PUT /children/:id
+   PASS  S6.7.18 prenom modifie
+   PASS  S6.7.19 svfScore renvoye
+   PASS  S6.7.20 DELETE /children/:id
+   PASS  S6.7.21 message de confirmation
+   PASS  S6.7.22 svfScore renvoye apres suppression
+   PASS  S6.7.23 score reduit de points_per_child
+   PASS  S6.7.24 enfant supprime -> PUT 404
+   PASS  S6.7.25 /children sur famille inexistante -> 404
+   PASS  S6.7.26 /children sans token
+   PASS  S6.7.27 enfant sans prenom refuse
+   PASS  S6.8.1 10 ajouts concurrents : aucune erreur 500
+   PASS  S6.8.2 les 10 membres sont crees
+   PASS  S6.8.3 la base contient 10 membres + le chef automatique
+   PASS  S6.8.4 membersCount coherent apres concurrence
+   PASS  S6.8.5 score plafonne correctement malgre la concurrence
+   PASS  S6.8.6 /children/count coherent apres concurrence
+  -> S6 termine : 164 reussis, 0 echecs (8 s)
+
+==== S7 -- SVF : calibration de chaque facteur, profils composites, mutations ====
+   PASS  S7.1.1 famille de reference = 0 point (aucun facteur actif)
+   PASS  S7.1.3 priorite de la reference = LOW
+   PASS  S7.2.1 revenu < SMIG (20000) -> +40 points
+   PASS  S7.2.1 revenu < 2x SMIG -> +25 points
+   PASS  S7.2.1 revenu < 3x SMIG -> +10 points
+   PASS  S7.2.1 veuf/veuve -> +15 points
+   PASS  S7.2.1 divorce(e) -> +15 points
+   PASS  S7.2.1 sans soutien (incomeSources=[NONE]) -> +20 points
+   PASS  S7.2.1 handicap du chef -> +15 points
+   PASS  S7.2.1 maladie chronique -> +10 points
+   PASS  S7.2.1 locataire -> +10 points
+   PASS  S7.2.1 chef senior (>= 65 ans) -> +10 points
+   PASS  S7.2.1 chef jeune (<= 25 ans) -> +5 points
+   PASS  S7.2.1 1 enfant -> +5 points
+   INFO  S7.2.2 table de calibration complete  -- [{"facteur":"revenu < SMIG (20000)","cle":"points_income_below_smig","mesure":40,"configure":40,"score":40},{"facteur":"revenu < 2x SMIG","cle":"points_income_below_2x_smig","mesure":25,"configure":25,"score":25},{"facteur":"revenu < 3x SMIG","cle":"points_income_below_3x_smig","mesure":10,"configure":10,"score":10},{"facteur":"veuf/veuve","cle":"points_widow_divorced","mesure":15,"configure":15,"...
+   PASS  S7.2.3 revenu >= 3x SMIG -> 0 point supplementaire
+   PASS  S7.2.3 proprietaire -> 0 point supplementaire
+   PASS  S7.2.3 celibataire -> 0 point supplementaire
+   PASS  S7.2.3 marie -> 0 point supplementaire
+   PASS  S7.2.3 age median (45) -> 0 point supplementaire
+   PASS  S7.2.3 diseases = "ras" (jeton nul) -> 0 point supplementaire
+   PASS  S7.2.3 diseases = "aucun" -> 0 point supplementaire
+   PASS  S7.2.3 diseases = "لا" (arabe) -> 0 point supplementaire
+   PASS  S7.2.3 diseases vide -> 0 point supplementaire
+   PASS  S7.2.3 incomeSources = [SALARY] -> 0 point supplementaire
+   PASS  S7.2.3 incomeSources = [NONE, SALARY] (mixte) -> 0 point supplementaire
+   PASS  S7.2.3 incomeSources = [] (vide) -> 0 point supplementaire
+   PASS  S7.3.1 revenu = 0 -> 40 pts
+   PASS  S7.3.1 revenu = 1 -> 40 pts
+   PASS  S7.3.1 revenu = SMIG-1 -> 40 pts
+   PASS  S7.3.1 revenu = SMIG (borne exacte) -> 25 pts
+   PASS  S7.3.1 revenu = SMIG+1 -> 25 pts
+   PASS  S7.3.1 revenu = 2xSMIG-1 -> 25 pts
+   PASS  S7.3.1 revenu = 2xSMIG (borne exacte) -> 10 pts
+   PASS  S7.3.1 revenu = 3xSMIG-1 -> 10 pts
+   PASS  S7.3.1 revenu = 3xSMIG (borne exacte) -> 0 pts
+   PASS  S7.3.1 revenu = 3xSMIG+1 -> 0 pts
+   PASS  S7.3.1 revenu tres eleve -> 0 pts
+   PASS  S7.3.2 chef de 18 ans -> 5 pts
+   PASS  S7.3.2 chef de 24 ans -> 5 pts
+   PASS  S7.3.2 chef de 25 ans (borne jeune, strict) -> 0 pts
+   PASS  S7.3.2 chef de 26 ans -> 0 pts
+   PASS  S7.3.2 chef de 64 ans -> 0 pts
+   PASS  S7.3.2 chef de 65 ans (borne senior) -> 10 pts
+   PASS  S7.3.2 chef de 66 ans -> 10 pts
+   PASS  S7.3.2 chef de 95 ans -> 10 pts
+   PASS  S7.3.3 0 enfant(s) -> min(0x5, 20)
+   PASS  S7.3.3 1 enfant(s) -> min(1x5, 20)
+   PASS  S7.3.3 2 enfant(s) -> min(2x5, 20)
+   PASS  S7.3.3 3 enfant(s) -> min(3x5, 20)
+   PASS  S7.3.3 4 enfant(s) -> min(4x5, 20)
+   PASS  S7.3.3 5 enfant(s) -> min(5x5, 20)
+   PASS  S7.3.3 7 enfant(s) -> min(7x5, 20)
+   PASS  S7.4.1 priorite = f(score) pour TOUTES les familles de la mosquee
+   PASS  S7.4.2 seuil local : score 0 -> LOW
+   PASS  S7.4.2 seuil local : score 19.99 -> LOW
+   PASS  S7.4.2 seuil local : score 20 -> MODERATE
+   PASS  S7.4.2 seuil local : score 44.99 -> MODERATE
+   PASS  S7.4.2 seuil local : score 45 -> VULNERABLE
+   PASS  S7.4.2 seuil local : score 69.99 -> VULNERABLE
+   PASS  S7.4.2 seuil local : score 70 -> URGENT
+   PASS  S7.4.2 seuil local : score 100 -> URGENT
+   PASS  S7.5.1 Veuve sans revenu, 3 enfants, locataire
+   PASS  S7.5.2 priorite coherente : Veuve sans revenu, 3 enfants, locataire
+   PASS  S7.5.3 score borne [0,100] : Veuve sans revenu, 3 enfants, locataire
+   PASS  S7.5.1 Chef senior handicape, proprietaire, revenu faible
+   PASS  S7.5.2 priorite coherente : Chef senior handicape, proprietaire, revenu faible
+   PASS  S7.5.3 score borne [0,100] : Chef senior handicape, proprietaire, revenu faible
+   PASS  S7.5.1 Jeune chef, SDF, 2 enfants, revenu moyen
+   PASS  S7.5.2 priorite coherente : Jeune chef, SDF, 2 enfants, revenu moyen
+   PASS  S7.5.3 score borne [0,100] : Jeune chef, SDF, 2 enfants, revenu moyen
+   PASS  S7.5.1 Divorce, maladie chronique, locataire, 1 enfant
+   PASS  S7.5.2 priorite coherente : Divorce, maladie chronique, locataire, 1 enfant
+   PASS  S7.5.3 score borne [0,100] : Divorce, maladie chronique, locataire, 1 enfant
+   PASS  S7.5.1 Cumul maximal (doit etre plafonne a 100)
+   PASS  S7.5.2 priorite coherente : Cumul maximal (doit etre plafonne a 100)
+   PASS  S7.5.3 score borne [0,100] : Cumul maximal (doit etre plafonne a 100)
+   PASS  S7.5.1 Aucun facteur (score nul)
+   PASS  S7.5.2 priorite coherente : Aucun facteur (score nul)
+   PASS  S7.5.3 score borne [0,100] : Aucun facteur (score nul)
+   PASS  S7.5.1 Handicap + maladie chronique (non cumulables)
+   PASS  S7.5.2 priorite coherente : Handicap + maladie chronique (non cumulables)
+   PASS  S7.5.3 score borne [0,100] : Handicap + maladie chronique (non cumulables)
+   PASS  S7.5.1 Marie, revenu 2.5x SMIG, 5 enfants, locataire
+   PASS  S7.5.2 priorite coherente : Marie, revenu 2.5x SMIG, 5 enfants, locataire
+   PASS  S7.5.3 score borne [0,100] : Marie, revenu 2.5x SMIG, 5 enfants, locataire
+   INFO  S7.5.4 recapitulatif des profils composites  -- [{"profil":"Veuve sans revenu, 3 enfants, locataire","attendu":80,"obtenu":80,"detail":"revenu<SMIG:40 + enfants x3:15 + veuf/divorce:15 + locataire:10"},{"profil":"Chef senior handicape, proprietaire, revenu faible","attendu":65,"obtenu":65,"detail":"revenu<SMIG:40 + handicap:15 + senior:10"},{"profil":"Jeune chef, SDF, 2 enfants, revenu moyen","attendu":40,"obtenu":40,"detail":"revenu<2xSMIG:25 ...
+   PASS  S7.6 1. etat initial (aucun facteur)
+   PASS  S7.6 1. etat initial (aucun facteur) : priorite coherente
+   PASS  S7.6 2. revenu -> 5000 (< SMIG)
+   PASS  S7.6 2. revenu -> 5000 (< SMIG) : priorite coherente
+   PASS  S7.6 3. ajout enfant #1
+   PASS  S7.6 3. ajout enfant #1 : priorite coherente
+   PASS  S7.6 4. ajout enfant #2
+   PASS  S7.6 4. ajout enfant #2 : priorite coherente
+   PASS  S7.6 5. ajout d'un PARENT (ne doit rien changer au score)
+   PASS  S7.6 5. ajout d'un PARENT (ne doit rien changer au score) : priorite coherente
+   PASS  S7.6 6. passage en WIDOWED
+   PASS  S7.6 6. passage en WIDOWED : priorite coherente
+   PASS  S7.6 7. ajout d'un SPOUSE -> bascule MARRIED, le bonus veuvage saute
+   PASS  S7.6 7. ajout d'un SPOUSE -> bascule MARRIED, le bonus veuvage saute : priorite coherente
+   PASS  S7.6 8. passage en location
+   PASS  S7.6 8. passage en location : priorite coherente
+   PASS  S7.6 9. chef devient senior (70 ans)
+   PASS  S7.6 9. chef devient senior (70 ans) : priorite coherente
+   PASS  S7.6 10. ajout enfants #3 et #4
+   PASS  S7.6 10. ajout enfants #3 et #4 : priorite coherente
+   PASS  S7.6 11. ajout enfants #5 et #6 (plafond enfants atteint)
+   PASS  S7.6 11. ajout enfants #5 et #6 (plafond enfants atteint) : priorite coherente
+   PASS  S7.6 12. revenu -> 45000 (> 2x SMIG)
+   PASS  S7.6 12. revenu -> 45000 (> 2x SMIG) : priorite coherente
+   PASS  S7.6 13. handicap du chef
+   PASS  S7.6 13. handicap du chef : priorite coherente
+   PASS  S7.6 14. retour proprietaire
+   PASS  S7.6 14. retour proprietaire : priorite coherente
+   PASS  S7.6 15. revenu -> 0 (< SMIG) + sans soutien
+   PASS  S7.6 15. revenu -> 0 (< SMIG) + sans soutien : priorite coherente
+   INFO  S7.6.99 journal complet des 15 mutations  -- [{"etape":"1. etat initial (aucun facteur)","attendu":0,"obtenu":0,"membersCount":4,"priorite":"LOW"},{"etape":"2. revenu -> 5000 (< SMIG)","attendu":40,"obtenu":40,"membersCount":4,"priorite":"MODERATE"},{"etape":"3. ajout enfant #1","attendu":45,"obtenu":45,"membersCount":4,"priorite":"VULNERABLE"},{"etape":"4. ajout enfant #2","attendu":50,"obtenu":50,"membersCount":4,"priorite":"VULNERABLE"},{...
+   PASS  S7.6.100 aucune derive cumulee apres 15 mutations
+   PASS  S7.6.101 membersCount reste aligne sur les lignes membres non-enfants
+   INFO  S7.6.101b membersCount inferieur au total des lignes FamilyMember  -- {"membersCount":5,"lignesTotales":9,"dontEnfants":6,"cause":"POST /api/families/:id/children n-appelle que recalcFamily, pas syncFamilyFromMembers : les enfants (role CHILD) ne font pas monter l-effectif declare","effet":"le prochain ajout via POST /members declenchera Math.max(declare, TOUTES les lignes) et fera bondir membersCount d-un coup","impactSvf":"nul : membersCount n-est pas une entree d...
+   PASS  S7.6.102 score stable a la relecture (pas de recalcul non deterministe)
+   PASS  S7.6.103 modification d'un champ neutre -> score inchange
+   PASS  S7.7.1 5 familles identiques -> 5 scores identiques (deterministe)
+   PASS  S7.7.2 valeur conforme a l'oracle
+   INFO  S7.8.0 note  -- malus_per_aid=8, max_malus=25 -- verifie en S9 apres une distribution reelle.
+   PASS  S7.8.1 oracle : 1 aide -> -malus_per_aid
+   PASS  S7.8.2 oracle : malus plafonne a max_malus
+  -> S7 termine : 123 reussis, 0 echecs (8 s)
+
+==== S8 -- Water-filling : budget, reserve, bornes, proportionnalite, monotonie ====
+   INFO  S8.0 cohorte de test  -- [{"id":"cmskhynfw00dutgeyk5v7ngpc","label":"tres urgent","score":95},{"id":"cmskhynlo00e1tgeyy8zmuki8","label":"urgent","score":75},{"id":"cmskhynp400e6tgeyx3diinqs","label":"moyen","score":30},{"id":"cmskhynsb00eatgeyxz8n1h5p","label":"faible","score":10}]
+   PASS  S8.1.1 budget = 0 refuse
+   PASS  S8.1.1 budget = -1 refuse
+   PASS  S8.1.1 budget = -1000 refuse
+   PASS  S8.1.2 budget absent refuse
+   PASS  S8.1.3 budget = abc refuse sans 500
+   PASS  S8.1.3 budget = null refuse sans 500
+   PASS  S8.1.3 budget = {} refuse sans 500
+   PASS  S8.1.3 budget = [] refuse sans 500
+   PASS  S8.1.4 alias totalBudget accepte
+   PASS  S8.1.5 sans token
+   PASS  S8.1.6 JSON invalide
+   PASS  S8.2.1 calcul nominal
+   PASS  S8.2.2 champ present : totalBudget
+   PASS  S8.2.2 champ present : netBudget
+   PASS  S8.2.2 champ present : reserve
+   PASS  S8.2.2 champ present : reserveAmount
+   PASS  S8.2.2 champ present : minAmt
+   PASS  S8.2.2 champ present : maxAmt
+   PASS  S8.2.2 champ present : totalAllocated
+   PASS  S8.2.2 champ present : unallocated
+   PASS  S8.2.2 champ present : distributions
+   PASS  S8.2.3 distributions est un tableau
+   PASS  S8.2.4 totalBudget = budget envoye
+   PASS  S8.2.5 netBudget = budget x (1 - reserve)
+   PASS  S8.2.6 reserveAmount = budget - netBudget
+   PASS  S8.2.7 reserve normalisee = 0.1
+   PASS  S8.2.8 totalAllocated = somme des montants
+   PASS  S8.2.9 somme allouee <= netBudget
+   PASS  S8.2.10 unallocated = netBudget - totalAllocated
+   PASS  S8.2.11 unallocated >= 0
+   PASS  S8.2.12 une ligne par famille demandee
+   PASS  S8.2.13 montant >= minAmt (ZZTESTF ZZTESTL200968333357)
+   PASS  S8.2.14 montant <= maxAmt (ZZTESTF ZZTESTL200968333357)
+   PASS  S8.2.15 familyId (ZZTESTF ZZTESTL200968333357)
+   PASS  S8.2.16 svfScore (ZZTESTF ZZTESTL200968333357)
+   PASS  S8.2.17 headName (ZZTESTF ZZTESTL200968333357)
+   PASS  S8.2.18 priority presente (ZZTESTF ZZTESTL200968333357)
+   PASS  S8.2.19 dependents numerique (ZZTESTF ZZTESTL200968333357)
+   PASS  S8.2.20 montant arrondi a 2 decimales (ZZTESTF ZZTESTL200968333357)
+   PASS  S8.2.13 montant >= minAmt (ZZTESTF ZZTESTL200968333359)
+   PASS  S8.2.14 montant <= maxAmt (ZZTESTF ZZTESTL200968333359)
+   PASS  S8.2.15 familyId (ZZTESTF ZZTESTL200968333359)
+   PASS  S8.2.16 svfScore (ZZTESTF ZZTESTL200968333359)
+   PASS  S8.2.17 headName (ZZTESTF ZZTESTL200968333359)
+   PASS  S8.2.18 priority presente (ZZTESTF ZZTESTL200968333359)
+   PASS  S8.2.19 dependents numerique (ZZTESTF ZZTESTL200968333359)
+   PASS  S8.2.20 montant arrondi a 2 decimales (ZZTESTF ZZTESTL200968333359)
+   PASS  S8.2.13 montant >= minAmt (ZZTESTF ZZTESTL200968333361)
+   PASS  S8.2.14 montant <= maxAmt (ZZTESTF ZZTESTL200968333361)
+   PASS  S8.2.15 familyId (ZZTESTF ZZTESTL200968333361)
+   PASS  S8.2.16 svfScore (ZZTESTF ZZTESTL200968333361)
+   PASS  S8.2.17 headName (ZZTESTF ZZTESTL200968333361)
+   PASS  S8.2.18 priority presente (ZZTESTF ZZTESTL200968333361)
+   PASS  S8.2.19 dependents numerique (ZZTESTF ZZTESTL200968333361)
+   PASS  S8.2.20 montant arrondi a 2 decimales (ZZTESTF ZZTESTL200968333361)
+   PASS  S8.2.13 montant >= minAmt (ZZTESTF ZZTESTL200968333363)
+   PASS  S8.2.14 montant <= maxAmt (ZZTESTF ZZTESTL200968333363)
+   PASS  S8.2.15 familyId (ZZTESTF ZZTESTL200968333363)
+   PASS  S8.2.16 svfScore (ZZTESTF ZZTESTL200968333363)
+   PASS  S8.2.17 headName (ZZTESTF ZZTESTL200968333363)
+   PASS  S8.2.18 priority presente (ZZTESTF ZZTESTL200968333363)
+   PASS  S8.2.19 dependents numerique (ZZTESTF ZZTESTL200968333363)
+   PASS  S8.2.20 montant arrondi a 2 decimales (ZZTESTF ZZTESTL200968333363)
+   PASS  S8.2.21 monotonie : plus le score est haut, plus le montant est haut
+   INFO  S8.2.22 proportionnalite  -- moins de 2 familles non plafonnees, test non applicable
+   PASS  S8.3.1 reserve=0 -> normalisee 0
+   PASS  S8.3.2 reserve=0 -> netBudget
+   PASS  S8.3.3 reserve=0 : reserve finale < 1
+   PASS  S8.3.4 reserve=0 : somme <= netBudget
+   PASS  S8.3.1 reserve=0.05 -> normalisee 0.05
+   PASS  S8.3.2 reserve=0.05 -> netBudget
+   PASS  S8.3.3 reserve=0.05 : reserve finale < 1
+   PASS  S8.3.4 reserve=0.05 : somme <= netBudget
+   PASS  S8.3.1 reserve=0.1 -> normalisee 0.1
+   PASS  S8.3.2 reserve=0.1 -> netBudget
+   PASS  S8.3.3 reserve=0.1 : reserve finale < 1
+   PASS  S8.3.4 reserve=0.1 : somme <= netBudget
+   PASS  S8.3.1 reserve=0.25 -> normalisee 0.25
+   PASS  S8.3.2 reserve=0.25 -> netBudget
+   PASS  S8.3.3 reserve=0.25 : reserve finale < 1
+   PASS  S8.3.4 reserve=0.25 : somme <= netBudget
+   PASS  S8.3.1 reserve=0.5 -> normalisee 0.5
+   PASS  S8.3.2 reserve=0.5 -> netBudget
+   PASS  S8.3.3 reserve=0.5 : reserve finale < 1
+   PASS  S8.3.4 reserve=0.5 : somme <= netBudget
+   PASS  S8.3.1 reserve=0.9 -> normalisee 0.9
+   PASS  S8.3.2 reserve=0.9 -> netBudget
+   PASS  S8.3.3 reserve=0.9 : reserve finale < 1
+   PASS  S8.3.4 reserve=0.9 : somme <= netBudget
+   PASS  S8.3.1 reserve=10 -> normalisee 0.1
+   PASS  S8.3.2 reserve=10 -> netBudget
+   PASS  S8.3.3 reserve=10 : reserve finale < 1
+   PASS  S8.3.4 reserve=10 : somme <= netBudget
+   PASS  S8.3.1 reserve=25 -> normalisee 0.25
+   PASS  S8.3.2 reserve=25 -> netBudget
+   PASS  S8.3.3 reserve=25 : reserve finale < 1
+   PASS  S8.3.4 reserve=25 : somme <= netBudget
+   PASS  S8.3.1 reserve=50 -> normalisee 0.5
+   PASS  S8.3.2 reserve=50 -> netBudget
+   PASS  S8.3.3 reserve=50 : reserve finale < 1
+   PASS  S8.3.4 reserve=50 : somme <= netBudget
+   PASS  S8.3.1 reserve=1 -> normalisee 0.99
+   PASS  S8.3.2 reserve=1 -> netBudget
+   PASS  S8.3.3 reserve=1 : reserve finale < 1
+   PASS  S8.3.4 reserve=1 : somme <= netBudget
+   PASS  S8.3.1 reserve=1.5 -> normalisee 0.015
+   PASS  S8.3.2 reserve=1.5 -> netBudget
+   PASS  S8.3.3 reserve=1.5 : reserve finale < 1
+   PASS  S8.3.4 reserve=1.5 : somme <= netBudget
+   PASS  S8.3.1 reserve=99 -> normalisee 0.99
+   PASS  S8.3.2 reserve=99 -> netBudget
+   PASS  S8.3.3 reserve=99 : reserve finale < 1
+   PASS  S8.3.4 reserve=99 : somme <= netBudget
+   PASS  S8.3.1 reserve=150 -> normalisee 0.99
+   PASS  S8.3.2 reserve=150 -> netBudget
+   PASS  S8.3.3 reserve=150 : reserve finale < 1
+   PASS  S8.3.4 reserve=150 : somme <= netBudget
+   PASS  S8.3.1 reserve=-5 -> normalisee 0
+   PASS  S8.3.2 reserve=-5 -> netBudget
+   PASS  S8.3.3 reserve=-5 : reserve finale < 1
+   PASS  S8.3.4 reserve=-5 : somme <= netBudget
+   PASS  S8.3.1 reserve=abc -> normalisee 0
+   PASS  S8.3.2 reserve=abc -> netBudget
+   PASS  S8.3.3 reserve=abc : reserve finale < 1
+   PASS  S8.3.4 reserve=abc : somme <= netBudget
+   PASS  S8.3.5 reserve par defaut lue depuis les parametres (0.2)
+   PASS  S8.4.1 maxAmt < minAmt -> refus 422 explicite
+   PASS  S8.4.2 message : maximum inferieur au minimum
+   PASS  S8.4.3 budget trop faible -> refus 422
+   PASS  S8.4.4 message : budget trop faible pour le nombre de familles
+   PASS  S8.4.5 budget = minAmt x N (limite exacte) accepte
+   PASS  S8.4.6 chaque famille recoit exactement le minimum
+   PASS  S8.4.7 totalAllocated = budget
+   PASS  S8.4.8 budget = minAmt x N - 1 refuse
+   PASS  S8.4.9 budget enorme accepte
+   PASS  S8.4.10 toutes les familles sont au plafond maxAmt
+   PASS  S8.4.11 totalAllocated = maxAmt x N
+   PASS  S8.4.12 le solde non alloue est important
+   PASS  S8.4.13 minAmt = maxAmt -> montants identiques
+   PASS  S8.4.14 minAmt = 0 gere
+   PASS  S8.4.15 minAmt = abc gere sans 500
+   PASS  S8.4.15 minAmt = -100 gere sans 500
+   PASS  S8.4.15 minAmt = null gere sans 500
+   PASS  S8.5.1 familyIds restreint la selection
+   PASS  S8.5.2 exactement 2 lignes
+   PASS  S8.5.3 seules les familles demandees sont presentes
+   PASS  S8.5.4 la famille ARCHIVEE est exclue du calcul
+   PASS  S8.5.5 il reste N-1 familles
+   PASS  S8.5.6 la famille INACTIVE est exclue du calcul
+   PASS  S8.5.7 apres reactivation, la famille revient dans le calcul
+   PASS  S8.5.8 familyIds inexistants -> aucune famille a servir
+   PASS  S8.5.9 message : No families to distribute to.
+   PASS  S8.5.10 familyIds = [] -> toutes les familles actives
+   PASS  S8.5.11 familyIds non tableau gere sans 500
+   PASS  S8.6.1 toutes les familles a score 0 -> refus 422
+   PASS  S8.6.2 message : score total nul
+   PASS  S8.6.3 le detail du resultat est renvoye dans l'erreur
+   INFO  S8.7.1 balayage de budgets  -- [{"budget":50000,"net":45000,"alloue":45000,"reste":0},{"budget":100000,"net":90000,"alloue":90000,"reste":0},{"budget":200000,"net":180000,"alloue":180000,"reste":0},{"budget":400000,"net":360000,"alloue":360000,"reste":0},{"budget":800000,"net":720000,"alloue":720000,"reste":0},{"budget":1600000,"net":1440000,"alloue":1440000,"reste":0}]
+   PASS  S8.7.2 monotonie budgetaire : doubler le budget n'abaisse aucun montant
+   PASS  S8.7.3 aucun depassement du netBudget sur tout le balayage
+   PASS  S8.7.4 calcul deterministe (2 appels identiques)
+   PASS  S8.7.5 budget decimal : montants arrondis a 2 decimales
+   PASS  S8.7.6 budget decimal : pas de derive d'arrondi
+   INFO  S8.8.1 montant par profil social  -- [{"profil":"tres urgent","score":95,"montant":271428.57},{"profil":"urgent","score":75,"montant":214285.71},{"profil":"moyen","score":30,"montant":85714.29},{"profil":"faible","score":10,"montant":28571.43}]
+   PASS  S8.8.2 "tres urgent" (score 95) recoit >= "urgent" (score 75)
+   PASS  S8.8.2 "urgent" (score 75) recoit >= "moyen" (score 30)
+   PASS  S8.8.2 "moyen" (score 30) recoit >= "faible" (score 10)
+   PASS  S8.8.3 total distribue coherent
+  -> S8 termine : 165 reussis, 0 echecs (3 s)
+
+==== S9 -- Distributions : calcul, confirmation, paiement, solde, annulation ====
+   INFO  S9.0 cohorte  -- [{"id":"cmskhypgr00ejtgeyfsfsjsjj","label":"tres urgent","score":95},{"id":"cmskhypmq00eqtgeyaff6mbe8","label":"urgent","score":75},{"id":"cmskhypqd00evtgeya6efnz9c","label":"moyen","score":30},{"id":"cmskhypte00eztgeytriv1tai","label":"faible","score":10}]
+   PASS  S9.1.1 don d'alimentation enregistre
+   PASS  S9.1.2 le solde augmente exactement du montant du don
+   PASS  S9.2.1 budget absent refuse
+   PASS  S9.2.2 message : budget positif requis
+   PASS  S9.2.3 budget = 0 refuse
+   PASS  S9.2.3 budget = -100 refuse
+   PASS  S9.2.3 budget = abc refuse
+   PASS  S9.2.4 budget superieur au solde -> refus 422
+   PASS  S9.2.5 message : solde insuffisant avec montants
+   PASS  S9.2.6 sans token
+   PASS  S9.2.7 familles inexistantes refusees
+   PASS  S9.3.1 confirmation de la distribution
+   PASS  S9.3.2 distribution.id
+   PASS  S9.3.3 statut initial = APPROVED
+   PASS  S9.3.4 totalDistributed = 0 a la creation
+   PASS  S9.3.5 createdAt ISO
+   PASS  S9.3.6 GET distribution par id
+   PASS  S9.3.7 items est un tableau
+   PASS  S9.3.8 un item par famille servie
+   PASS  S9.3.9 tous les items sont PENDING
+   PASS  S9.3.10 item.amount numerique
+   PASS  S9.3.11 item.amount > 0
+   PASS  S9.3.12 snapshot du score present
+   PASS  S9.3.13 snapshot de priorite present
+   PASS  S9.3.10 item.amount numerique
+   PASS  S9.3.11 item.amount > 0
+   PASS  S9.3.12 snapshot du score present
+   PASS  S9.3.13 snapshot de priorite present
+   PASS  S9.3.10 item.amount numerique
+   PASS  S9.3.11 item.amount > 0
+   PASS  S9.3.12 snapshot du score present
+   PASS  S9.3.13 snapshot de priorite present
+   PASS  S9.3.10 item.amount numerique
+   PASS  S9.3.11 item.amount > 0
+   PASS  S9.3.12 snapshot du score present
+   PASS  S9.3.13 snapshot de priorite present
+   PASS  S9.3.14 somme des items <= budget net
+   PASS  S9.3.15 le solde N'EST PAS debite a la confirmation
+   PASS  S9.3.16 lastAidAt renseigne (fsjsjj)
+   PASS  S9.3.16 lastAidAt renseigne (f6mbe8)
+   PASS  S9.3.16 lastAidAt renseigne (efnz9c)
+   PASS  S9.3.16 lastAidAt renseigne (iv1tai)
+   PASS  S9.3.17 malus applique apres aide (fsjsjj)
+   PASS  S9.3.18 malus = malus_per_aid (fsjsjj)
+   PASS  S9.3.17 malus applique apres aide (f6mbe8)
+   PASS  S9.3.18 malus = malus_per_aid (f6mbe8)
+   PASS  S9.4.1 paymentStatus invalide refuse
+   PASS  S9.4.2 message : Invalid paymentStatus.
+   PASS  S9.4.3 corps sans champ exploitable refuse
+   PASS  S9.4.4 itemId inexistant -> 404
+   PASS  S9.4.5 marquer un item comme PAID
+   PASS  S9.4.6 le solde est debite du montant de l'item
+   PASS  S9.4.7 totalDistributed augmente du montant
+   PASS  S9.4.8 item passe a PAID
+   PASS  S9.4.9 les autres items restent PENDING
+   PASS  S9.4.10 la distribution reste APPROVED tant qu'il reste des PENDING
+   PASS  S9.4.11 re-paiement du meme item refuse (409)
+   PASS  S9.4.12 message : statut non modifiable
+   PASS  S9.4.13 aucun double debit apres tentative de re-paiement
+   PASS  S9.4.14 annuler un item PENDING
+   PASS  S9.4.15 annulation d'un item : aucun impact sur le solde
+   PASS  S9.4.16 plus aucun item PENDING
+   PASS  S9.4.17 la distribution bascule en COMPLETED
+   PASS  S9.4.18 totalDistributed = somme des items payes
+   PASS  S9.5.1 statut invalide refuse
+   PASS  S9.5.2 message liste les statuts valides
+   PASS  S9.5.3 status -> DRAFT
+   PASS  S9.5.3 status -> APPROVED
+   PASS  S9.5.3 status -> COMPLETED
+   PASS  S9.5.4 mise a jour des notes
+   PASS  S9.5.5 melange des deux modes refuse ou traite sans 500
+   PASS  S9.5.6 PUT sur distribution inexistante -> 404
+   PASS  S9.6.1 GET /api/distributions
+   PASS  S9.6.2 data.distributions tableau
+   PASS  S9.6.3 data.count numerique
+   PASS  S9.6.4 la distribution creee est presente
+   PASS  S9.6.5 statut valide
+   PASS  S9.6.6 totalAmount ou totalDistributed numerique
+   PASS  S9.6.7 createdAt ISO
+   PASS  S9.6.8 sans token
+   PASS  S9.7.1 familyId requis
+   PASS  S9.7.2 montant 0 refuse
+   PASS  S9.7.2 montant -100 refuse
+   PASS  S9.7.2 montant abc refuse
+   PASS  S9.7.2 montant null refuse
+   PASS  S9.7.3 famille inexistante -> 404
+   PASS  S9.7.4 montant superieur au solde -> 422
+   PASS  S9.7.5 distribution manuelle creee
+   PASS  S9.7.6 statut = COMPLETED immediatement
+   PASS  S9.7.7 totalDistributed = montant
+   PASS  S9.7.8 le solde est debite immediatement
+   PASS  S9.7.9 un item unique cree
+   PASS  S9.7.10 item deja PAID
+   PASS  S9.7.11 montant de l'item correct
+   PASS  S9.7.12 lastAidAt de la famille mis a jour
+   PASS  S9.8.1 DELETE distribution
+   PASS  S9.8.2 le solde est rembourse du montant distribue
+   PASS  S9.8.3 la distribution n'existe plus
+   PASS  S9.8.4 absente de la liste
+   PASS  S9.8.5 seconde suppression -> 404
+   PASS  S9.8.6 DELETE sans token
+   PASS  S9.9.1 suppression definitive d'une famille aidee -> 409
+   PASS  S9.9.2 message explicite sur l'historique d'aide
+   PASS  S9.9.3 l'archivage reste possible
+   PASS  S9.9.4 famille archivee, ligne conservee
+   PASS  S9.10.1 cycle 1 : solde debite du total paye
+   PASS  S9.10.2 cycle 1 : les scores des familles aidees baissent (malus cumule)
+   PASS  S9.10.1 cycle 2 : solde debite du total paye
+   PASS  S9.10.2 cycle 2 : les scores des familles aidees baissent (malus cumule)
+   PASS  S9.10.1 cycle 3 : solde debite du total paye
+   PASS  S9.10.2 cycle 3 : les scores des familles aidees baissent (malus cumule)
+   INFO  S9.10.3 journal des 3 cycles  -- [{"cycle":1,"items":4,"paye":40000,"soldeAvant":1080571.43,"soldeApres":1040571.43,"delta":40000},{"cycle":2,"items":4,"paye":40000,"soldeAvant":1040571.43,"soldeApres":1000571.43,"delta":40000},{"cycle":3,"items":4,"paye":40000,"soldeAvant":1000571.43,"soldeApres":960571.43,"delta":40000}]
+   PASS  S9.10.4 malus cumule plafonne pour "tres urgent"
+   PASS  S9.10.4 malus cumule plafonne pour "urgent"
+   PASS  S9.10.4 malus cumule plafonne pour "moyen"
+   PASS  S9.10.4 malus cumule plafonne pour "faible"
+  -> S9 termine : 115 reussis, 0 echecs (8 s)
+
+==== S10 -- Donateurs et dons : validation, categories, solde, KAFFARA supprimee ====
+   PASS  S10.1.1 nom requis
+   PASS  S10.1.2 nom  refuse
+   PASS  S10.1.2 nom     refuse
+   PASS  S10.1.2 nom null refuse
+   PASS  S10.1.3 creation de donateur
+   PASS  S10.1.4 code HTTP 201
+   PASS  S10.1.5 id string
+   PASS  S10.1.6 nom conserve
+   PASS  S10.1.7 donorType conserve
+   PASS  S10.1.8 totalDonated numerique
+   PASS  S10.1.9 totalDonated initial = 0
+   PASS  S10.1.10 createdAt ISO
+   PASS  S10.1.11 doublon exact -> 409
+   PASS  S10.1.12 le doublon renvoie donorId pour reutilisation
+   PASS  S10.1.13 donorType INDIVIDUAL accepte
+   PASS  S10.1.13 donorType COMPANY
+   PASS  S10.1.13 donorType ORGANIZATION accepte
+   PASS  S10.1.13 donorType ANONYMOUS
+   PASS  S10.1.14 donorType invalide refuse sans 500
+   PASS  S10.1.15 sans token
+   PASS  S10.2.1 GET /api/donors
+   PASS  S10.2.2 liste tableau
+   PASS  S10.2.3 le donateur cree est dans la liste
+   PASS  S10.2.4 recherche par nom
+   PASS  S10.2.5 alias ?q= fonctionne
+   PASS  S10.2.6 recherche sans resultat -> liste vide
+   PASS  S10.2.7 filtre donorType
+   PASS  S10.2.8 injection SQL neutralisee
+   PASS  S10.2.9 GET donateur par id
+   PASS  S10.2.10 PUT donateur
+   PASS  S10.2.11 telephone modifie
+   PASS  S10.2.12 totalDonated non modifiable directement
+   PASS  S10.2.13 GET donateur inexistant -> 404
+   PASS  S10.2.14 DELETE donateur
+   PASS  S10.2.15 message de confirmation
+   PASS  S10.2.16 donateur supprime -> 404
+   PASS  S10.3.1 montant requis
+   PASS  S10.3.2 montant 0 refuse
+   PASS  S10.3.2 montant -50 refuse
+   PASS  S10.3.2 montant abc refuse
+   PASS  S10.3.2 montant null refuse
+   PASS  S10.3.3 categorie KAFFARA REJETEE par l'API
+   PASS  S10.3.4 message liste les 4 categories restantes
+   PASS  S10.3.5 KAFFARA n'apparait pas dans la liste attendue
+   PASS  S10.3.6 categorie "kaffara" refusee
+   PASS  S10.3.6 categorie "Kaffara" refusee
+   PASS  S10.3.6 categorie "ZAKAT" refusee
+   PASS  S10.3.6 categorie "" refusee
+   PASS  S10.3.6 categorie "AUTRE" refusee
+   PASS  S10.3.7 moyen de paiement "ESPECES" refuse
+   PASS  S10.3.7 moyen de paiement "CHEQUE" refuse
+   PASS  S10.3.7 moyen de paiement "" refuse
+   PASS  S10.3.7 moyen de paiement "cash" refuse
+   PASS  S10.3.8 date de reception invalide refusee
+   PASS  S10.3.9 donateur inexistant -> 404
+   PASS  S10.4.2 ZAKAT_MAL/CASH : categorie conservee
+   PASS  S10.4.3 ZAKAT_MAL/CASH : moyen conserve
+   PASS  S10.4.4 ZAKAT_MAL/CASH : montant conserve
+   PASS  S10.4.5 ZAKAT_MAL/CASH : receivedAt ISO
+   PASS  S10.4.6 ZAKAT_MAL/CASH : solde mosquee +1500
+   PASS  S10.4.7 ZAKAT_MAL/CASH : totalDonated du donateur +1500
+   PASS  S10.4.2 ZAKAT_MAL/CCP : categorie conservee
+   PASS  S10.4.3 ZAKAT_MAL/CCP : moyen conserve
+   PASS  S10.4.4 ZAKAT_MAL/CCP : montant conserve
+   PASS  S10.4.5 ZAKAT_MAL/CCP : receivedAt ISO
+   PASS  S10.4.6 ZAKAT_MAL/CCP : solde mosquee +1500
+   PASS  S10.4.7 ZAKAT_MAL/CCP : totalDonated du donateur +1500
+   PASS  S10.4.2 ZAKAT_MAL/BANK_TRANSFER : categorie conservee
+   PASS  S10.4.3 ZAKAT_MAL/BANK_TRANSFER : moyen conserve
+   PASS  S10.4.4 ZAKAT_MAL/BANK_TRANSFER : montant conserve
+   PASS  S10.4.5 ZAKAT_MAL/BANK_TRANSFER : receivedAt ISO
+   PASS  S10.4.6 ZAKAT_MAL/BANK_TRANSFER : solde mosquee +1500
+   PASS  S10.4.7 ZAKAT_MAL/BANK_TRANSFER : totalDonated du donateur +1500
+   PASS  S10.4.2 ZAKAT_FITR/CASH : categorie conservee
+   PASS  S10.4.3 ZAKAT_FITR/CASH : moyen conserve
+   PASS  S10.4.4 ZAKAT_FITR/CASH : montant conserve
+   PASS  S10.4.5 ZAKAT_FITR/CASH : receivedAt ISO
+   PASS  S10.4.6 ZAKAT_FITR/CASH : solde mosquee +1500
+   PASS  S10.4.7 ZAKAT_FITR/CASH : totalDonated du donateur +1500
+   PASS  S10.4.2 ZAKAT_FITR/CCP : categorie conservee
+   PASS  S10.4.3 ZAKAT_FITR/CCP : moyen conserve
+   PASS  S10.4.4 ZAKAT_FITR/CCP : montant conserve
+   PASS  S10.4.5 ZAKAT_FITR/CCP : receivedAt ISO
+   PASS  S10.4.6 ZAKAT_FITR/CCP : solde mosquee +1500
+   PASS  S10.4.7 ZAKAT_FITR/CCP : totalDonated du donateur +1500
+   PASS  S10.4.2 ZAKAT_FITR/BANK_TRANSFER : categorie conservee
+   PASS  S10.4.3 ZAKAT_FITR/BANK_TRANSFER : moyen conserve
+   PASS  S10.4.4 ZAKAT_FITR/BANK_TRANSFER : montant conserve
+   PASS  S10.4.5 ZAKAT_FITR/BANK_TRANSFER : receivedAt ISO
+   PASS  S10.4.6 ZAKAT_FITR/BANK_TRANSFER : solde mosquee +1500
+   PASS  S10.4.7 ZAKAT_FITR/BANK_TRANSFER : totalDonated du donateur +1500
+   PASS  S10.4.2 SADAQAH/CASH : categorie conservee
+   PASS  S10.4.3 SADAQAH/CASH : moyen conserve
+   PASS  S10.4.4 SADAQAH/CASH : montant conserve
+   PASS  S10.4.5 SADAQAH/CASH : receivedAt ISO
+   PASS  S10.4.6 SADAQAH/CASH : solde mosquee +1500
+   PASS  S10.4.7 SADAQAH/CASH : totalDonated du donateur +1500
+   PASS  S10.4.2 SADAQAH/CCP : categorie conservee
+   PASS  S10.4.3 SADAQAH/CCP : moyen conserve
+   PASS  S10.4.4 SADAQAH/CCP : montant conserve
+   PASS  S10.4.5 SADAQAH/CCP : receivedAt ISO
+   PASS  S10.4.6 SADAQAH/CCP : solde mosquee +1500
+   PASS  S10.4.7 SADAQAH/CCP : totalDonated du donateur +1500
+   PASS  S10.4.2 SADAQAH/BANK_TRANSFER : categorie conservee
+   PASS  S10.4.3 SADAQAH/BANK_TRANSFER : moyen conserve
+   PASS  S10.4.4 SADAQAH/BANK_TRANSFER : montant conserve
+   PASS  S10.4.5 SADAQAH/BANK_TRANSFER : receivedAt ISO
+   PASS  S10.4.6 SADAQAH/BANK_TRANSFER : solde mosquee +1500
+   PASS  S10.4.7 SADAQAH/BANK_TRANSFER : totalDonated du donateur +1500
+   PASS  S10.4.2 OTHER/CASH : categorie conservee
+   PASS  S10.4.3 OTHER/CASH : moyen conserve
+   PASS  S10.4.4 OTHER/CASH : montant conserve
+   PASS  S10.4.5 OTHER/CASH : receivedAt ISO
+   PASS  S10.4.6 OTHER/CASH : solde mosquee +1500
+   PASS  S10.4.7 OTHER/CASH : totalDonated du donateur +1500
+   PASS  S10.4.2 OTHER/CCP : categorie conservee
+   PASS  S10.4.3 OTHER/CCP : moyen conserve
+   PASS  S10.4.4 OTHER/CCP : montant conserve
+   PASS  S10.4.5 OTHER/CCP : receivedAt ISO
+   PASS  S10.4.6 OTHER/CCP : solde mosquee +1500
+   PASS  S10.4.7 OTHER/CCP : totalDonated du donateur +1500
+   PASS  S10.4.2 OTHER/BANK_TRANSFER : categorie conservee
+   PASS  S10.4.3 OTHER/BANK_TRANSFER : moyen conserve
+   PASS  S10.4.4 OTHER/BANK_TRANSFER : montant conserve
+   PASS  S10.4.5 OTHER/BANK_TRANSFER : receivedAt ISO
+   PASS  S10.4.6 OTHER/BANK_TRANSFER : solde mosquee +1500
+   PASS  S10.4.7 OTHER/BANK_TRANSFER : totalDonated du donateur +1500
+   INFO  S10.4.8 matrice 4 categories x 3 moyens de paiement  -- [{"categorie":"ZAKAT_MAL","moyen":"CASH","solde":962071.43,"cumulDonateur":1500},{"categorie":"ZAKAT_MAL","moyen":"CCP","solde":963571.43,"cumulDonateur":3000},{"categorie":"ZAKAT_MAL","moyen":"BANK_TRANSFER","solde":965071.43,"cumulDonateur":4500},{"categorie":"ZAKAT_FITR","moyen":"CASH","solde":966571.43,"cumulDonateur":6000},{"categorie":"ZAKAT_FITR","moyen":"CCP","solde":968071.43,"cumulDonate...
+   PASS  S10.5.1 GET /api/donations
+   PASS  S10.5.2 liste tableau
+   PASS  S10.5.3 aucun don KAFFARA en base
+   PASS  S10.5.4 filtre category=ZAKAT_MAL
+   PASS  S10.5.4 filtre category=ZAKAT_FITR
+   PASS  S10.5.4 filtre category=SADAQAH
+   PASS  S10.5.4 filtre category=OTHER
+   PASS  S10.5.5 filtre category=KAFFARA -> vide ou refus
+   PASS  S10.5.6 filtre paymentMethod=CASH
+   PASS  S10.5.6 filtre paymentMethod=CCP
+   PASS  S10.5.6 filtre paymentMethod=BANK_TRANSFER
+   PASS  S10.5.7 filtre donorId
+   PASS  S10.5.8 sous-route /donors/:id/donations
+   PASS  S10.5.9 filtre de periode from/to
+   PASS  S10.5.10 date de filtre invalide geree sans 500
+   PASS  S10.5.11 sans token
+   PASS  S10.6.1 GET don par id
+   PASS  S10.6.2 PUT sans champ exploitable refuse
+   PASS  S10.6.3 PUT don
+   PASS  S10.6.4 categorie modifiee
+   PASS  S10.6.5 passage a KAFFARA refuse en modification
+   PASS  S10.6.6 DELETE don
+   PASS  S10.6.7 message : don supprime et solde mis a jour
+   PASS  S10.6.8 le solde est diminue du montant du don
+   PASS  S10.6.9 totalDonated du donateur diminue
+   PASS  S10.6.10 don supprime -> 404
+   PASS  S10.7.1 don anonyme bloque quand le parametre est desactive
+   PASS  S10.7.2 code d'erreur ANONYMOUS_DONATIONS_DISABLED
+   PASS  S10.7.3 don anonyme accepte quand le parametre est actif
+   PASS  S10.7.4 le don anonyme alimente aussi le solde
+  -> S10 termine : 157 reussis, 0 echecs (9 s)
+
+==== S11 -- Tableau de bord : statistiques, resume financier, graphiques =======
+   PASS  S11.1.1 GET /api/dashboard/stats
+   PASS  S11.1.2 champ present : families
+   PASS  S11.1.3 families numerique
+   PASS  S11.1.4 families >= 0
+   PASS  S11.1.2 champ present : children
+   PASS  S11.1.3 children numerique
+   PASS  S11.1.4 children >= 0
+   PASS  S11.1.2 champ present : donors
+   PASS  S11.1.3 donors numerique
+   PASS  S11.1.4 donors >= 0
+   PASS  S11.1.2 champ present : donations
+   PASS  S11.1.3 donations numerique
+   PASS  S11.1.4 donations >= 0
+   PASS  S11.1.2 champ present : totalReceived
+   PASS  S11.1.3 totalReceived numerique
+   PASS  S11.1.4 totalReceived >= 0
+   PASS  S11.1.2 champ present : totalDistributed
+   PASS  S11.1.3 totalDistributed numerique
+   PASS  S11.1.4 totalDistributed >= 0
+   PASS  S11.1.2 champ present : balance
+   PASS  S11.1.3 balance numerique
+   PASS  S11.1.4 balance >= 0
+   PASS  S11.1.5 families entier
+   PASS  S11.1.5 children entier
+   PASS  S11.1.5 donors entier
+   PASS  S11.1.5 donations entier
+   PASS  S11.1.6 nombre de familles coherent avec /api/families
+   PASS  S11.1.7 nombre de dons coherent avec /api/donations
+   PASS  S11.1.8 totalReceived = somme des dons
+   PASS  S11.1.9 balance = solde de la mosquee
+   PASS  S11.1.10 balance = totalReceived - totalDistributed (a la reserve pres)
+   PASS  S11.1.11 sans token
+   PASS  S11.2.1 GET /api/dashboard/financial-summary
+   PASS  S11.2.2 champ present : totalIn
+   PASS  S11.2.3 totalIn numerique
+   PASS  S11.2.2 champ present : totalOut
+   PASS  S11.2.3 totalOut numerique
+   PASS  S11.2.2 champ present : balance
+   PASS  S11.2.3 balance numerique
+   PASS  S11.2.4 totalIn >= 0
+   PASS  S11.2.5 totalOut >= 0
+   PASS  S11.2.6 balance = totalIn - totalOut
+   INFO  S11.2.7 impact d'un don CCP sur totalIn  -- {"avant":1167000,"apres":1167000,"delta":0,"attendu":"0 si le resume est CASH uniquement"}
+   PASS  S11.2.8 don CCP exclu du resume liquide
+   PASS  S11.3.1 GET /api/dashboard/monthly-summary
+   PASS  S11.3.2 months tableau
+   PASS  S11.3.3 6 mois par defaut
+   PASS  S11.3.4 champ month present
+   PASS  S11.3.5 received numerique
+   PASS  S11.3.6 distributed numerique
+   PASS  S11.3.7 valeurs non negatives
+   PASS  S11.3.8 valeurs finies (axe Y non corrompu)
+   PASS  S11.3.4 champ month present
+   PASS  S11.3.5 received numerique
+   PASS  S11.3.6 distributed numerique
+   PASS  S11.3.7 valeurs non negatives
+   PASS  S11.3.8 valeurs finies (axe Y non corrompu)
+   PASS  S11.3.4 champ month present
+   PASS  S11.3.5 received numerique
+   PASS  S11.3.6 distributed numerique
+   PASS  S11.3.7 valeurs non negatives
+   PASS  S11.3.8 valeurs finies (axe Y non corrompu)
+   PASS  S11.3.4 champ month present
+   PASS  S11.3.5 received numerique
+   PASS  S11.3.6 distributed numerique
+   PASS  S11.3.7 valeurs non negatives
+   PASS  S11.3.8 valeurs finies (axe Y non corrompu)
+   PASS  S11.3.4 champ month present
+   PASS  S11.3.5 received numerique
+   PASS  S11.3.6 distributed numerique
+   PASS  S11.3.7 valeurs non negatives
+   PASS  S11.3.8 valeurs finies (axe Y non corrompu)
+   PASS  S11.3.4 champ month present
+   PASS  S11.3.5 received numerique
+   PASS  S11.3.6 distributed numerique
+   PASS  S11.3.7 valeurs non negatives
+   PASS  S11.3.8 valeurs finies (axe Y non corrompu)
+   PASS  S11.3.9 months=1 -> 1 entrees (borne 1..36)
+   PASS  S11.3.9 months=3 -> 3 entrees (borne 1..36)
+   PASS  S11.3.9 months=12 -> 12 entrees (borne 1..36)
+   PASS  S11.3.9 months=36 -> 36 entrees (borne 1..36)
+   PASS  S11.3.9 months=0 -> 1 entrees (borne 1..36)
+   PASS  S11.3.9 months=-5 -> 1 entrees (borne 1..36)
+   PASS  S11.3.9 months=100 -> 36 entrees (borne 1..36)
+   PASS  S11.3.9 months=abc -> 6 entrees (borne 1..36)
+   PASS  S11.4.1 GET /api/dashboard/social-distribution
+   PASS  S11.4.2 byMaritalStatus tableau
+   PASS  S11.4.3 byPriority tableau
+   PASS  S11.4.4 etat civil valide
+   PASS  S11.4.5 count entier
+   PASS  S11.4.4 etat civil valide
+   PASS  S11.4.5 count entier
+   PASS  S11.4.4 etat civil valide
+   PASS  S11.4.5 count entier
+   PASS  S11.4.4 etat civil valide
+   PASS  S11.4.5 count entier
+   PASS  S11.4.6 priorite valide
+   PASS  S11.4.7 count entier
+   PASS  S11.4.6 priorite valide
+   PASS  S11.4.7 count entier
+   PASS  S11.4.6 priorite valide
+   PASS  S11.4.7 count entier
+   PASS  S11.4.6 priorite valide
+   PASS  S11.4.7 count entier
+   PASS  S11.4.8 les deux repartitions totalisent le meme nombre de familles
+   PASS  S11.4.9 total coherent avec la liste des familles actives
+  -> S11 termine : 105 reussis, 0 echecs (2 s)
+
+==== S12 -- Documents joints aux familles ======================================
+   PASS  S12.1.1 originalName requis
+   PASS  S12.1.2 contentBase64 requis
+   PASS  S12.1.3 upload d'un document
+   PASS  S12.1.4 code HTTP 201
+   PASS  S12.1.5 document.id string
+   PASS  S12.1.6 originalName conserve
+   PASS  S12.1.7 createdAt ISO
+   PASS  S12.1.8 le contenu brut n'est pas renvoye dans la reponse
+   PASS  S12.1.9 GET liste des documents
+   PASS  S12.1.10 le document est dans la liste
+   PASS  S12.1.11 telechargement du document
+   PASS  S12.1.12 en-tete de contenu present
+   PASS  S12.1.13 DELETE document
+   PASS  S12.1.14 message de confirmation
+   PASS  S12.1.15 telechargement apres suppression -> 404
+   PASS  S12.1.16 seconde suppression -> 404
+   PASS  S12.1.17 upload sur famille inexistante -> 404
+   PASS  S12.1.18 sans token
+   PASS  S12.1.19 base64 invalide gere sans 500
+   PASS  S12.1.20 fichier de 200 Ko gere sans 500
+  -> S12 termine : 20 reussis, 0 echecs (4 s)
+
+==== S13 -- Securite : 401 systematique, jetons falsifies, cloisonnement multi-mosquees ====
+   PASS  S13.1.1 les 49 routes protegees renvoient 401 sans jeton
+   INFO  S13.1.2 couverture  -- {"routesTestees":49,"echecs":0}
+   PASS  S13.2.1 chaine quelconque -> 401
+   PASS  S13.2.2 chaine quelconque : pas de fuite d'information
+   PASS  S13.2.1 JWT tronque -> 401
+   PASS  S13.2.2 JWT tronque : pas de fuite d'information
+   PASS  S13.2.1 JWT avec signature alteree -> 401
+   PASS  S13.2.2 JWT avec signature alteree : pas de fuite d'information
+   PASS  S13.2.1 chaine vide -> 401
+   PASS  S13.2.2 chaine vide : pas de fuite d'information
+   PASS  S13.2.1 none-alg forge -> 401
+   PASS  S13.2.2 none-alg forge : pas de fuite d'information
+   PASS  S13.2.1 tres longue chaine -> 401
+   PASS  S13.2.2 tres longue chaine : pas de fuite d'information
+   PASS  S13.2.3 message standardise : session invalide ou expiree
+   PASS  S13.3.1 le compte B ne voit aucune famille du compte A
+   PASS  S13.3.2 lecture croisee d'une famille -> 404
+   PASS  S13.3.3 modification croisee -> 404
+   PASS  S13.3.4 suppression croisee -> 404
+   PASS  S13.3.5 ajout de membre croise -> 404
+   PASS  S13.3.6 lecture des enfants croisee -> 404
+   PASS  S13.3.7 documents croises -> 404
+   PASS  S13.3.8 la famille du compte A est intacte
+   INFO  S13.3.9 statistiques du compte B (mosquee neuve)  -- {"families":0,"donors":0,"donations":0,"balance":0}
+   PASS  S13.3.10 le solde du compte B est independant
+   PASS  S13.3.11 modifier les parametres de B n'affecte pas ceux de A
+   PASS  S13.4.1 /api/auth : aucun passwordHash
+   PASS  S13.4.2 /api/auth : aucun secret JWT
+   PASS  S13.4.3 /api/auth : aucune trace de pile
+   PASS  S13.4.4 /api/auth : aucun DATABASE_URL
+   PASS  S13.4.1 /api/mosque : aucun passwordHash
+   PASS  S13.4.2 /api/mosque : aucun secret JWT
+   PASS  S13.4.3 /api/mosque : aucune trace de pile
+   PASS  S13.4.4 /api/mosque : aucun DATABASE_URL
+   PASS  S13.4.1 /api/settings : aucun passwordHash
+   PASS  S13.4.2 /api/settings : aucun secret JWT
+   PASS  S13.4.3 /api/settings : aucune trace de pile
+   PASS  S13.4.4 /api/settings : aucun DATABASE_URL
+   PASS  S13.4.1 /api/families : aucun passwordHash
+   PASS  S13.4.2 /api/families : aucun secret JWT
+   PASS  S13.4.3 /api/families : aucune trace de pile
+   PASS  S13.4.4 /api/families : aucun DATABASE_URL
+   PASS  S13.4.1 /api/donors : aucun passwordHash
+   PASS  S13.4.2 /api/donors : aucun secret JWT
+   PASS  S13.4.3 /api/donors : aucune trace de pile
+   PASS  S13.4.4 /api/donors : aucun DATABASE_URL
+   PASS  S13.4.1 /api/dashboard/stats : aucun passwordHash
+   PASS  S13.4.2 /api/dashboard/stats : aucun secret JWT
+   PASS  S13.4.3 /api/dashboard/stats : aucune trace de pile
+   PASS  S13.4.4 /api/dashboard/stats : aucun DATABASE_URL
+   PASS  S13.4.5 une erreur de validation ne divulgue pas Prisma
+  -> S13 termine : 49 reussis, 0 echecs (6 s)
+
+==== S14 -- Contrats d'API : enveloppe success/data, types, methodes, en-tetes ====
+   PASS  S14.1.1 /api/auth : statut 200
+   PASS  S14.1.2 /api/auth : reponse JSON
+   PASS  S14.1.3 /api/auth : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/auth : en-tete content-type JSON
+   PASS  S14.1.5 /api/auth : temps de reponse < 10 s
+   PASS  S14.1.1 /api/mosque : statut 200
+   PASS  S14.1.2 /api/mosque : reponse JSON
+   PASS  S14.1.3 /api/mosque : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/mosque : en-tete content-type JSON
+   PASS  S14.1.5 /api/mosque : temps de reponse < 10 s
+   PASS  S14.1.1 /api/settings : statut 200
+   PASS  S14.1.2 /api/settings : reponse JSON
+   PASS  S14.1.3 /api/settings : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/settings : en-tete content-type JSON
+   PASS  S14.1.5 /api/settings : temps de reponse < 10 s
+   PASS  S14.1.1 /api/families : statut 200
+   PASS  S14.1.2 /api/families : reponse JSON
+   PASS  S14.1.3 /api/families : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/families : en-tete content-type JSON
+   PASS  S14.1.5 /api/families : temps de reponse < 10 s
+   PASS  S14.1.1 /api/donors : statut 200
+   PASS  S14.1.2 /api/donors : reponse JSON
+   PASS  S14.1.3 /api/donors : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/donors : en-tete content-type JSON
+   PASS  S14.1.5 /api/donors : temps de reponse < 10 s
+   PASS  S14.1.1 /api/donations : statut 200
+   PASS  S14.1.2 /api/donations : reponse JSON
+   PASS  S14.1.3 /api/donations : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/donations : en-tete content-type JSON
+   PASS  S14.1.5 /api/donations : temps de reponse < 10 s
+   PASS  S14.1.1 /api/distributions : statut 200
+   PASS  S14.1.2 /api/distributions : reponse JSON
+   PASS  S14.1.3 /api/distributions : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/distributions : en-tete content-type JSON
+   PASS  S14.1.5 /api/distributions : temps de reponse < 10 s
+   PASS  S14.1.1 /api/dashboard/stats : statut 200
+   PASS  S14.1.2 /api/dashboard/stats : reponse JSON
+   PASS  S14.1.3 /api/dashboard/stats : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/dashboard/stats : en-tete content-type JSON
+   PASS  S14.1.5 /api/dashboard/stats : temps de reponse < 10 s
+   PASS  S14.1.1 /api/dashboard/financial-summary : statut 200
+   PASS  S14.1.2 /api/dashboard/financial-summary : reponse JSON
+   PASS  S14.1.3 /api/dashboard/financial-summary : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/dashboard/financial-summary : en-tete content-type JSON
+   PASS  S14.1.5 /api/dashboard/financial-summary : temps de reponse < 10 s
+   PASS  S14.1.1 /api/dashboard/monthly-summary : statut 200
+   PASS  S14.1.2 /api/dashboard/monthly-summary : reponse JSON
+   PASS  S14.1.3 /api/dashboard/monthly-summary : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/dashboard/monthly-summary : en-tete content-type JSON
+   PASS  S14.1.5 /api/dashboard/monthly-summary : temps de reponse < 10 s
+   PASS  S14.1.1 /api/dashboard/social-distribution : statut 200
+   PASS  S14.1.2 /api/dashboard/social-distribution : reponse JSON
+   PASS  S14.1.3 /api/dashboard/social-distribution : enveloppe { success: true, data }
+   PASS  S14.1.4 /api/dashboard/social-distribution : en-tete content-type JSON
+   PASS  S14.1.5 /api/dashboard/social-distribution : temps de reponse < 10 s
+   PASS  S14.2.1 POST /api/families : enveloppe { success: false, message }
+   PASS  S14.2.2 POST /api/families : statut 4xx (pas 5xx)
+   PASS  S14.2.3 POST /api/families : message lisible par un humain
+   PASS  S14.2.1 POST /api/donors : enveloppe { success: false, message }
+   PASS  S14.2.2 POST /api/donors : statut 4xx (pas 5xx)
+   PASS  S14.2.3 POST /api/donors : message lisible par un humain
+   PASS  S14.2.1 POST /api/donations : enveloppe { success: false, message }
+   PASS  S14.2.2 POST /api/donations : statut 4xx (pas 5xx)
+   PASS  S14.2.3 POST /api/donations : message lisible par un humain
+   PASS  S14.2.1 POST /api/distribution/calculate : enveloppe { success: false, message }
+   PASS  S14.2.2 POST /api/distribution/calculate : statut 4xx (pas 5xx)
+   PASS  S14.2.3 POST /api/distribution/calculate : message lisible par un humain
+   PASS  S14.2.1 GET /api/families/inexistante-xyz : enveloppe { success: false, message }
+   PASS  S14.2.2 GET /api/families/inexistante-xyz : statut 4xx (pas 5xx)
+   PASS  S14.2.3 GET /api/families/inexistante-xyz : message lisible par un humain
+   PASS  S14.3.1 DELETE /api/families : pas de 500
+   PASS  S14.3.1 PUT /api/families : pas de 500
+   PASS  S14.3.1 POST /api/dashboard/stats : pas de 500
+   PASS  S14.3.1 DELETE /api/settings : pas de 500
+   PASS  S14.3.1 GET /api/distribution/calculate : pas de 500
+   PASS  S14.3.1 PATCH /api/mosque : pas de 500
+   PASS  S14.3.1 POST /api/auth/logout : pas de 500
+   PASS  S14.3.1 GET /api/settings/reset : pas de 500
+   PASS  S14.3.2 route inconnue -> 404
+   PASS  S14.4.1 un id force par le client est ignore
+   PASS  S14.4.2 un mosqueId force est ignore
+   PASS  S14.4.3 les champs inconnus ne sont pas renvoyes
+   PASS  S14.4.4 tentative de pollution de prototype sans 500
+   PASS  S14.4.5 Object.prototype non pollue
+   PASS  S14.5.1 types conformes sur 25 familles
+  -> S14 termine : 85 reussis, 0 echecs (2 s)
+
+==== S15 -- Fuzzing : corps invalides, chaines extremes, concurrence ===========
+   PASS  S15.1.1 POST /api/families corps=(vide) : pas de 500
+   PASS  S15.1.1 POST /api/families corps=}{ : pas de 500
+   PASS  S15.1.1 POST /api/families corps=[1,2,3 : pas de 500
+   PASS  S15.1.1 POST /api/families corps=null : pas de 500
+   PASS  S15.1.1 POST /api/families corps="texte" : pas de 500
+   PASS  S15.1.1 POST /api/families corps=42 : pas de 500
+   PASS  S15.1.1 POST /api/families corps=[] : pas de 500
+   PASS  S15.1.1 POST /api/donors corps=(vide) : pas de 500
+   PASS  S15.1.1 POST /api/donors corps=}{ : pas de 500
+   PASS  S15.1.1 POST /api/donors corps=[1,2,3 : pas de 500
+   PASS  S15.1.1 POST /api/donors corps=null : pas de 500
+   PASS  S15.1.1 POST /api/donors corps="texte" : pas de 500
+   PASS  S15.1.1 POST /api/donors corps=42 : pas de 500
+   PASS  S15.1.1 POST /api/donors corps=[] : pas de 500
+   PASS  S15.1.1 POST /api/donations corps=(vide) : pas de 500
+   PASS  S15.1.1 POST /api/donations corps=}{ : pas de 500
+   PASS  S15.1.1 POST /api/donations corps=[1,2,3 : pas de 500
+   PASS  S15.1.1 POST /api/donations corps=null : pas de 500
+   PASS  S15.1.1 POST /api/donations corps="texte" : pas de 500
+   PASS  S15.1.1 POST /api/donations corps=42 : pas de 500
+   PASS  S15.1.1 POST /api/donations corps=[] : pas de 500
+   PASS  S15.1.1 PUT /api/settings corps=(vide) : pas de 500
+   PASS  S15.1.1 PUT /api/settings corps=}{ : pas de 500
+   PASS  S15.1.1 PUT /api/settings corps=[1,2,3 : pas de 500
+   PASS  S15.1.1 PUT /api/settings corps=null : pas de 500
+   PASS  S15.1.1 PUT /api/settings corps="texte" : pas de 500
+   PASS  S15.1.1 PUT /api/settings corps=42 : pas de 500
+   PASS  S15.1.1 PUT /api/settings corps=[] : pas de 500
+   PASS  S15.1.1 PUT /api/mosque corps=(vide) : pas de 500
+   PASS  S15.1.1 PUT /api/mosque corps=}{ : pas de 500
+   PASS  S15.1.1 PUT /api/mosque corps=[1,2,3 : pas de 500
+   PASS  S15.1.1 PUT /api/mosque corps=null : pas de 500
+   PASS  S15.1.1 PUT /api/mosque corps="texte" : pas de 500
+   PASS  S15.1.1 PUT /api/mosque corps=42 : pas de 500
+   PASS  S15.1.1 PUT /api/mosque corps=[] : pas de 500
+   PASS  S15.1.1 POST /api/distribution/calculate corps=(vide) : pas de 500
+   PASS  S15.1.1 POST /api/distribution/calculate corps=}{ : pas de 500
+   PASS  S15.1.1 POST /api/distribution/calculate corps=[1,2,3 : pas de 500
+   PASS  S15.1.1 POST /api/distribution/calculate corps=null : pas de 500
+   PASS  S15.1.1 POST /api/distribution/calculate corps="texte" : pas de 500
+   PASS  S15.1.1 POST /api/distribution/calculate corps=42 : pas de 500
+   PASS  S15.1.1 POST /api/distribution/calculate corps=[] : pas de 500
+   PASS  S15.2.2 20 chaines hostiles : aucune erreur serveur
+   PASS  S15.2.3 les caracteres speciaux sont stockes verbatim (echappement cote vue)
+   PASS  S15.3.2 monthlyIncome=0 : score fini dans [0,100]
+   PASS  S15.3.2 monthlyIncome=0.5 : score fini dans [0,100]
+   PASS  S15.3.2 monthlyIncome=12 : score fini dans [0,100]
+   PASS  S15.3.2 monthlyIncome=12.5 : score fini dans [0,100]
+   PASS  S15.3.2 monthlyIncome=1e5 : score fini dans [0,100]
+   PASS  S15.3.3 13 valeurs numeriques limites : aucune 500
+   PASS  S15.3.4 dateOfBirth=1900-01-01 gere sans 500
+   PASS  S15.3.5 dateOfBirth=1900-01-01 : score fini
+   PASS  S15.3.4 dateOfBirth=2100-01-01 gere sans 500
+   PASS  S15.3.4 dateOfBirth=2031-08-07T14:57... gere sans 500
+   PASS  S15.3.4 dateOfBirth=0000-00-00 gere sans 500
+   PASS  S15.3.4 dateOfBirth=aujourd'hui gere sans 500
+   PASS  S15.4.1 8 creations de familles en parallele reussissent
+   PASS  S15.4.2 aucune erreur serveur en concurrence
+   PASS  S15.4.3 aucun CCP duplique
+   INFO  S15.4.4 duree du lot concurrent  -- 329 ms
+   PASS  S15.4.5 6 lectures paralleles renvoient toutes 200
+   PASS  S15.5.1 iteration 1 : baisser le revenu ne baisse pas le score
+   PASS  S15.5.2 iteration 1 : +1 enfant = +points_per_child
+   PASS  S15.5.3 iteration 1 : le cycle de statut ne modifie pas le score
+   PASS  S15.5.1 iteration 2 : baisser le revenu ne baisse pas le score
+   PASS  S15.5.2 iteration 2 : +1 enfant = +points_per_child
+   PASS  S15.5.3 iteration 2 : le cycle de statut ne modifie pas le score
+   PASS  S15.5.1 iteration 3 : baisser le revenu ne baisse pas le score
+   PASS  S15.5.2 iteration 3 : +1 enfant = +points_per_child
+   PASS  S15.5.3 iteration 3 : le cycle de statut ne modifie pas le score
+   INFO  S15.5.4 journal des 3 iterations  -- [{"iteration":1,"initial":40,"apresBaisseRevenu":40,"apresEnfant":45,"apresCycleStatut":45},{"iteration":2,"initial":40,"apresBaisseRevenu":40,"apresEnfant":45,"apresCycleStatut":45},{"iteration":3,"initial":55,"apresBaisseRevenu":55,"apresEnfant":60,"apresCycleStatut":60}]
+  -> S15 termine : 69 reussis, 0 echecs (5 s)
+
+==== S16 -- Non-regression : les correctifs des livraisons precedentes =========
+   PASS  S16.1.1 SDF avec housingType (absent) : creation acceptee
+   PASS  S16.1.2 SDF avec housingType (absent) : housingType force a OTHER
+   PASS  S16.1.3 SDF avec housingType (absent) : housingStatus conserve
+   PASS  S16.1.1 SDF avec housingType null : creation acceptee
+   PASS  S16.1.2 SDF avec housingType null : housingType force a OTHER
+   PASS  S16.1.3 SDF avec housingType null : housingStatus conserve
+   PASS  S16.1.1 SDF avec housingType (vide) : creation acceptee
+   PASS  S16.1.2 SDF avec housingType (vide) : housingType force a OTHER
+   PASS  S16.1.3 SDF avec housingType (vide) : housingStatus conserve
+   PASS  S16.1.4 non-SDF sans type de logement : toujours refuse
+   PASS  S16.2.1 celibataire + epoux -> MARIE (correctif livre)
+   PASS  S16.3.1 archivage accepte
+   PASS  S16.3.2 la ligne survit en base (pas de suppression PostgreSQL)
+   PASS  S16.3.3 statut = ARCHIVED
+   PASS  S16.3.4 les membres ne sont pas detaches
+   PASS  S16.3.5 visible dans la section Inactives/Archivees
+   PASS  S16.3.6 absente de la liste des actives
+   PASS  S16.3.7 reactivation acceptee (bouton Reactiver)
+   PASS  S16.3.8 statut revenu a ACTIVE
+   PASS  S16.3.9 suppression definitive acceptee
+   PASS  S16.3.10 la ligne est bien supprimee de PostgreSQL
+   PASS  S16.3.11 absente meme avec status=ALL
+   PASS  S16.4.1 la famille archivee est exclue du water-filling
+   PASS  S16.4.2 la famille active est bien servie
+   PASS  S16.4.3 une seule beneficiaire
+   PASS  S16.4.4 la famille archivee reste consultable (information seulement)
+   PASS  S16.5.1 KAFFARA refusee par l'API des dons
+   PASS  S16.5.2 aucun don KAFFARA existant
+   PASS  S16.6.1 toutes les valeurs du graphique sont des nombres finis
+   PASS  S16.6.2 aucune valeur negative
+   PASS  S16.6.3 aucune valeur aberrante (< 1e12)
+   PASS  S16.6.4 les libelles de mois sont exploitables
+   INFO  S16.6.5 valeurs de l'axe Y sur 12 mois  -- {"max":1188999,"min":0,"mois":12}
+  -> S16 termine : 32 reussis, 0 echecs (2 s)
+
+==== S17 -- Synchronisation : chaque ecriture se propage partout ===============
+   PASS  S17.1.1 creation de la famille temoin
+   PASS  S17.1.2 un membre HEAD est cree automatiquement
+   PASS  S17.1.3 membersCount >= 1 des la creation
+   PASS  S17.1.4 le score est calcule des la creation
+   PASS  S17.1.5 la priorite derive du score
+   PASS  S17.1.6 le chef porte le nom de la fiche famille
+   PASS  S17.1.7 le chef porte la date de naissance de la fiche
+   PASS  S17.2.1 etat civil initial = SINGLE
+   PASS  S17.2.2 ajout de l'epoux(se) accepte
+   PASS  S17.2.3 etat civil promu a MARRIED
+   PASS  S17.2.4 membersCount incremente
+   PASS  S17.2.5 le membre SPOUSE est bien en base
+   PASS  S17.2.6 la priorite reste alignee sur le score
+   INFO  S17.2.7 effet de l'ajout d'un epoux sur le score  -- {"avant":60,"apres":60,"delta":0}
+   PASS  S17.3.1 modification de la date de naissance du chef
+   PASS  S17.3.2 la date de naissance est reportee sur la fiche famille
+   PASS  S17.3.3 le score est recalcule (bonus senior)
+   PASS  S17.3.4 le gain vaut points_senior_head
+   PASS  S17.3.5 la priorite suit le nouveau score
+   PASS  S17.3.6 declaration d'un handicap sur le chef
+   PASS  S17.3.7 hasDisability est reporte sur la fiche famille
+   PASS  S17.3.8 le gain vaut points_disability
+   INFO  S17.3.9 changement de role du chef  -- {"status":409,"message":"The head of family cannot change role. Edit the family instead."}
+   PASS  S17.3.10 suppression du chef refusee (409)
+   PASS  S17.3.11 le chef est toujours present apres les refus
+   PASS  S17.4.1 modification de la fiche famille acceptee
+   PASS  S17.4.2 le prenom du chef suit la fiche
+   PASS  S17.4.3 le nom du chef suit la fiche
+   PASS  S17.4.4 l'age du chef suit la fiche
+   PASS  S17.4.5 le handicap est reporte sur le chef
+   PASS  S17.4.6 le score est recalcule apres la modification
+   PASS  S17.4.7 la priorite reste alignee
+   PASS  S17.4.8 aucun membre en double n'a ete cree
+   PASS  S17.5.1 suppression du membre acceptee
+   PASS  S17.5.2 membersCount reste >= aux lignes membres reelles
+   INFO  S17.5.2b effectif declare NON decremente apres suppression  -- {"avant":2,"apres":2,"lignesReelles":1,"regle":"familySync.js : membersCount = max(valeur declaree, lignes reelles, plancher marital) -- cliquet volontaire, il ne redescend jamais","impactSvf":"nul : membersCount n-est pas une entree de computeSVF"}
+   PASS  S17.5.3 la ligne membre a disparu
+   PASS  S17.5.4 le score reste un nombre fini
+   PASS  S17.5.5 la priorite reste alignee sur le score
+   PASS  S17.6.1 ajout d'un enfant accepte
+   PASS  S17.6.2 le score augmente de points_per_child
+   PASS  S17.6.3 /children/count refletes l'ajout
+   PASS  S17.6.4 l'enfant est bien liste
+   PASS  S17.6.5 la suppression de l'enfant retire les points
+   PASS  S17.7.1 aide manuelle enregistree
+   PASS  S17.7.2 le solde est debite du montant
+   PASS  S17.7.3 lastAidAt est renseigne
+   PASS  S17.7.4 le score baisse de malus_per_aid
+   PASS  S17.7.5 la priorite suit la baisse du score
+   INFO  S17.8.1 sequence des scores  -- 80 -> 72 -> 64 -> 56 -> 55 -> 55
+   PASS  S17.8.2 la sequence est monotone decroissante
+   PASS  S17.8.3 la baisse totale ne depasse pas max_malus
+   PASS  S17.8.4 une fois le plafond atteint le score ne bouge plus
+   PASS  S17.8.5 le score ne devient jamais negatif
+   PASS  S17.9.1 confirmation acceptee
+   PASS  S17.9.2 statut initial = APPROVED
+   PASS  S17.9.3 une ligne par famille servie
+   PASS  S17.9.4 le snapshot fige le score AVANT le malus (uk24wi)
+   PASS  S17.9.5 le snapshot de priorite correspond (uk24wi)
+   PASS  S17.9.6 lastAidAt renseigne (uk24wi)
+   PASS  S17.9.7 le score courant a bien recu le malus (uk24wi)
+   PASS  S17.9.4 le snapshot fige le score AVANT le malus (kw0kvo)
+   PASS  S17.9.5 le snapshot de priorite correspond (kw0kvo)
+   PASS  S17.9.6 lastAidAt renseigne (kw0kvo)
+   PASS  S17.9.7 le score courant a bien recu le malus (kw0kvo)
+   PASS  S17.9.4 le snapshot fige le score AVANT le malus (s3d7bu)
+   PASS  S17.9.5 le snapshot de priorite correspond (s3d7bu)
+   PASS  S17.9.6 lastAidAt renseigne (s3d7bu)
+   PASS  S17.9.7 le score courant a bien recu le malus (s3d7bu)
+   PASS  S17.9.8 le solde n'est PAS debite a la confirmation
+   PASS  S17.10.1 passage de la ligne a PAID
+   PASS  S17.10.2 le solde est debite du montant de la ligne
+   PASS  S17.10.3 totalDistributed suit le paiement
+   PASS  S17.10.4 la ligne est marquee PAID
+   PASS  S17.10.5 paidAt est renseigne
+   PASS  S17.10.6 double paiement refuse (409)
+   PASS  S17.10.7 aucun double debit
+   PASS  S17.11.1 annulation de la ligne acceptee
+   PASS  S17.11.2 l'annulation d'une ligne PENDING ne touche pas le solde
+   PASS  S17.11.3 le malus est rendu apres annulation (score >= avant)
+   PASS  S17.11.4 le malus rendu vaut malus_per_aid
+   PASS  S17.12.1 annulation de la distribution acceptee
+   PASS  S17.12.2 statut = CANCELLED
+   PASS  S17.12.3 toutes les lignes non payees sont annulees
+   PASS  S17.12.4 le malus est rendu a la famille (otdk94)
+   PASS  S17.12.4 le malus est rendu a la famille (hudayf)
+   PASS  S17.13.1 le solde est debite par l'aide
+   PASS  S17.13.2 suppression de la distribution acceptee
+   PASS  S17.13.3 le solde est integralement restaure
+   PASS  S17.13.4 le malus est rendu a la famille
+   PASS  S17.13.5 la distribution n'est plus lisible
+   PASS  S17.14.1 modification de pointsIfTenant acceptee
+   INFO  S17.14.2 familles recalculees par l'API  -- {"recalculatedFamilies":26}
+   PASS  S17.14.3 le score d'une famille locataire a change
+   PASS  S17.14.4 le gain vaut exactement +10
+   PASS  S17.14.3 le score d'une famille locataire a change
+   PASS  S17.14.4 le gain vaut exactement +10
+   PASS  S17.14.5 une famille proprietaire n'est PAS affectee
+   PASS  S17.14.6 restauration du parametre
+   PASS  S17.14.7 le score revient a sa valeur initiale
+   PASS  S17.14.7 le score revient a sa valeur initiale
+   PASS  S17.15.1 archivage accepte
+   PASS  S17.15.2 le statut passe a ARCHIVED ou INACTIVE
+   PASS  S17.15.3 la ligne existe toujours en base
+   PASS  S17.15.4 le score reste consultable pour information
+   PASS  S17.15.5 la famille archivee est EXCLUE du water-filling
+   PASS  S17.15.6 la famille active reste servie
+   PASS  S17.15.7 elle disparait de la liste ACTIVE
+   PASS  S17.15.8 reactivation possible
+   PASS  S17.15.9 le statut revient a ACTIVE
+   PASS  S17.15.10 elle redevient eligible au calcul
+   PASS  S17.16.a 1. ajout d'un epoux : priorite alignee sur le score
+   PASS  S17.16.b 1. ajout d'un epoux : score dans [0,100]
+   PASS  S17.16.c 1. ajout d'un epoux : membersCount >= 1
+   PASS  S17.16.a 2. ajout de 2 enfants : priorite alignee sur le score
+   PASS  S17.16.b 2. ajout de 2 enfants : score dans [0,100]
+   PASS  S17.16.c 2. ajout de 2 enfants : membersCount >= 1
+   PASS  S17.16.a 3. passage en location : priorite alignee sur le score
+   PASS  S17.16.b 3. passage en location : score dans [0,100]
+   PASS  S17.16.c 3. passage en location : membersCount >= 1
+   PASS  S17.16.a 4. chef devient senior : priorite alignee sur le score
+   PASS  S17.16.b 4. chef devient senior : score dans [0,100]
+   PASS  S17.16.c 4. chef devient senior : membersCount >= 1
+   PASS  S17.16.a 5. handicap declare : priorite alignee sur le score
+   PASS  S17.16.b 5. handicap declare : score dans [0,100]
+   PASS  S17.16.c 5. handicap declare : membersCount >= 1
+   PASS  S17.16.a 6. aide manuelle de 3000 : priorite alignee sur le score
+   PASS  S17.16.b 6. aide manuelle de 3000 : score dans [0,100]
+   PASS  S17.16.c 6. aide manuelle de 3000 : membersCount >= 1
+   PASS  S17.16.a 7. revenu au-dessus du SMIG : priorite alignee sur le score
+   PASS  S17.16.b 7. revenu au-dessus du SMIG : score dans [0,100]
+   PASS  S17.16.c 7. revenu au-dessus du SMIG : membersCount >= 1
+   INFO  S17.16.1 journal complet du scenario  -- [{"etape":"1. ajout d'un epoux","score":"60 -> 60","membres":"1 -> 2","etatCivil":"SINGLE -> MARRIED","priorite":"VULNERABLE"},{"etape":"2. ajout de 2 enfants","score":"60 -> 70","membres":"2 -> 2","etatCivil":"MARRIED -> MARRIED","priorite":"URGENT"},{"etape":"3. passage en location","score":"70 -> 80","membres":"2 -> 2","etatCivil":"MARRIED -> MARRIED","priorite":"URGENT"},{"etape":"4. chef devi...
+   PASS  S17.16.2 etat civil final = MARRIED
+   PASS  S17.16.3 le chef est unique apres tout le scenario
+   PASS  S17.16.4 le score final est coherent et fini
+   PASS  S17.16.5 la priorite finale derive du score final
+   PASS  S17.16.6 aucune derive : relecture identique apres pause
+   PASS  S17.16.7 membersCount stable a la relecture
+  -> S17 termine : 133 reussis, 0 echecs (10 s)
+
+==== NETTOYAGE DES DONNEES DE TEST =============================================
+Nettoyage : 202 famille(s), 16 donateur(s), 25 don(s), 15 distribution(s), 2 document(s).
+Le compte cree en S2 (zz.reg.200968333.19@test-suite.local) n'est pas supprimable par l'API. Requete SQL fournie dans le rapport.
+
+==== RESULTAT FINAL ============================================================
+  S0                                                             0 ok    0 ko    0 skip
+  S1   Authentification (login, profil, mot de passe, sessi      0 ok    0 ko    0 skip
+  S10  Donateurs et dons : validation, categories, solde, K      0 ok    0 ko    0 skip
+  S11  Tableau de bord : statistiques, resume financier, gr      0 ok    0 ko    0 skip
+  S12  Documents joints aux familles                             0 ok    0 ko    0 skip
+  S13  Securite : 401 systematique, jetons falsifies, clois      0 ok    0 ko    0 skip
+  S14  Contrats d'API : enveloppe success/data, types, meth      0 ok    0 ko    0 skip
+  S15  Fuzzing : corps invalides, chaines extremes, concurr      0 ok    0 ko    0 skip
+  S16  Non-regression : les correctifs des livraisons prece      0 ok    0 ko    0 skip
+  S17  Synchronisation : chaque ecriture se propage partout      0 ok    0 ko    0 skip
+  S2   Creation de compte + mosquee (register)                   0 ok    0 ko    0 skip
+  S3   Profil mosquee (GET / PUT / unicite)                      0 ok    0 ko    0 skip
+  S4   Parametres : matrices de validation, poids SVF, rese      0 ok    0 ko    0 skip
+  S5   Familles : creation, validations, logement, filtres,      0 ok    0 ko    0 skip
+  S6   Membres et enfants : roles, garde-fous HEAD, promoti      0 ok    0 ko    0 skip
+  S7   SVF : calibration de chaque facteur, profils composi      0 ok    0 ko    0 skip
+  S8   Water-filling : budget, reserve, bornes, proportionn      0 ok    0 ko    0 skip
+  S9   Distributions : calcul, confirmation, paiement, sold      0 ok    0 ko    0 skip
+
+  REUSSIS      : 1903
+  ECHECS       : 2
+  AVERTIS.     : 0
+  IGNORES      : 0
+  INFOS        : 35
+  REQUETES HTTP: 1993
+  DUREE        : 105 s
+
+Premiers echecs :
+  x S1.6.4 nouveau mot de passe vide
+  x S2.1.3 objet mosque absent accepte : la mosquee est optionnelle
+
+Rapport JSON : C:\Users\USER\Desktop\Donation-management-system-WEB-App-main\test-report-full.json
+Rapport MD   : C:\Users\USER\Desktop\Donation-management-system-WEB-App-main\test-report-full.md
+Envoyez le fichier test-report-full.json pour analyse.
+
+FICHIERS ECRITS -- l'heure doit correspondre a maintenant
+     657803 o   08/08/2026 15:57:53   C:\Users\USER\Desktop\Donation-management-system-WEB-App-main\test-report-full.json
+       4223 o   08/08/2026 15:57:53   C:\Users\USER\Desktop\Donation-management-system-WEB-App-main\test-report-full.md
+     110140 o   08/08/2026 15:57:53   C:\Users\USER\Desktop\Donation-management-system-WEB-App-main\full-terminal.txt
+  Dossier courant : C:\Users\USER\Desktop\Donation-management-system-WEB-App-main

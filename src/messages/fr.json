@@ -1,0 +1,513 @@
+{
+  "Topbar": {
+    "toggleSidebar": "Afficher/masquer la barre latérale",
+    "toggleTheme": "Changer le thème",
+    "notifications": "Notifications",
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
+  },
+  "Sidebar": {
+    "menu": "MENU",
+    "brand": "CHARITY",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "familles": "Familles",
+      "dons": "Dons",
+      "donateurs": "Donateurs",
+      "distributions": "Distributions",
+      "settings": "Paramètres"
+    },
+    "notIncluded": "Interface non incluse",
+    "logout": "Déconnexion",
+    "defaultUser": "Utilisateur",
+    "roleAdmin": "Administrateur",
+    "roleImam": "Imam"
+  },
+  "Donors": {
+    "title": "Donateurs",
+    "summary": "{count} donateurs · {total} total",
+    "export": "Exporter",
+    "addDonor": "Ajouter Donateur",
+    "searchPlaceholder": "Rechercher...",
+    "empty": "Aucun donateur trouvé.",
+    "stats": {
+      "thisMonth": "Dans ce mois",
+      "newThisMonth": "Nouveautés de ce mois-ci",
+      "averageContribution": "Contribution moyenne",
+      "vsLastMonth": "vs mois dernier"
+    },
+    "filters": {
+      "type": "Type",
+      "all": "Tous",
+      "sortBy": "Trier par"
+    },
+    "sort": {
+      "recent": "Plus récent",
+      "amount": "Montant",
+      "name": "Nom"
+    },
+    "types": {
+      "individual": "Individuel",
+      "organization": "Organisation"
+    },
+    "table": {
+      "donor": "Donateur",
+      "contact": "Contact",
+      "type": "Type",
+      "totalGiven": "Total donné",
+      "date": "Date"
+    },
+    "pagination": {
+      "showing": "Affichage de {from} à {to} dons sur {total}"
+    },
+    "form": {
+      "addTitle": "Ajouter un donateur",
+      "individual": "Individuel",
+      "organization": "Entreprise",
+      "fullName": "Nom complet / Nom de l'entreprise",
+      "fullNamePlaceholder": "Saisissez le nom",
+      "emailLabel": "Adresse email",
+      "phoneLabel": "Téléphone",
+      "phonePlaceholder": "07 00 00 00 00",
+      "addressLabel": "Adresse",
+      "addressPlaceholder": "Ex. Alger — Bab Ezzouar",
+      "cancel": "Annuler",
+      "save": "Enregistrer le donateur",
+      "saving": "Enregistrement…",
+      "saved": "Donateur enregistré.",
+      "error": "Une erreur est survenue.",
+      "nameRequired": "Le nom est requis.",
+      "emailInvalid": "Adresse email invalide.",
+      "phoneInvalid": "Numéro de téléphone invalide.",
+      "duplicate": "Ce donateur existe déjà.",
+      "nameExistsWarning": "Un donateur portant ce nom existe déjà.",
+      "checkingName": "Vérification…"
+    }
+  },
+  "header": {
+    "home": "Accueil",
+    "features": "Fonctionnalités",
+    "mosques": "Mosquées",
+    "contact": "Contact",
+    "login": "Se connecter"
+  },
+  "hero": {
+    "pre": "Une plateforme",
+    "highlight": "complète",
+    "post": "pour gérer les dons de votre mosquée",
+    "body": "Simplifiez la gestion des dons, suivez les distributions et mobilisez la transparence au service de votre communauté.",
+    "primaryCta": "Découvrir la plateforme",
+    "secondaryCta": "Voir la démo",
+    "badges": [
+      "Sécurisé",
+      "Transparent",
+      "Au service de la communauté"
+    ],
+    "alt": "Grande Mosquée d'Algérie"
+  },
+  "contact": {
+    "sectionHeading": "CONTACTEZ-NOUS",
+    "title": "Une question ? Nous sommes là pour vous",
+    "subtitle": "Notre équipe est disponible pour vous accompagner dans la mise en place de la plateforme au sein de votre mosquée.",
+    "emailLabel": "Email",
+    "phoneLabel": "Téléphone",
+    "emailValue": "contact@zakat.dz",
+    "phoneValue": "+213 5 123 456 78",
+    "tags": [
+      "Réponse rapide",
+      "Support dédié",
+      "Gratuit 30j"
+    ]
+  },
+  "footer": {
+    "brandText": "La plateforme de référence pour la gestion des dons dans les mosquées algériennes.",
+    "sections": [
+      {
+        "heading": "Plateforme",
+        "links": [
+          "Fonctionnalités",
+          "Tarification",
+          "Sécurité",
+          "Mises à jour"
+        ]
+      },
+      {
+        "heading": "Ressources",
+        "links": [
+          "Documentation",
+          "Blog",
+          "Guide d'utilisation",
+          "FAQ"
+        ]
+      },
+      {
+        "heading": "Entreprise",
+        "links": [
+          "À propos",
+          "Équipe",
+          "Contact",
+          "Partenaires"
+        ]
+      },
+      {
+        "heading": "Légal",
+        "links": [
+          "Confidentialité",
+          "Conditions",
+          "Cookies",
+          "RGPD"
+        ]
+      }
+    ],
+    "bottomLinks": [
+      "Confidentialité",
+      "Conditions",
+      "Cookies"
+    ],
+    "copyright": "© 2024 ZAKAT. Tous droits réservés."
+  },
+  "features": {
+    "heading": "Tout ce qu'il vous faut pour gérer",
+    "subheading": "les dons efficacement",
+    "cards": [
+      {
+        "title": "Gestion des dons",
+        "description": "Enregistrez et suivez tous les dons (espèces, virements, chèques), ajoutez des tags et commentaires, obtenez un historique complet."
+      },
+      {
+        "title": "Gestion des familles",
+        "description": "Gérez les familles bénéficiaires et leurs informations détaillées, leurs conditions et leurs informations pour une aide ciblée et organisée."
+      },
+      {
+        "title": "Distributions & Calculs",
+        "description": "Calculez automatiquement la Zakat al-Fitr. Définissez les critères de distribution et planifiez vos distributions en toute simplicité."
+      },
+      {
+        "title": "Gestion des donateurs",
+        "description": "Construisez votre base de donateurs, suivez leurs contributions et fidélisez vos donateurs grâce à une communication régulière."
+      },
+      {
+        "title": "Tableaux de bord & Rapports",
+        "description": "Visualisez vos données avec des tableaux de bord riches, générez des rapports détaillés pour une meilleure gestion financière."
+      },
+      {
+        "title": "Sécurité & Paramètres",
+        "description": "Gérez les informations de la mosquée, les paramètres DZD, configurez les rôles utilisateurs et contrôlez l'accès en toute sécurité."
+      }
+    ]
+  },
+  "stats": {
+    "heading": "Des dizaines de mosquées en Algérie utilisent déjà notre plateforme",
+    "description": "Rejoignez la communauté croissante de mosquées qui font confiance à ZAKAT pour gérer leurs dons avec transparence.",
+    "stats": [
+      {
+        "label": "Mosquées",
+        "sublabel": "Nous font confiance"
+      },
+      {
+        "label": "DZD",
+        "sublabel": "Dons gérés / mois"
+      },
+      {
+        "label": "DZD",
+        "sublabel": "Distribués au total"
+      },
+      {
+        "label": "Satisfaction",
+        "sublabel": "Taux de satisfaction"
+      }
+    ],
+    "action": "Voir toutes nos références",
+    "mapTitle": "Présence à travers l'Algérie",
+    "legend1": "Mosquée inscrite",
+    "legend2": "Zone desservie"
+  },
+  "login": {
+    "back": "Retour",
+    "title": "Bienvenue !",
+    "subtitle": "Connectez-vous à votre compte",
+    "wilayaLabel": "Wilaya",
+    "wilayaPlaceholder": "Sélectionnez votre wilaya",
+    "communeLabel": "Commune",
+    "communePlaceholder": "Sélectionnez votre commune",
+    "mosqueLabel": "Mosquée",
+    "mosquePlaceholder": "Sélectionnez votre mosquée",
+    "phoneLabel": "Numéro de téléphone",
+    "phonePlaceholder": "5 12 34 56 78",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "••••••••••",
+    "forgotPassword": "Mot de passe oublié ?",
+    "loginButton": "Se connecter",
+    "loginSuccess": "Connexion réussie. Redirection...",
+    "loginError": "Une erreur est survenue lors de la connexion.",
+    "invalidCredentials": "Identifiants invalides.",
+    "inactiveAccount": "Ce compte n'est pas encore actif.",
+    "loadCommunesError": "Impossible de charger les communes.",
+    "loadMosquesError": "Impossible de charger les mosquées.",
+    "register": "Créer un nouveau compte",
+    "noAccount": "Vous n'avez pas de compte ?    "
+  },
+  "register": {
+    "back": "Retour",
+    "title": "Créer votre compte",
+    "subtitleStep1": "Étape 1 — Informations personnelles",
+    "subtitleStep2": "Étape 2 — Informations de la mosquée",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "emailLabel": "E-mail",
+    "phoneLabel": "Téléphone",
+    "passwordLabel": "Mot de passe",
+    "mosqueName": "Nom de la mosquée",
+    "wilaya": "Wilaya",
+    "commune": "Commune",
+    "address": "Adresse",
+    "mosquePhone": "Téléphone (mosquée)",
+    "nextButton": "Suivant",
+    "backButton": "Retour",
+    "createButton": "Créer mon compte",
+    "creating": "Enregistrement...",
+    "success": "Compte créé. Redirection...",
+    "error": "Erreur lors de l'inscription.",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "login": "Se connecter",
+    "placeholder": {
+      "firstName": "Mohamed",
+      "lastName": "Benali",
+      "email": "mohamed@mosque.dz",
+      "phone": "0555 123 456",
+      "password": "••••••••••",
+      "mosqueName": "Entrez le nom de la mosquée",
+      "wilaya": "Entrez la wilaya",
+      "commune": "Entrez la commune",
+      "address": "Entrez l'adresse",
+      "mosquePhone": "Entrez le téléphone de la mosquée"
+    }
+  },
+  "Settings": {
+    "title": "Sécurité & Paramètres",
+    "subtitle": "Compte, mosquée, règles de gestion et sécurité.",
+    "tabs": {
+      "user": "Utilisateur",
+      "mosque": "Mosquée",
+      "settings": "Paramètres",
+      "security": "Sécurité"
+    },
+    "save": "Enregistrer",
+    "user": {
+      "heading": "Mon compte",
+      "subtitle": "Vos informations personnelles.",
+      "lastName": "Nom",
+      "firstName": "Prénom",
+      "birthDate": "Date de naissance",
+      "phone": "Téléphone",
+      "email": "Email",
+      "nameRequired": "Le nom et le prénom sont requis.",
+      "emailInvalid": "Adresse email invalide.",
+      "saved": "Informations enregistrées.",
+      "emailInUse": "Cette adresse email est déjà utilisée."
+    },
+    "mosque": {
+      "heading": "Informations de la mosquée",
+      "subtitle": "Ces informations apparaissent sur les reçus et rapports.",
+      "name": "Nom de la mosquée",
+      "wilaya": "Wilaya",
+      "commune": "Commune",
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "email": "Email",
+      "description": "Description",
+      "optional": "optionnel",
+      "nameRequired": "Le nom de la mosquée est requis.",
+      "emailInvalid": "Adresse email de la mosquée invalide.",
+      "saved": "Informations de la mosquée enregistrées.",
+      "emailInUse": "Cette adresse email est déjà utilisée par une autre mosquée."
+    },
+    "svf": {
+      "heading": "Score SVF",
+      "subtitle": "Configuration globale du score de vulnérabilité familiale.",
+      "maxScore": "Score SVF maximum",
+      "maxScoreHint": "Plafond du score final (par défaut 100).",
+      "theoreticalSum": "Somme théorique des points",
+      "theoreticalSumHint": "Estimation à titre indicatif — le score est ensuite plafonné.",
+      "auto": "Calcul automatique du SVF",
+      "autoHint": "Recalcule le score à chaque modification d'une famille."
+    },
+    "svfCalc": {
+      "heading": "Calcul du Score SVF",
+      "subtitle": "Points attribués selon les critères de vulnérabilité.",
+      "reset": "Réinitialiser",
+      "smigThreshold": "Seuil SMIG (DA)",
+      "belowSMIG": "Points si revenu < SMIG",
+      "below2xSMIG": "Points si revenu < 2×SMIG",
+      "below3xSMIG": "Points si revenu < 3×SMIG",
+      "perChild": "Points par enfant à charge",
+      "childCap": "Plafond des points \"enfants\"",
+      "widowed": "Points si Veuve / Divorcée",
+      "noSupport": "Points si Sans soutien",
+      "disability": "Points si Handicap",
+      "chronicIllness": "Points si Maladie chronique",
+      "tenant": "Points si Locataire",
+      "malusPerAid": "Malus par aide déjà reçue",
+      "malusCap": "Plafond du malus",
+      "seniorAge": "Âge seuil senior",
+      "seniorHead": "Points si chef senior",
+      "youngAge": "Âge seuil jeune chef",
+      "youngHead": "Points si jeune chef de famille",
+      "resetSuccess": "{count, plural, =0 {Paramètres SVF réinitialisés.} other {Paramètres SVF réinitialisés. # famille(s) recalculée(s).}}",
+      "resetFailed": "La réinitialisation a échoué.",
+      "resetting": "…"
+    },
+    "customCriteria": {
+      "heading": "Critères personnalisés",
+      "subtitle": "Ajoutez vos propres critères et leur pondération.",
+      "add": "Ajouter",
+      "empty": "Aucun critère personnalisé pour l'instant.",
+      "namePlaceholder": "Nom du critère",
+      "pointsPlaceholder": "Points"
+    },
+    "waterFilling": {
+      "heading": "Water-Filling (Distribution)",
+      "subtitle": "Réglages de l'algorithme de répartition du budget.",
+      "povertyThreshold": "Seuil de pauvreté / personne (DA/mois)",
+      "povertyThresholdHint": "Utilisé pour estimer le besoin de chaque famille.",
+      "weightExponent": "Exposant du poids SVF",
+      "weightExponentHint": "Plus élevé = plus favorable aux familles très vulnérables."
+    },
+    "distributionRules": {
+      "heading": "Règles de distribution",
+      "minAmount": "Montant minimum par famille (DA)",
+      "reserve": "Réserve conservée sur le solde (%)",
+      "reserveHint": "Portion non distribuée automatiquement."
+    },
+    "donationsValidation": {
+      "heading": "Dons & validation",
+      "anonymous": "Autoriser les dons anonymes",
+      "anonymousHint": "Permet d'enregistrer un don sans lier un donateur.",
+      "anonymousDisabledError": "Les dons anonymes sont désactivés pour cette mosquée. Veuillez sélectionner un donateur."
+    },
+    "savePrefs": "Enregistrer les préférences",
+    "security": {
+      "passwordHeading": "Mot de passe",
+      "passwordSubtitle": "Choisissez un mot de passe fort et unique.",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer",
+      "logOutOthers": "Déconnecter les autres appareils",
+      "logOutOthersHint": "Termine toutes les autres sessions après le changement.",
+      "changePassword": "Modifier le mot de passe",
+      "sessionHeading": "Session",
+      "sessionSubtitle": "Déconnectez-vous de tous vos appareils.",
+      "logOutOthersBtn": "Déconnecter les autres appareils",
+      "loggingOutOthers": "Déconnexion en cours...",
+      "otherDevicesLoggedOut": "Les autres appareils ont été déconnectés.",
+      "currentPassword": "Mot de passe actuel",
+      "currentPasswordRequired": "Veuillez saisir votre mot de passe actuel.",
+      "passwordTooShort": "Le nouveau mot de passe doit contenir au moins 8 caractères.",
+      "passwordMismatch": "Les mots de passe ne correspondent pas.",
+      "passwordChanged": "Mot de passe modifié.",
+      "currentPasswordIncorrect": "Mot de passe actuel incorrect.",
+      "changeFailed": "La modification a échoué.",
+      "changing": "Modification…"
+    },
+    "retry": "Réessayer",
+    "saving": "Enregistrement…",
+    "unsavedChanges": "Modifications non enregistrées",
+    "saveFailed": "L'enregistrement a échoué.",
+    "loadError": "Erreur de chargement.",
+    "reserveTooHigh": "La réserve ne peut pas dépasser 100%.",
+    "savePrefsSuccess": "{count, plural, =0 {Préférences enregistrées.} other {Préférences enregistrées. # famille(s) recalculée(s).}}",
+    "invalidNumberField": "Le champ \"{field}\" doit être un nombre positif.",
+    "seniorAgeMustExceedYoung": "L'âge seuil senior doit être supérieur à l'âge seuil jeune chef."
+  },
+  "Distributions": {
+    "title": "Distributions",
+    "subtitle": "Simulez, distribuez et suivez les paiements de la Zakat.",
+    "method": {
+      "MANUAL": "Manuelle",
+      "WATER_FILLING": "Water-Filling (auto)"
+    },
+    "priority": {
+      "URGENT": "Critique",
+      "VULNERABLE": "Élevée",
+      "MODERATE": "Moyenne",
+      "LOW": "Faible"
+    },
+    "status": {
+      "DRAFT": "En attente",
+      "APPROVED": "Approuvé",
+      "COMPLETED": "Terminé",
+      "CANCELLED": "Annulé"
+    },
+    "newSimulation": {
+      "heading": "Nouvelle simulation",
+      "titleLabel": "Titre",
+      "titlePlaceholder": "Distribution Ramadan 2026",
+      "budgetLabel": "Budget (DZD)",
+      "budgetPlaceholder": "0",
+      "methodLabel": "Méthode",
+      "simulate": "Simuler",
+      "simulating": "Calcul…",
+      "invalidBudget": "Veuillez saisir un budget valide.",
+      "manualNotSupported": "La méthode manuelle n'est pas encore prise en charge par la simulation.",
+      "calcFailed": "Le calcul a échoué.",
+      "saveFailed": "L'enregistrement a échoué.",
+      "resimulate": "Relancer la simulation",
+      "noEligibleTitle": "Aucune famille éligible",
+      "noEligibleBody": "Aucune famille active n'a pu être retenue pour ce budget.",
+      "retainedFamilies": "Familles retenues",
+      "totalBudget": "Budget total",
+      "totalSuggested": "Total suggéré",
+      "family": "Famille",
+      "priorityCol": "Priorité",
+      "dependents": "{count, plural, =0 {aucun dépendant} =1 {# dépendant} other {# dépendants}}",
+      "amount": "Montant",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "maxBudget": "Max",
+      "maxBudgetHint": "Budget maximum disponible (solde moins réserve)",
+      "manualSearchPlaceholder": "Rechercher une famille…",
+      "manualSearching": "Recherche…",
+      "manualEmpty": "Aucune famille ajoutée. Utilisez la recherche ci-dessus.",
+      "manualNoFamilies": "Ajoutez au moins une famille.",
+      "manualInvalidAmount": "Montant invalide pour {name}.",
+      "manualOverBudget": "Total ({total}) supérieur au budget maximum disponible ({max})."
+    },
+    "history": {
+      "heading": "Historique & suivi des paiements",
+      "emptyTitle": "Aucune distribution",
+      "emptyBody": "Lancez votre première simulation pour distribuer la Zakat.",
+      "titleCol": "Titre",
+      "methodCol": "Méthode",
+      "budgetCol": "Budget",
+      "distributedCol": "Distribué",
+      "statusCol": "Statut",
+      "createdCol": "Créé",
+      "details": "Détails"
+    },
+    "detailsModal": {
+      "title": "Détails & suivi des paiements",
+      "beneficiaries": "Bénéficiaires",
+      "paid": "Payés",
+      "waiting": "En attente",
+      "cancelled": "Annulés",
+      "family": "Famille",
+      "priorityCol": "Priorité",
+      "amountCol": "Montant",
+      "statusCol": "Statut",
+      "actionsCol": "Actions",
+      "markPaid": "Marquer payé",
+      "cancelAction": "Annuler",
+      "loadError": "Erreur de chargement.",
+      "notFound": "Cette distribution n'existe plus.",
+      "notFoundTitle": "Introuvable",
+      "backToList": "Retour à la liste",
+      "status": {
+        "PENDING": "En attente",
+        "PAID": "Payé",
+        "CANCELLED": "Annulé"
+      },
+      "alreadyLocked": "Ce statut a déjà été verrouillé.",
+      "locked": "Statut verrouillé"
+    }
+  }
+}

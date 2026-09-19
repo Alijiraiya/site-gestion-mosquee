@@ -1,0 +1,513 @@
+{
+  "header": {
+    "home": "الرئيسية",
+    "features": "الميزات",
+    "mosques": "المساجد",
+    "contact": "اتصل",
+    "login": "تسجيل الدخول"
+  },
+  "hero": {
+    "pre": "منصة",
+    "highlight": "متكاملة",
+    "post": "لإدارة تبرعات مسجدك",
+    "body": "بسّط إدارة التبرعات، وتابع التوزيع، وحقق الشفافية لخدمة مجتمعك.",
+    "primaryCta": "اكتشف المنصة",
+    "secondaryCta": "شاهد العرض",
+    "badges": [
+      "آمنة",
+      "شفافة",
+      "في خدمة المجتمع"
+    ],
+    "alt": "المسجد الكبير"
+  },
+  "contact": {
+    "sectionHeading": "اتصل بنا",
+    "title": "هل لديك سؤال؟ نحن هنا لمساعدتك",
+    "subtitle": "فريقنا متاح لدعمك في تنفيذ المنصة داخل مسجدك.",
+    "emailLabel": "البريد الإلكتروني",
+    "phoneLabel": "الهاتف",
+    "emailValue": "contact@zakat.dz",
+    "phoneValue": "+213 5 123 456 78",
+    "tags": [
+      "استجابة سريعة",
+      "دعم مخصص",
+      "مجاني لمدة 30 يومًا"
+    ]
+  },
+  "footer": {
+    "brandText": "المنصة المرجعية لإدارة التبرعات في المساجد الجزائرية.",
+    "sections": [
+      {
+        "heading": "المنصة",
+        "links": [
+          "الميزات",
+          "الأسعار",
+          "الأمان",
+          "التحديثات"
+        ]
+      },
+      {
+        "heading": "الموارد",
+        "links": [
+          "التوثيق",
+          "المدونة",
+          "دليل المستخدم",
+          "الأسئلة الشائعة"
+        ]
+      },
+      {
+        "heading": "الشركة",
+        "links": [
+          "نبذة عنا",
+          "الفريق",
+          "اتصل",
+          "الشركاء"
+        ]
+      },
+      {
+        "heading": "القانونية",
+        "links": [
+          "الخصوصية",
+          "الشروط",
+          "الكوكيز",
+          "حماية البيانات"
+        ]
+      }
+    ],
+    "bottomLinks": [
+      "الخصوصية",
+      "الشروط",
+      "الكوكيز"
+    ],
+    "copyright": "© 2024 زكاة. جميع الحقوق محفوظة."
+  },
+  "features": {
+    "heading": "كل ما تحتاجه لإدارة",
+    "subheading": "التبرعات بكفاءة",
+    "cards": [
+      {
+        "title": "إدارة التبرعات",
+        "description": "سجل وتابع جميع التبرعات (نقدًا، تحويلات، شيكات)، أضف وسومًا وتعليقات، واحصل على سجل كامل."
+      },
+      {
+        "title": "إدارة الأسر",
+        "description": "قم بإدارة الأسر المستفيدة ومعلوماتها التفصيلية، وشروطها، وبياناتها لمساعدة مستهدفة ومنظمة."
+      },
+      {
+        "title": "التوزيع والحسابات",
+        "description": "احسب زكاة الفطر تلقائيًا. حدد معايير التوزيع وخطط عمليات التوزيع بسهولة."
+      },
+      {
+        "title": "إدارة المتبرعين",
+        "description": "ابنِ قاعدة المتبرعين الخاصة بك، تابع مساهماتهم، وحافظ على ولائهم من خلال تواصل منتظم."
+      },
+      {
+        "title": "لوحات البيانات والتقارير",
+        "description": "عرض بياناتك عبر لوحات بيانات غنية وإنشاء تقارير مفصلة لإدارة مالية أفضل."
+      },
+      {
+        "title": "الأمان والإعدادات",
+        "description": "إدارة معلومات المسجد، إعدادات الدينار الجزائري، ضبط أدوار المستخدمين والتحكم في الوصول بأمان."
+      }
+    ]
+  },
+  "stats": {
+    "heading": "عشرات المساجد في الجزائر تستخدم منصتنا بالفعل",
+    "description": "انضم إلى المجتمع المتنامي من المساجد التي تثق في ZAKAT لإدارة تبرعاتها بشفافية.",
+    "stats": [
+      {
+        "label": "مساجد",
+        "sublabel": "تثق بنا"
+      },
+      {
+        "label": "دينار جزائري",
+        "sublabel": "تبرعات تتم إدارتها / شهر"
+      },
+      {
+        "label": "دينار جزائري",
+        "sublabel": "تم توزيعها إجمالاً"
+      },
+      {
+        "label": "رضا",
+        "sublabel": "نسبة الرضا"
+      }
+    ],
+    "action": "عرض جميع مراجعنا",
+    "mapTitle": "الانتشار عبر الجزائر",
+    "legend1": "مسجد مسجل",
+    "legend2": "المنطقة المغطاة"
+  },
+  "login": {
+    "back": "عودة",
+    "title": "مرحبًا بك!",
+    "subtitle": "تسجيل الدخول إلى حسابك",
+    "wilayaLabel": "الولاية",
+    "wilayaPlaceholder": "اختر ولايتك",
+    "communeLabel": "البلدية",
+    "communePlaceholder": "اختر بلديتك",
+    "mosqueLabel": "المسجد",
+    "mosquePlaceholder": "اختر مسجدك",
+    "phoneLabel": "رقم الهاتف",
+    "phonePlaceholder": " 05 12 34 56 78",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "••••••••••",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "loginButton": "تسجيل الدخول",
+    "loginSuccess": "تم تسجيل الدخول بنجاح. جارٍ إعادة التوجيه...",
+    "loginError": "حدث خطأ أثناء تسجيل الدخول.",
+    "invalidCredentials": "بيانات تسجيل الدخول غير صحيحة.",
+    "inactiveAccount": "هذا الحساب غير نشط بعد.",
+    "loadCommunesError": "تعذر تحميل البلديات.",
+    "loadMosquesError": "تعذر تحميل المساجد.",
+    "noAccount": "   ليس لديك حساب؟",
+    "register": " إنشاء حساب جديد"
+  },
+  "register": {
+    "back": "عودة",
+    "title": "إنشاء حساب",
+    "subtitleStep1": "الخطوة 1 — المعلومات الشخصية",
+    "subtitleStep2": "الخطوة 2 — معلومات المسجد",
+    "firstName": "الاسم",
+    "lastName": "اللقب",
+    "emailLabel": "البريد الإلكتروني",
+    "phoneLabel": "الهاتف",
+    "passwordLabel": "كلمة المرور",
+    "mosqueName": "اسم المسجد",
+    "wilaya": "الولاية",
+    "commune": "البلدية",
+    "address": "العنوان",
+    "mosquePhone": "هاتف المسجد",
+    "nextButton": "التالي",
+    "backButton": "عودة",
+    "createButton": "إنشاء الحساب",
+    "creating": "جارٍ الإنشاء...",
+    "success": "تم إنشاء الحساب. إعادة التوجيه...",
+    "error": "حدث خطأ أثناء التسجيل.",
+    "hasAccount": "هل لديك حساب؟",
+    "login": " تسجيل الدخول",
+    "placeholder": {
+      "firstName": "محمد",
+      "lastName": "بن علي",
+      "email": "mohaled@mosque.dz",
+      "phone": "0555 123 456",
+      "password": "••••••••••",
+      "mosqueName": "اسم المسجد",
+      "wilaya": "أدخل الولاية",
+      "commune": "أدخل البلدية",
+      "address": "أدخل العنوان",
+      "mosquePhone": "أدخل رقم هاتف المسجد"
+    }
+  },
+  "Topbar": {
+    "toggleSidebar": "إظهار/إخفاء الشريط الجانبي",
+    "toggleTheme": "تغيير المظهر",
+    "notifications": "الإشعارات",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج"
+  },
+  "Sidebar": {
+    "menu": "القائمة",
+    "brand": "زكاة",
+    "nav": {
+      "dashboard": "لوحة التحكم",
+      "familles": "الأسر",
+      "dons": "التبرعات",
+      "donateurs": "المتبرعون",
+      "distributions": "التوزيعات",
+      "settings": "الإعدادات"
+    },
+    "notIncluded": "الواجهة غير مضمنة",
+    "logout": "تسجيل الخروج",
+    "defaultUser": "مستخدم",
+    "roleAdmin": "مسؤول",
+    "roleImam": "إمام"
+  },
+  "Donors": {
+    "title": "المتبرعون",
+    "summary": "{count} متبرعين · {total} إجمالي",
+    "export": "تصدير",
+    "addDonor": "إضافة متبرع",
+    "searchPlaceholder": "بحث...",
+    "empty": "لا يوجد متبرعون.",
+    "stats": {
+      "thisMonth": "هذا الشهر",
+      "newThisMonth": "الجدد هذا الشهر",
+      "averageContribution": "متوسط المساهمة",
+      "vsLastMonth": "مقارنة بالشهر الماضي"
+    },
+    "filters": {
+      "type": "النوع",
+      "all": "الكل",
+      "sortBy": "ترتيب حسب"
+    },
+    "sort": {
+      "recent": "الأحدث",
+      "amount": "المبلغ",
+      "name": "الاسم"
+    },
+    "types": {
+      "individual": "فردي",
+      "organization": "مؤسسة"
+    },
+    "table": {
+      "donor": "المتبرع",
+      "contact": "التواصل",
+      "type": "النوع",
+      "totalGiven": "إجمالي التبرعات",
+      "date": "التاريخ"
+    },
+    "pagination": {
+      "showing": "عرض {from} إلى {to} من أصل {total} تبرع"
+    },
+    "form": {
+      "addTitle": "إضافة متبرع",
+      "individual": "فردي",
+      "organization": "مؤسسة",
+      "fullName": "الاسم الكامل / اسم المؤسسة",
+      "fullNamePlaceholder": "أدخل الاسم",
+      "emailLabel": "البريد الإلكتروني",
+      "phoneLabel": "الهاتف",
+      "phonePlaceholder": "07 00 00 00 00",
+      "addressLabel": "العنوان",
+      "addressPlaceholder": "مثال: الجزائر — باب الزوار",
+      "cancel": "إلغاء",
+      "save": "حفظ المتبرع",
+      "saving": "جارٍ الحفظ…",
+      "saved": "تم حفظ المتبرع.",
+      "error": "حدث خطأ ما.",
+      "nameRequired": "الاسم مطلوب.",
+      "emailInvalid": "البريد الإلكتروني غير صالح.",
+      "phoneInvalid": "رقم الهاتف غير صالح.",
+      "duplicate": "هذا المتبرع موجود بالفعل.",
+      "nameExistsWarning": "يوجد متبرع بهذا الاسم بالفعل.",
+      "checkingName": "جارٍ التحقق…"
+    }
+  },
+  "Settings": {
+    "title": "الأمان والإعدادات",
+    "subtitle": "الحساب، المسجد، قواعد الإدارة والأمان.",
+    "tabs": {
+      "user": "المستخدم",
+      "mosque": "المسجد",
+      "settings": "الإعدادات",
+      "security": "الأمان"
+    },
+    "save": "حفظ",
+    "user": {
+      "heading": "حسابي",
+      "subtitle": "معلوماتك الشخصية.",
+      "lastName": "اللقب",
+      "firstName": "الاسم",
+      "birthDate": "تاريخ الميلاد",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "nameRequired": "الاسم واللقب مطلوبان.",
+      "emailInvalid": "البريد الإلكتروني غير صالح.",
+      "saved": "تم حفظ المعلومات.",
+      "emailInUse": "هذا البريد الإلكتروني مستخدم بالفعل."
+    },
+    "mosque": {
+      "heading": "معلومات المسجد",
+      "subtitle": "تظهر هذه المعلومات في الإيصالات والتقارير.",
+      "name": "اسم المسجد",
+      "wilaya": "الولاية",
+      "commune": "البلدية",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "description": "الوصف",
+      "optional": "اختياري",
+      "nameRequired": "اسم المسجد مطلوب.",
+      "emailInvalid": "البريد الإلكتروني للمسجد غير صالح.",
+      "saved": "تم حفظ معلومات المسجد.",
+      "emailInUse": "هذا البريد الإلكتروني مستخدم من طرف مسجد آخر."
+    },
+    "svf": {
+      "heading": "درجة الضعف الاجتماعي (SVF)",
+      "subtitle": "الإعداد العام لدرجة ضعف الأسرة.",
+      "maxScore": "الحد الأقصى للدرجة",
+      "maxScoreHint": "سقف الدرجة النهائية (افتراضيًا 100).",
+      "theoreticalSum": "المجموع النظري للنقاط",
+      "theoreticalSumHint": "تقدير إرشادي — تُحدَّد الدرجة سقفًا لاحقًا.",
+      "auto": "الحساب التلقائي للدرجة",
+      "autoHint": "يعيد حساب الدرجة عند كل تعديل لبيانات الأسرة."
+    },
+    "svfCalc": {
+      "heading": "حساب درجة الضعف",
+      "subtitle": "النقاط الممنوحة حسب معايير الضعف.",
+      "reset": "إعادة تعيين",
+      "smigThreshold": "عتبة الأجر الأدنى (دج)",
+      "belowSMIG": "نقاط إذا الدخل أقل من الأجر الأدنى",
+      "below2xSMIG": "نقاط إذا الدخل أقل من ضعف الأجر الأدنى",
+      "below3xSMIG": "نقاط إذا الدخل أقل من 3 أضعاف الأجر الأدنى",
+      "perChild": "نقاط لكل طفل معال",
+      "childCap": "سقف نقاط \"الأطفال\"",
+      "widowed": "نقاط إذا أرملة / مطلقة",
+      "noSupport": "نقاط إذا بلا معيل",
+      "disability": "نقاط إذا إعاقة",
+      "chronicIllness": "نقاط إذا مرض مزمن",
+      "tenant": "نقاط إذا مستأجر",
+      "malusPerAid": "خصم لكل مساعدة سابقة",
+      "malusCap": "سقف الخصم",
+      "seniorAge": "عتبة سن كبار السن",
+      "seniorHead": "نقاط إذا معيل مسن",
+      "youngAge": "عتبة سن الشباب",
+      "youngHead": "نقاط إذا معيل شاب",
+      "resetSuccess": "{count, plural, =0 {تمت إعادة تعيين معايير SVF.} one {تمت إعادة تعيين معايير SVF. تم إعادة حساب # أسرة.} two {تمت إعادة تعيين معايير SVF. تم إعادة حساب # أسرتين.} few {تمت إعادة تعيين معايير SVF. تم إعادة حساب # أسر.} many {تمت إعادة تعيين معايير SVF. تم إعادة حساب # أسرة.} other {تمت إعادة تعيين معايير SVF. تم إعادة حساب # أسرة.}}",
+      "resetFailed": "فشلت إعادة التعيين.",
+      "resetting": "…"
+    },
+    "customCriteria": {
+      "heading": "معايير مخصصة",
+      "subtitle": "أضف معاييرك الخاصة ووزنها.",
+      "add": "إضافة",
+      "empty": "لا توجد معايير مخصصة حتى الآن.",
+      "namePlaceholder": "اسم المعيار",
+      "pointsPlaceholder": "النقاط"
+    },
+    "waterFilling": {
+      "heading": "التوزيع التصاعدي (Water-Filling)",
+      "subtitle": "إعدادات خوارزمية توزيع الميزانية.",
+      "povertyThreshold": "عتبة الفقر / للفرد (دج/شهر)",
+      "povertyThresholdHint": "تُستخدم لتقدير احتياج كل أسرة.",
+      "weightExponent": "أس وزن الدرجة",
+      "weightExponentHint": "كلما زاد، كان التوزيع أكثر لصالح الأسر الأكثر ضعفًا."
+    },
+    "distributionRules": {
+      "heading": "قواعد التوزيع",
+      "minAmount": "الحد الأدنى للمبلغ لكل أسرة (دج)",
+      "reserve": "الاحتياطي المحتفظ به من الرصيد (%)",
+      "reserveHint": "الجزء غير الموزع تلقائيًا."
+    },
+    "donationsValidation": {
+      "heading": "التبرعات والتحقق",
+      "anonymous": "السماح بالتبرعات المجهولة",
+      "anonymousHint": "يسمح بتسجيل تبرع دون ربطه بمتبرع.",
+      "anonymousDisabledError": "التبرعات المجهولة معطّلة لهذا المسجد. يرجى اختيار متبرع."
+    },
+    "savePrefs": "حفظ التفضيلات",
+    "security": {
+      "passwordHeading": "كلمة المرور",
+      "passwordSubtitle": "اختر كلمة مرور قوية وفريدة.",
+      "newPassword": "كلمة مرور جديدة",
+      "confirmPassword": "تأكيد",
+      "logOutOthers": "تسجيل الخروج من الأجهزة الأخرى",
+      "logOutOthersHint": "ينهي جميع الجلسات الأخرى بعد التغيير.",
+      "changePassword": "تغيير كلمة المرور",
+      "sessionHeading": "الجلسة",
+      "sessionSubtitle": "سجّل الخروج من جميع أجهزتك.",
+      "logOutOthersBtn": "تسجيل الخروج من الأجهزة الأخرى",
+      "loggingOutOthers": "جارٍ تسجيل الخروج...",
+      "otherDevicesLoggedOut": "تم تسجيل الخروج من الأجهزة الأخرى.",
+      "currentPassword": "كلمة المرور الحالية",
+      "currentPasswordRequired": "الرجاء إدخال كلمة المرور الحالية.",
+      "passwordTooShort": "يجب أن تحتوي كلمة المرور الجديدة على 8 أحرف على الأقل.",
+      "passwordMismatch": "كلمتا المرور غير متطابقتين.",
+      "passwordChanged": "تم تغيير كلمة المرور.",
+      "currentPasswordIncorrect": "كلمة المرور الحالية غير صحيحة.",
+      "changeFailed": "فشل التغيير.",
+      "changing": "جارٍ التغيير…"
+    },
+    "retry": "إعادة المحاولة",
+    "saving": "جارٍ الحفظ…",
+    "unsavedChanges": "تغييرات غير محفوظة",
+    "saveFailed": "فشل الحفظ.",
+    "loadError": "خطأ في التحميل.",
+    "reserveTooHigh": "لا يمكن أن يتجاوز الاحتياطي 100%.",
+    "savePrefsSuccess": "{count, plural, =0 {تم حفظ التفضيلات.} one {تم حفظ التفضيلات. تم إعادة حساب # أسرة.} two {تم حفظ التفضيلات. تم إعادة حساب # أسرتين.} few {تم حفظ التفضيلات. تم إعادة حساب # أسر.} many {تم حفظ التفضيلات. تم إعادة حساب # أسرة.} other {تم حفظ التفضيلات. تم إعادة حساب # أسرة.}}",
+    "invalidNumberField": "يجب أن يكون الحقل \"{field}\" رقمًا موجبًا.",
+    "seniorAgeMustExceedYoung": "يجب أن يكون سن الشيخوخة أكبر من سن الشاب المسؤول."
+  },
+  "Distributions": {
+    "title": "التوزيعات",
+    "subtitle": "قم بمحاكاة وتوزيع ومتابعة مدفوعات الزكاة.",
+    "method": {
+      "MANUAL": "يدوية",
+      "WATER_FILLING": "Water-Filling (تلقائي)"
+    },
+    "priority": {
+      "URGENT": "حرجة",
+      "VULNERABLE": "مرتفعة",
+      "MODERATE": "متوسطة",
+      "LOW": "منخفضة"
+    },
+    "status": {
+      "DRAFT": "قيد الانتظار",
+      "APPROVED": "موافق عليه",
+      "COMPLETED": "مكتمل",
+      "CANCELLED": "ملغى"
+    },
+    "newSimulation": {
+      "heading": "محاكاة جديدة",
+      "titleLabel": "العنوان",
+      "titlePlaceholder": "توزيع رمضان 2026",
+      "budgetLabel": "الميزانية (دج)",
+      "budgetPlaceholder": "0",
+      "methodLabel": "الطريقة",
+      "simulate": "محاكاة",
+      "simulating": "جارٍ الحساب…",
+      "invalidBudget": "الرجاء إدخال ميزانية صالحة.",
+      "manualNotSupported": "الطريقة اليدوية غير مدعومة بعد في المحاكاة.",
+      "calcFailed": "فشل الحساب.",
+      "saveFailed": "فشل الحفظ.",
+      "resimulate": "إعادة المحاكاة",
+      "noEligibleTitle": "لا توجد أسر مؤهلة",
+      "noEligibleBody": "لم يتم اختيار أي أسرة نشطة لهذه الميزانية.",
+      "retainedFamilies": "الأسر المختارة",
+      "totalBudget": "الميزانية الإجمالية",
+      "totalSuggested": "الإجمالي المقترح",
+      "family": "الأسرة",
+      "priorityCol": "الأولوية",
+      "dependents": "{count, plural, =0 {بدون معالين} one {# معال واحد} two {# معالين} few {# معالين} many {# معالاً} other {# معال}}",
+      "amount": "المبلغ",
+      "cancel": "إلغاء",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ…",
+      "maxBudget": "الأقصى",
+      "maxBudgetHint": "الميزانية القصوى المتاحة (الرصيد ناقص الاحتياطي)",
+      "manualSearchPlaceholder": "البحث عن أسرة…",
+      "manualSearching": "جارٍ البحث…",
+      "manualEmpty": "لم تتم إضافة أي أسرة. استخدم البحث أعلاه.",
+      "manualNoFamilies": "أضف أسرة واحدة على الأقل.",
+      "manualInvalidAmount": "مبلغ غير صالح لـ {name}.",
+      "manualOverBudget": "الإجمالي ({total}) يتجاوز الميزانية القصوى المتاحة ({max})."
+    },
+    "history": {
+      "heading": "السجل ومتابعة المدفوعات",
+      "emptyTitle": "لا توجد توزيعات",
+      "emptyBody": "ابدأ أول محاكاة لتوزيع الزكاة.",
+      "titleCol": "العنوان",
+      "methodCol": "الطريقة",
+      "budgetCol": "الميزانية",
+      "distributedCol": "الموزّع",
+      "statusCol": "الحالة",
+      "createdCol": "تاريخ الإنشاء",
+      "details": "التفاصيل"
+    },
+    "detailsModal": {
+      "title": "التفاصيل ومتابعة المدفوعات",
+      "beneficiaries": "المستفيدون",
+      "paid": "مدفوع",
+      "waiting": "قيد الانتظار",
+      "cancelled": "ملغى",
+      "family": "الأسرة",
+      "priorityCol": "الأولوية",
+      "amountCol": "المبلغ",
+      "statusCol": "الحالة",
+      "actionsCol": "الإجراءات",
+      "markPaid": "وضع كمدفوع",
+      "cancelAction": "إلغاء",
+      "loadError": "فشل التحميل.",
+      "notFound": "لم تعد هذه التوزيعة موجودة.",
+      "notFoundTitle": "غير موجود",
+      "backToList": "العودة إلى القائمة",
+      "status": {
+        "PENDING": "قيد الانتظار",
+        "PAID": "مدفوع",
+        "CANCELLED": "ملغى"
+      },
+      "alreadyLocked": "تم قفل هذه الحالة بالفعل.",
+      "locked": "الحالة مقفلة"
+    }
+  }
+}

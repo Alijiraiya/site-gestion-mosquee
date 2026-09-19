@@ -1,0 +1,535 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// =========================================================
+// ENUMS
+// =========================================================
+
+enum UserRole {
+  ADMIN
+  IMAM
+}
+
+enum MosqueStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum FamilyStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  WIDOWED
+  DIVORCED
+}
+
+enum EmploymentStatus {
+  UNEMPLOYED
+  PART_TIME
+  FULL_TIME
+  RETIRED
+  DISABLED
+  NONE
+}
+
+enum FamilyMemberRole {
+  HEAD
+  SPOUSE
+  CHILD
+  PARENT
+  OTHER
+}
+
+enum HousingStatus {
+  OWNER
+  TENANT
+  HOMELESS
+  TEMPORARY
+}
+
+enum HousingType {
+  HOUSE
+  APARTMENT
+  TEMPORARY
+  OTHER
+}
+
+enum IncomeSource {
+  SALARY
+  SOCIAL_AID
+  PENSION
+  SMALL_BUSINESS
+  FAMILY_SUPPORT
+  CHARITY
+  OTHER
+  NONE
+}
+
+enum PriorityLevel {
+  URGENT
+  VULNERABLE
+  MODERATE
+  LOW
+}
+
+enum DonorType {
+  INDIVIDUAL
+  ORGANIZATION
+}
+
+enum DonationCategory {
+  ZAKAT_MAL
+  ZAKAT_FITR
+  SADAQAH
+  KAFFARA
+  OTHER
+}
+
+enum PaymentMethod {
+  CASH
+  CCP
+  BANK_TRANSFER
+}
+
+enum DistributionMethod {
+  WATER_FILLING
+  MANUAL
+}
+
+enum DistributionStatus {
+  DRAFT
+  APPROVED
+  COMPLETED
+  CANCELLED
+}
+
+enum DistributionItemPaymentStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  APPROVE
+  REJECT
+  DISTRIBUTE
+}
+
+enum NotificationType {
+  SUCCESS
+  INFO
+  WARNING
+  ERROR
+}
+
+// =========================================================
+// AUTH / USERS
+// =========================================================
+
+model User {
+  id           String    @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String    @unique
+  phone        String?
+  passwordHash String
+  role         UserRole  @default(IMAM)
+  isActive     Boolean   @default(false)
+  lastLogin    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  mosque Mosque? @relation("MosqueImam")
+
+  refreshTokens         RefreshToken[]
+  notifications         Notification[]
+  auditLogs             AuditLog[]
+  createdDonations      Donation[]       @relation("DonationCreatedBy")
+  createdDistributions  Distribution[]   @relation("DistributionCreatedBy")
+  createdDonors         Donor[]          @relation("DonorCreatedBy")
+  createdMosqueFamilies MosqueFamily[]   @relation("MosqueFamilyCreatedBy")
+  uploadedDocuments     FamilyDocument[]
+
+  @@index([role])
+}
+
+model RefreshToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+// =========================================================
+// MOSQUE
+// =========================================================
+
+model Mosque {
+  id                 String             @id @default(cuid())
+  name               String
+  wilaya             String
+  commune            String
+  address            String
+  phone              String
+  email              String             @unique
+  balance            Decimal            @default(0) @db.Decimal(14, 2)
+  description        String?
+  imamId             String             @unique
+  imam               User               @relation("MosqueImam", fields: [imamId], references: [id])
+  status             MosqueStatus       @default(INACTIVE)
+  verificationStatus VerificationStatus @default(PENDING)
+  isVerified         Boolean            @default(false)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  approvedAt         DateTime?
+
+  donors         Donor[]
+  donations      Donation[]
+  distributions  Distribution[]
+  mosqueFamilies MosqueFamily[]
+  families       Family[]        @relation("FamilyCreatedByMosque")
+  auditLogs      AuditLog[]
+  settings       MosqueSettings?
+
+  @@index([wilaya, commune])
+  @@index([verificationStatus])
+}
+
+model MosqueSettings {
+  id       String @id @default(cuid())
+  mosqueId String @unique
+  mosque   Mosque @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+
+  
+  svfMaxScore     Int  @default(100) 
+  autoCalculateSVF Boolean @default(true) 
+
+  
+  smigThreshold           Decimal @default(20000) @db.Decimal(14, 2) // Seuil SMIG (DA)
+  pointsIfIncomeBelowSMIG Int     @default(40) 
+  pointsIfIncomeBelow2xSMIG Int   @default(25) 
+  pointsIfIncomeBelow3xSMIG Int   @default(10) 
+  pointsPerChild          Int     @default(5)  
+  childPointsCap          Int     @default(20) 
+  pointsIfWidowedDivorced Int     @default(15) 
+  pointsIfNoSupport       Int     @default(20) 
+  pointsIfDisability      Int     @default(15) 
+  pointsIfChronicIllness  Int     @default(10) 
+  pointsIfTenant          Int     @default(10) 
+  malusPerAidReceived     Int     @default(8)  
+  malusCap                Int     @default(25) 
+  seniorAgeThreshold      Int     @default(65) 
+  pointsIfSeniorHead      Int     @default(10)
+  youngHeadAgeThreshold   Int     @default(25) 
+  pointsIfYoungHead       Int     @default(5)  
+
+  // Per-mosque overrides of the code-level SVF weights (src/lib/svf.js).
+  // NULL  -> use SVF_DEFAULTS. JSON object -> merged over the defaults.
+  svfWeights Json?
+
+  
+  customCriteria Json @default("[]")
+
+  
+  povertyThresholdPerPerson Decimal @default(20000) @db.Decimal(14, 2) 
+  svfWeightExponent         Float   @default(1.5) // Exposant du poids SVF
+
+
+  minimumDistributionAmount Decimal @default(0) @db.Decimal(14, 2) 
+  reservePercentage         Float   @default(0) 
+
+ 
+  allowAnonymousDonations        Boolean @default(true)
+  requireApprovalForDistribution Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+// =========================================================
+// FAMILY (global) + MOSQUE <-> FAMILY (many-to-many)
+// =========================================================
+
+model Family {
+  id          String   @id @default(cuid())
+  firstName   String
+  lastName    String
+  dateOfBirth DateTime
+
+  ccp              String  @unique
+  phone            String?
+  alternativePhone String?
+  wilaya           String
+  address          String
+
+  monthlyIncome    Decimal          @default(0) @db.Decimal(14, 2)
+  employmentStatus EmploymentStatus @default(NONE)
+  incomeSources    IncomeSource[]   @default([NONE])
+  rentAmount       Decimal          @default(0) @db.Decimal(14, 2)
+
+  maritalStatus         MaritalStatus
+  members               FamilyMember[]
+  childrenSchoolCount   Int            @default(0)
+  orphanCount           Int            @default(0)
+  elderlyCount          Int            @default(0)
+  documentsOriginalName String?
+
+  diseases      String  @default("")
+  hasDisability Boolean @default(false)
+
+  housingStatus HousingStatus
+  housingType   HousingType
+
+  notes  String?
+  status FamilyStatus @default(ACTIVE)
+
+  svfScore Float         @default(0)
+  priority PriorityLevel @default(LOW)
+
+  lastAidAt DateTime?
+
+  createdByMosqueId String
+  createdByMosque   Mosque @relation("FamilyCreatedByMosque", fields: [createdByMosqueId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  mosqueFamilies    MosqueFamily[]
+  distributionItems DistributionItem[]
+  documents         FamilyDocument[]
+
+  @@index([status])
+  @@index([priority])
+  @@index([wilaya])
+}
+
+model FamilyMember {
+  id String @id @default(cuid())
+
+  familyId String
+
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  firstName String
+
+  lastName String?
+
+  dateOfBirth DateTime?
+
+  role FamilyMemberRole
+
+  hasDisability Boolean @default(false)
+
+  diseases String?
+
+  occupation String?
+
+  monthlyIncome Decimal? @db.Decimal(14, 2)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@index([familyId])
+}
+
+model MosqueFamily {
+  id          String   @id @default(cuid())
+  mosqueId    String
+  mosque      Mosque   @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  familyId    String
+  family      Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  isActive    Boolean  @default(true)
+  localNotes  String?
+  createdById String
+  createdBy   User     @relation("MosqueFamilyCreatedBy", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([mosqueId, familyId])
+  @@index([mosqueId])
+  @@index([familyId])
+}
+
+model FamilyDocument {
+  id            String   @id @default(cuid())
+  familyId      String
+  family        Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  originalName  String
+  storedName    String
+  mimeType      String?
+  size          Int?
+  contentBase64 String
+  notes         String?
+  uploadedById  String
+  uploadedBy    User     @relation(fields: [uploadedById], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([familyId])
+  @@index([uploadedById])
+}
+
+// =========================================================
+// DONORS & DONATIONS
+// =========================================================
+
+model Donor {
+  id           String    @id @default(cuid())
+  mosqueId     String
+  mosque       Mosque    @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  name         String
+  phone        String?
+  email        String?
+  address      String?
+  donorType    DonorType @default(INDIVIDUAL)
+  notes        String?
+  totalDonated Decimal   @default(0) @db.Decimal(14, 2)
+  createdById  String
+  createdBy    User      @relation("DonorCreatedBy", fields: [createdById], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  donations Donation[]
+
+  @@index([mosqueId])
+  @@index([name])
+  @@index([phone])
+  @@index([email])
+}
+
+model Donation {
+  id            String           @id @default(cuid())
+  mosqueId      String
+  mosque        Mosque           @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  donorId       String?
+  donor         Donor?           @relation(fields: [donorId], references: [id])
+  isAnonymous   Boolean          @default(false)
+  amount        Decimal          @db.Decimal(14, 2)
+  category      DonationCategory
+  paymentMethod PaymentMethod
+  notes         String?
+  receivedAt    DateTime         @default(now())
+  createdById   String
+  createdBy     User             @relation("DonationCreatedBy", fields: [createdById], references: [id])
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([mosqueId])
+  @@index([donorId])
+  @@index([receivedAt])
+  @@index([category])
+}
+
+// =========================================================
+// DISTRIBUTIONS
+// =========================================================
+
+model Distribution {
+  id                     String             @id @default(cuid())
+  mosqueId               String
+  mosque                 Mosque             @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  title                  String
+  distributionDate       DateTime           @default(now())
+  totalBudget            Decimal            @db.Decimal(14, 2)
+  totalDistributed       Decimal            @default(0) @db.Decimal(14, 2)
+  method                 DistributionMethod
+  status                 DistributionStatus @default(DRAFT)
+  notes                  String?
+  createdById            String
+  createdBy              User               @relation("DistributionCreatedBy", fields: [createdById], references: [id])
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+  generatedAutomatically Boolean            @default(true)
+
+  items DistributionItem[]
+
+  @@index([mosqueId])
+  @@index([distributionDate])
+}
+
+model DistributionItem {
+  id               String                        @id @default(cuid())
+  distributionId   String
+  distribution     Distribution                  @relation(fields: [distributionId], references: [id], onDelete: Cascade)
+  familyId         String
+  family           Family                        @relation(fields: [familyId], references: [id])
+  amount           Decimal                       @db.Decimal(14, 2)
+  svfSnapshot      Float
+  prioritySnapshot PriorityLevel
+  paymentStatus    DistributionItemPaymentStatus @default(PENDING)
+  notes            String?
+  paidAt           DateTime?
+  createdAt        DateTime                      @default(now())
+  updatedAt        DateTime                      @updatedAt
+
+  @@unique([distributionId, familyId])
+  @@index([familyId])
+}
+
+// =========================================================
+// AUDIT LOG / NOTIFICATIONS
+// =========================================================
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  mosqueId   String?
+  mosque     Mosque?     @relation(fields: [mosqueId], references: [id])
+  action     AuditAction
+  entityType String
+  entityId   String
+  oldValues  Json?
+  newValues  Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime    @default(now())
+
+  @@index([userId])
+  @@index([mosqueId])
+  @@index([entityId])
+  @@index([createdAt])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      NotificationType @default(INFO)
+  isRead    Boolean          @default(false)
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead])
+}

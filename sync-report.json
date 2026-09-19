@@ -1,0 +1,926 @@
+{
+  "genere": "2026-08-08T12:55:41.222Z",
+  "base": "http://localhost:3000",
+  "mosque": {
+    "id": "cmskapr0g0001u4eyb4b5e1mx",
+    "nom": "testfull"
+  },
+  "dureeSecondes": 17.8,
+  "requetesHttp": 208,
+  "totaux": {
+    "PASS": 97,
+    "FAIL": 0,
+    "SKIP": 0,
+    "INFO": 2,
+    "total": 99
+  },
+  "parTest": {
+    "T1": {
+      "titre": "Création d'une famille : score et priorité calculés immédiatement",
+      "PASS": 5,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T2": {
+      "titre": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "PASS": 9,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T3": {
+      "titre": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "PASS": 10,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 1
+    },
+    "T4": {
+      "titre": "Modification de la fiche famille : le chef est mis à jour en retour",
+      "PASS": 6,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T5": {
+      "titre": "Suppression d'un membre : effectif et score recalculés",
+      "PASS": 5,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T6": {
+      "titre": "Enfants scolarisés : ajout et suppression recalculent le score",
+      "PASS": 4,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T7": {
+      "titre": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "PASS": 9,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T8": {
+      "titre": "Aides successives : le malus se cumule puis se plafonne",
+      "PASS": 4,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 1
+    },
+    "T9": {
+      "titre": "Confirmation d'une distribution : le score baisse pour CHAQUE bénéficiaire",
+      "PASS": 7,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T10": {
+      "titre": "Validation d'un paiement : solde débité, score stable (pas de double malus)",
+      "PASS": 6,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T11": {
+      "titre": "Annulation d'une ligne : le malus est retiré et le score remonte",
+      "PASS": 4,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T12": {
+      "titre": "Annulation de la distribution entière : toutes les lignes et tous les scores suivent",
+      "PASS": 4,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T13": {
+      "titre": "Suppression d'une distribution : solde et scores restaurés",
+      "PASS": 5,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T14": {
+      "titre": "Changement de paramètres : toutes les familles sont recalculées",
+      "PASS": 7,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T15": {
+      "titre": "Famille archivée : exclue des distributions mais conservée",
+      "PASS": 8,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    },
+    "T16": {
+      "titre": "Scénario complet : création → membres → modification → aide → annulation",
+      "PASS": 4,
+      "FAIL": 0,
+      "SKIP": 0,
+      "INFO": 0
+    }
+  },
+  "fatal": null,
+  "resultats": [
+    {
+      "test": "T1",
+      "testTitle": "Création d'une famille : score et priorité calculés immédiatement",
+      "name": "Le score SVF est un nombre dès la réponse de création",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:25.773Z"
+    },
+    {
+      "test": "T1",
+      "testTitle": "Création d'une famille : score et priorité calculés immédiatement",
+      "name": "Un revenu de 5 000 DA donne un score > 0",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:25.773Z"
+    },
+    {
+      "test": "T1",
+      "testTitle": "Création d'une famille : score et priorité calculés immédiatement",
+      "name": "La priorité correspond au score",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:25.773Z"
+    },
+    {
+      "test": "T1",
+      "testTitle": "Création d'une famille : score et priorité calculés immédiatement",
+      "name": "Le score relu en base est identique au score renvoyé",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:26.809Z"
+    },
+    {
+      "test": "T1",
+      "testTitle": "Création d'une famille : score et priorité calculés immédiatement",
+      "name": "La priorité relue en base est identique",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:26.809Z"
+    },
+    {
+      "test": "T2",
+      "testTitle": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "name": "Le membre est créé",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:28.505Z"
+    },
+    {
+      "test": "T2",
+      "testTitle": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "name": "Célibataire + époux(se) → la famille passe à MARRIED",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:28.555Z"
+    },
+    {
+      "test": "T2",
+      "testTitle": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "name": "Le nombre de membres a été relevé à au moins 2",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:28.555Z"
+    },
+    {
+      "test": "T2",
+      "testTitle": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "name": "La réponse de l'API signale le passage à MARRIED",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:28.555Z"
+    },
+    {
+      "test": "T2",
+      "testTitle": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "name": "Ajout d'un enfant accepté",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:28.623Z"
+    },
+    {
+      "test": "T2",
+      "testTitle": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "name": "L'effectif suit le second ajout",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:28.656Z"
+    },
+    {
+      "test": "T2",
+      "testTitle": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "name": "Le score reste un nombre valide après deux ajouts",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:28.656Z"
+    },
+    {
+      "test": "T2",
+      "testTitle": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "name": "Priorité recohérente après ajouts",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:28.656Z"
+    },
+    {
+      "test": "T2",
+      "testTitle": "Ajout d'un membre : effectif, statut marital et score suivent",
+      "name": "Les deux membres sont bien listés",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:28.704Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "Chef de famille identifié",
+      "status": "INFO",
+      "detail": "Fam723386007 ZZSYNC723386008 (cmskdmltb000a8ceyxiojnipt)",
+      "at": "2026-08-08T12:55:28.794Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "Le chef de famille est modifiable via PUT /members/:id",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.820Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "La date de naissance du chef est reportée sur la fiche famille (miroir)",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.848Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "Le score SVF a été recalculé après le changement d'âge du chef",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.849Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "La réponse signale que les champs du chef ont été reportés",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.849Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "Priorité recohérente",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.849Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "Modification du handicap du chef acceptée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.900Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "Le handicap du chef est reporté sur la fiche famille",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.928Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "Le score SVF a été recalculé après le handicap du chef",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.928Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "Changer le rôle du chef est refusé",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.958Z"
+    },
+    {
+      "test": "T3",
+      "testTitle": "Modification du chef de famille : miroir vers la famille et recalcul SVF",
+      "name": "Supprimer le chef seul est refusé",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:29.975Z"
+    },
+    {
+      "test": "T4",
+      "testTitle": "Modification de la fiche famille : le chef est mis à jour en retour",
+      "name": "Le score est recalculé après modification de la fiche famille",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.176Z"
+    },
+    {
+      "test": "T4",
+      "testTitle": "Modification de la fiche famille : le chef est mis à jour en retour",
+      "name": "Le chef est toujours présent après la modification",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.224Z"
+    },
+    {
+      "test": "T4",
+      "testTitle": "Modification de la fiche famille : le chef est mis à jour en retour",
+      "name": "La date de naissance saisie sur la famille est reportée sur le membre chef",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.224Z"
+    },
+    {
+      "test": "T4",
+      "testTitle": "Modification de la fiche famille : le chef est mis à jour en retour",
+      "name": "Le handicap saisi sur la famille est reporté sur le membre chef",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.224Z"
+    },
+    {
+      "test": "T4",
+      "testTitle": "Modification de la fiche famille : le chef est mis à jour en retour",
+      "name": "Le prénom est identique des deux côtés",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.224Z"
+    },
+    {
+      "test": "T4",
+      "testTitle": "Modification de la fiche famille : le chef est mis à jour en retour",
+      "name": "La réponse expose l'indicateur de miroir",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.224Z"
+    },
+    {
+      "test": "T5",
+      "testTitle": "Suppression d'un membre : effectif et score recalculés",
+      "name": "Suppression du membre acceptée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.372Z"
+    },
+    {
+      "test": "T5",
+      "testTitle": "Suppression d'un membre : effectif et score recalculés",
+      "name": "L'effectif ne s'est pas mis à grimper après une suppression",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.389Z"
+    },
+    {
+      "test": "T5",
+      "testTitle": "Suppression d'un membre : effectif et score recalculés",
+      "name": "Le score reste valide après la suppression",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.389Z"
+    },
+    {
+      "test": "T5",
+      "testTitle": "Suppression d'un membre : effectif et score recalculés",
+      "name": "Priorité recohérente après suppression",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.389Z"
+    },
+    {
+      "test": "T5",
+      "testTitle": "Suppression d'un membre : effectif et score recalculés",
+      "name": "Le membre supprimé ne figure plus dans la liste",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:30.410Z"
+    },
+    {
+      "test": "T6",
+      "testTitle": "Enfants scolarisés : ajout et suppression recalculent le score",
+      "name": "Le score monte après l'ajout d'un enfant scolarisé",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:31.511Z"
+    },
+    {
+      "test": "T6",
+      "testTitle": "Enfants scolarisés : ajout et suppression recalculent le score",
+      "name": "Un enfant de plus ne fait jamais baisser le score",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:31.511Z"
+    },
+    {
+      "test": "T6",
+      "testTitle": "Enfants scolarisés : ajout et suppression recalculent le score",
+      "name": "Suppression de l'enfant acceptée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:32.487Z"
+    },
+    {
+      "test": "T6",
+      "testTitle": "Enfants scolarisés : ajout et suppression recalculent le score",
+      "name": "Le score revient exactement à sa valeur d'origine après suppression de l'enfant",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:32.525Z"
+    },
+    {
+      "test": "T7",
+      "testTitle": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "name": "Le score SVF baisse après une aide reçue (malus d'aide)",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:33.083Z"
+    },
+    {
+      "test": "T7",
+      "testTitle": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "name": "La variation va bien dans le sens d'une BAISSE",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:33.083Z"
+    },
+    {
+      "test": "T7",
+      "testTitle": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "name": "Priorité recohérente après l'aide",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:33.083Z"
+    },
+    {
+      "test": "T7",
+      "testTitle": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "name": "La réponse de l'API renvoie le nouveau score",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:33.083Z"
+    },
+    {
+      "test": "T7",
+      "testTitle": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "name": "La distribution contient bien une ligne",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.056Z"
+    },
+    {
+      "test": "T7",
+      "testTitle": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "name": "La ligne d'aide manuelle est marquée PAID",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.056Z"
+    },
+    {
+      "test": "T7",
+      "testTitle": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "name": "La date de paiement est renseignée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.056Z"
+    },
+    {
+      "test": "T7",
+      "testTitle": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "name": "Le solde de la mosquée est débité du montant versé",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.087Z"
+    },
+    {
+      "test": "T7",
+      "testTitle": "Aide manuelle : le score baisse, la ligne est payée, le solde est débité",
+      "name": "La date de dernière aide est enregistrée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.087Z"
+    },
+    {
+      "test": "T8",
+      "testTitle": "Aides successives : le malus se cumule puis se plafonne",
+      "name": "Séquence des scores",
+      "status": "INFO",
+      "detail": "40 → 32 → 24 → 16 → 15 → 15",
+      "at": "2026-08-08T12:55:34.563Z"
+    },
+    {
+      "test": "T8",
+      "testTitle": "Aides successives : le malus se cumule puis se plafonne",
+      "name": "Au moins deux aides ont pu être versées",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.563Z"
+    },
+    {
+      "test": "T8",
+      "testTitle": "Aides successives : le malus se cumule puis se plafonne",
+      "name": "Le score ne remonte jamais après une aide supplémentaire",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.563Z"
+    },
+    {
+      "test": "T8",
+      "testTitle": "Aides successives : le malus se cumule puis se plafonne",
+      "name": "La baisse cumulée reste sous le plafond de malus paramétré",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.563Z"
+    },
+    {
+      "test": "T8",
+      "testTitle": "Aides successives : le malus se cumule puis se plafonne",
+      "name": "Le score ne devient jamais négatif",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.563Z"
+    },
+    {
+      "test": "T9",
+      "testTitle": "Confirmation d'une distribution : le score baisse pour CHAQUE bénéficiaire",
+      "name": "Le calcul renvoie au moins une allocation",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.842Z"
+    },
+    {
+      "test": "T9",
+      "testTitle": "Confirmation d'une distribution : le score baisse pour CHAQUE bénéficiaire",
+      "name": "La réponse de confirmation expose le résultat du recalcul",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:34.941Z"
+    },
+    {
+      "test": "T9",
+      "testTitle": "Confirmation d'une distribution : le score baisse pour CHAQUE bénéficiaire",
+      "name": "Le score de la famille aidée ne remonte pas (8gxznn)",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.019Z"
+    },
+    {
+      "test": "T9",
+      "testTitle": "Confirmation d'une distribution : le score baisse pour CHAQUE bénéficiaire",
+      "name": "Le score de la famille aidée ne remonte pas (3ks6jm)",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.039Z"
+    },
+    {
+      "test": "T9",
+      "testTitle": "Confirmation d'une distribution : le score baisse pour CHAQUE bénéficiaire",
+      "name": "Le score de la famille aidée ne remonte pas (0dhpfi)",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.060Z"
+    },
+    {
+      "test": "T9",
+      "testTitle": "Confirmation d'une distribution : le score baisse pour CHAQUE bénéficiaire",
+      "name": "TOUS les bénéficiaires ont vu leur score recalculé, pas seulement le premier",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.060Z"
+    },
+    {
+      "test": "T9",
+      "testTitle": "Confirmation d'une distribution : le score baisse pour CHAQUE bénéficiaire",
+      "name": "L'instantané svfSnapshot garde le score d'AVANT le recalcul",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.089Z"
+    },
+    {
+      "test": "T10",
+      "testTitle": "Validation d'un paiement : solde débité, score stable (pas de double malus)",
+      "name": "La ligne est en attente juste après la confirmation",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.277Z"
+    },
+    {
+      "test": "T10",
+      "testTitle": "Validation d'un paiement : solde débité, score stable (pas de double malus)",
+      "name": "Le solde est débité au moment du paiement",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.425Z"
+    },
+    {
+      "test": "T10",
+      "testTitle": "Validation d'un paiement : solde débité, score stable (pas de double malus)",
+      "name": "Le score ne bouge pas une deuxième fois au paiement",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.461Z"
+    },
+    {
+      "test": "T10",
+      "testTitle": "Validation d'un paiement : solde débité, score stable (pas de double malus)",
+      "name": "La réponse renvoie le score à jour",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.461Z"
+    },
+    {
+      "test": "T10",
+      "testTitle": "Validation d'un paiement : solde débité, score stable (pas de double malus)",
+      "name": "La ligne est bien passée à PAID",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.493Z"
+    },
+    {
+      "test": "T10",
+      "testTitle": "Validation d'un paiement : solde débité, score stable (pas de double malus)",
+      "name": "La date de paiement est enregistrée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.493Z"
+    },
+    {
+      "test": "T11",
+      "testTitle": "Annulation d'une ligne : le malus est retiré et le score remonte",
+      "name": "Le score a bien baissé après l'aide",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.703Z"
+    },
+    {
+      "test": "T11",
+      "testTitle": "Annulation d'une ligne : le malus est retiré et le score remonte",
+      "name": "Annulation de la ligne acceptée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.772Z"
+    },
+    {
+      "test": "T11",
+      "testTitle": "Annulation d'une ligne : le malus est retiré et le score remonte",
+      "name": "Le score revient EXACTEMENT à sa valeur d'avant l'aide annulée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.792Z"
+    },
+    {
+      "test": "T11",
+      "testTitle": "Annulation d'une ligne : le malus est retiré et le score remonte",
+      "name": "Le score est bien remonté après l'annulation",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:35.792Z"
+    },
+    {
+      "test": "T12",
+      "testTitle": "Annulation de la distribution entière : toutes les lignes et tous les scores suivent",
+      "name": "Annulation de la distribution acceptée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.089Z"
+    },
+    {
+      "test": "T12",
+      "testTitle": "Annulation de la distribution entière : toutes les lignes et tous les scores suivent",
+      "name": "Aucune ligne ne reste « en attente » après l'annulation globale",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.114Z"
+    },
+    {
+      "test": "T12",
+      "testTitle": "Annulation de la distribution entière : toutes les lignes et tous les scores suivent",
+      "name": "Le score de qt9tti est restauré après l'annulation globale",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.146Z"
+    },
+    {
+      "test": "T12",
+      "testTitle": "Annulation de la distribution entière : toutes les lignes et tous les scores suivent",
+      "name": "Le score de fdj1h2 est restauré après l'annulation globale",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.180Z"
+    },
+    {
+      "test": "T13",
+      "testTitle": "Suppression d'une distribution : solde et scores restaurés",
+      "name": "Le score a baissé avant la suppression",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.431Z"
+    },
+    {
+      "test": "T13",
+      "testTitle": "Suppression d'une distribution : solde et scores restaurés",
+      "name": "Suppression de la distribution acceptée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.495Z"
+    },
+    {
+      "test": "T13",
+      "testTitle": "Suppression d'une distribution : solde et scores restaurés",
+      "name": "Le score est restauré après la suppression de la distribution",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.533Z"
+    },
+    {
+      "test": "T13",
+      "testTitle": "Suppression d'une distribution : solde et scores restaurés",
+      "name": "Le solde est recrédité du montant supprimé",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.569Z"
+    },
+    {
+      "test": "T13",
+      "testTitle": "Suppression d'une distribution : solde et scores restaurés",
+      "name": "La distribution supprimée n'est plus lisible",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.597Z"
+    },
+    {
+      "test": "T14",
+      "testTitle": "Changement de paramètres : toutes les familles sont recalculées",
+      "name": "Le paramètre est bien enregistré",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.682Z"
+    },
+    {
+      "test": "T14",
+      "testTitle": "Changement de paramètres : toutes les familles sont recalculées",
+      "name": "L'API indique combien de familles ont été recalculées",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.682Z"
+    },
+    {
+      "test": "T14",
+      "testTitle": "Changement de paramètres : toutes les familles sont recalculées",
+      "name": "Le score d'une famille locataire suit le nouveau barème",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.704Z"
+    },
+    {
+      "test": "T14",
+      "testTitle": "Changement de paramètres : toutes les familles sont recalculées",
+      "name": "Retour au barème d'origine accepté",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.748Z"
+    },
+    {
+      "test": "T14",
+      "testTitle": "Changement de paramètres : toutes les familles sont recalculées",
+      "name": "Le score revient exactement à sa valeur initiale",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.782Z"
+    },
+    {
+      "test": "T14",
+      "testTitle": "Changement de paramètres : toutes les familles sont recalculées",
+      "name": "Une valeur démesurée est refusée proprement (pas d'erreur 500)",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.809Z"
+    },
+    {
+      "test": "T14",
+      "testTitle": "Changement de paramètres : toutes les familles sont recalculées",
+      "name": "Une valeur négative est refusée proprement (pas d'erreur 500)",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.839Z"
+    },
+    {
+      "test": "T15",
+      "testTitle": "Famille archivée : exclue des distributions mais conservée",
+      "name": "Archivage accepté",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.914Z"
+    },
+    {
+      "test": "T15",
+      "testTitle": "Famille archivée : exclue des distributions mais conservée",
+      "name": "La famille archivée existe toujours en base",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.942Z"
+    },
+    {
+      "test": "T15",
+      "testTitle": "Famille archivée : exclue des distributions mais conservée",
+      "name": "Le statut est bien ARCHIVED (la ligne n'est pas supprimée)",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.942Z"
+    },
+    {
+      "test": "T15",
+      "testTitle": "Famille archivée : exclue des distributions mais conservée",
+      "name": "Elle disparaît de la liste des familles actives",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.973Z"
+    },
+    {
+      "test": "T15",
+      "testTitle": "Famille archivée : exclue des distributions mais conservée",
+      "name": "Elle reste consultable dans la liste des archivées",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:36.987Z"
+    },
+    {
+      "test": "T15",
+      "testTitle": "Famille archivée : exclue des distributions mais conservée",
+      "name": "Une famille archivée n'entre pas dans le calcul de répartition",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:37.075Z"
+    },
+    {
+      "test": "T15",
+      "testTitle": "Famille archivée : exclue des distributions mais conservée",
+      "name": "Réactivation acceptée",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:37.102Z"
+    },
+    {
+      "test": "T15",
+      "testTitle": "Famille archivée : exclue des distributions mais conservée",
+      "name": "La famille est de nouveau active",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:37.126Z"
+    },
+    {
+      "test": "T16",
+      "testTitle": "Scénario complet : création → membres → modification → aide → annulation",
+      "name": "Le score reste dans [0, 100] à chaque étape du scénario",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:37.710Z"
+    },
+    {
+      "test": "T16",
+      "testTitle": "Scénario complet : création → membres → modification → aide → annulation",
+      "name": "La priorité correspond au score à chaque étape du scénario",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:37.710Z"
+    },
+    {
+      "test": "T16",
+      "testTitle": "Scénario complet : création → membres → modification → aide → annulation",
+      "name": "Le score a réellement suivi les événements (au moins 3 valeurs différentes)",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:37.710Z"
+    },
+    {
+      "test": "T16",
+      "testTitle": "Scénario complet : création → membres → modification → aide → annulation",
+      "name": "Après suppression de l'aide, le score final n'est pas inférieur au score initial",
+      "status": "PASS",
+      "detail": "",
+      "at": "2026-08-08T12:55:37.710Z"
+    }
+  ]
+}
