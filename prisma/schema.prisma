@@ -108,6 +108,43 @@ enum PaymentMethod {
   BANK_TRANSFER
 }
 
+// -- Beneficiary / Payment (cahier des charges §2) -----------------------
+// Kept distinct from PaymentMethod (used for incoming donations): the spec
+// lists "Especes / Virement / Cheque" for outgoing payments, which is a
+// different set of values (no CCP, but CHEQUE instead).
+enum DisbursementMethod {
+  CASH
+  BANK_TRANSFER
+  CHEQUE
+}
+
+enum BeneficiaryRole {
+  IMAM
+  MUEZZIN
+  MAINTENANCE_STAFF
+  ARTISAN
+  SUPPLIER
+  OTHER
+}
+
+// Whether this beneficiary is paid on a recurring schedule (salary-like) or
+// case-by-case. Drives whether scheduledDate/frequency-based alerts apply.
+enum BeneficiaryPaymentType {
+  REGULAR
+  OCCASIONAL
+}
+
+enum PaymentFrequency {
+  WEEKLY
+  MONTHLY
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
 enum DistributionMethod {
   WATER_FILLING
   MANUAL
@@ -172,6 +209,8 @@ model User {
   createdDonors         Donor[]          @relation("DonorCreatedBy")
   createdMosqueFamilies MosqueFamily[]   @relation("MosqueFamilyCreatedBy")
   uploadedDocuments     FamilyDocument[]
+  createdBeneficiaries  Beneficiary[]    @relation("BeneficiaryCreatedBy")
+  createdPayments       Payment[]        @relation("PaymentCreatedBy")
 
   @@index([role])
 }
@@ -218,6 +257,8 @@ model Mosque {
   families       Family[]        @relation("FamilyCreatedByMosque")
   auditLogs      AuditLog[]
   settings       MosqueSettings?
+  beneficiaries  Beneficiary[]
+  payments       Payment[]
   @@unique([name, wilaya, commune])
   @@index([wilaya, commune])
   @@index([verificationStatus])
@@ -452,6 +493,91 @@ model Donation {
   @@index([donorId])
   @@index([receivedAt])
   @@index([category])
+}
+
+// =========================================================
+// BENEFICIARIES & PAYMENTS (cahier des charges §2)
+// =========================================================
+
+// The directory of people the mosque pays: imam, muezzin, maintenance
+// staff, artisans, suppliers. Also consumed by Expense (Marwa's module) for
+// beneficiary auto-completion on an expense.
+model Beneficiary {
+  id       String @id @default(cuid())
+  mosqueId String
+  mosque   Mosque @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+
+  firstName String
+  lastName  String
+  role      BeneficiaryRole @default(OTHER)
+
+  paymentType      BeneficiaryPaymentType @default(OCCASIONAL)
+  // Only meaningful when paymentType = REGULAR; null for OCCASIONAL.
+  paymentFrequency PaymentFrequency?
+  // Reference amount for regular payments -- pre-fills (but does not lock)
+  // the amount field when recording a new payment (spec §2.2).
+  usualAmount      Decimal?               @db.Decimal(14, 2)
+  paymentMethod    DisbursementMethod     @default(CASH)
+
+  phone String?
+  email String?
+  notes String?
+
+  // Soft-disable instead of delete: past Payment rows must keep referring
+  // to this beneficiary even after they stop working with the mosque.
+  isActive Boolean @default(true)
+
+  createdById String
+  createdBy   User   @relation("BeneficiaryCreatedBy", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  payments Payment[]
+
+  @@index([mosqueId])
+  @@index([role])
+  @@index([paymentType])
+}
+
+model Payment {
+  id            String      @id @default(cuid())
+  mosqueId      String
+  mosque        Mosque      @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  beneficiaryId String
+  beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
+
+  amount Decimal @db.Decimal(14, 2)
+
+  // Due/expected date. Drives the J-3 reminder and J+1 late alert (spec
+  // §2.3) for REGULAR beneficiaries. For an already-settled OCCASIONAL
+  // payment this is simply the payment date.
+  scheduledDate DateTime
+  // Set once status flips to PAID; null while PENDING.
+  paidAt        DateTime?
+
+  // Free text period label, e.g. "Ramadan 1446" (spec §2.2) -- intentionally
+  // not a structured date range, per the cahier des charges.
+  periodLabel String?
+
+  paymentMethod DisbursementMethod
+  status        PaymentStatus      @default(PENDING)
+  note          String?
+
+  // Placeholder until Mohamed's envelope.js lands the real Envelope model.
+  // Kept as a plain label (not a relation) on purpose, so this migration
+  // doesn't collide with his -- swap for a real envelopeId relation once
+  // Envelope exists.
+  envelopeName String?
+
+  createdById String
+  createdBy   User     @relation("PaymentCreatedBy", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([mosqueId])
+  @@index([beneficiaryId])
+  @@index([status])
+  @@index([scheduledDate])
 }
 
 // =========================================================
