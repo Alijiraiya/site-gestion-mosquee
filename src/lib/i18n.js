@@ -318,6 +318,26 @@ export const AR = {
   "Solde négatif": "رصيد سالب",
   "Solde faible": "رصيد منخفض",
   "Disponible pour les distributions": "متاح للتوزيعات",
+
+  // Envelopes module
+  Enveloppes: "الأظرفة المالية",
+  "Enveloppes Budgétaires": "الأظرفة المالية والميزانيات",
+  "Nouvelle Enveloppe": "ظرف مالي جديد",
+  "Budget total alloué": "إجمالي الميزانية المخصصة",
+  "Total consommé": "إجمالي المستهلك",
+  "Solde restant disponible": "الرصيد المتبقي المتاح",
+  "Enveloppes en alerte": "أظرفة في حالة تنبيه",
+  "Enveloppes épuisées": "أظرفة مستنفدة",
+  "Seuil d'alerte": "حد التنبيه",
+  "Budget alloué": "الميزانية المخصصة",
+  "Consommé": "المستهلك",
+  "Restant": "المتبقي",
+  "Dépassement": "تجاوز الميزانية",
+  "Modifier l'enveloppe": "تعديل الظرف المالي",
+  "Clôturer l'enveloppe": "إغلاق الظرف المالي",
+  "Rouvrir l'enveloppe": "إعادة فتح الظرف المالي",
+  "Supprimer l'enveloppe": "حذف الظرف المالي",
+  "Détails de l'enveloppe": "تفاصيل الظرف المالي",
 };
 
 // Most AR keys are the French string itself, so the FR catalogue can simply map

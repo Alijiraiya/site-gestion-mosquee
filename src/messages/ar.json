@@ -509,5 +509,91 @@
       "alreadyLocked": "تم قفل هذه الحالة بالفعل.",
       "locked": "الحالة مقفلة"
     }
+  },
+  "Envelopes": {
+    "title": "الأظرفة المالية والميزانيات",
+    "subtitle": "خطط للمخصصات، وتابع استهلاك المصاريف حسب كل بند وتحكم في ميزانية المسجد بدقة.",
+    "newEnvelope": "ظرف مالي جديد",
+    "kpi": {
+      "allocated": "إجمالي الميزانية المخصصة",
+      "spent": "إجمالي المستهلك",
+      "remaining": "الرصيد المتاح",
+      "warningAlert": "أظرفة في حالة تنبيه",
+      "exhaustedAlert": "أظرفة مستنفدة",
+      "activeEnvelopes": "أظرفة نشطة",
+      "closedEnvelopes": "أظرفة مغلقة"
+    },
+    "filters": {
+      "searchPlaceholder": "ابحث عن ظرف مالي...",
+      "allCategories": "كل الفئات",
+      "allStatuses": "كل الحالات",
+      "allPeriods": "كل الفترات",
+      "statusActive": "نشطة",
+      "statusClosed": "مغلقة",
+      "statusExhausted": "مستنفدة",
+      "statusDraft": "مسودات"
+    },
+    "categories": {
+      "MAINTENANCE": "الصيانة والأشغال",
+      "UTILITIES": "الفواتير (ماء، كهرباء)",
+      "SALARIES": "الرواتب والمكافآت",
+      "EVENTS": "المناسبات والإفطار",
+      "SOCIAL": "المساعدات الاجتماعية المباشرة",
+      "SUPPLIES": "المستلزمات والمستهلكات",
+      "OTHER": "مصاريف أخرى"
+    },
+    "periods": {
+      "MONTHLY": "شهري",
+      "QUARTERLY": "فصلي",
+      "ANNUAL": "سنوي",
+      "CUSTOM": "مخصص"
+    },
+    "card": {
+      "consumed": "المستهلك",
+      "remaining": "المتبقي",
+      "allocated": "المخصص",
+      "thresholdAlert": "حد التنبيه: {threshold}%",
+      "exhaustedBadge": "ميزانية مستنفدة",
+      "warningBadge": "تنبيه الحد",
+      "healthyBadge": "مطابق",
+      "closedBadge": "مغلقة",
+      "viewDetails": "عرض التفاصيل",
+      "edit": "تعديل",
+      "close": "إغلاق",
+      "reopen": "إعادة فتح",
+      "delete": "حذف"
+    },
+    "modal": {
+      "createTitle": "إنشاء ظرف مالي جديد",
+      "editTitle": "تعديل الظرف المالي",
+      "detailsTitle": "تفاصيل الظرف المالي",
+      "nameLabel": "اسم الظرف المالي",
+      "namePlaceholder": "مثال: فواتير الكهرباء والغاز 2026، صيانة دورات المياه...",
+      "categoryLabel": "فئة المصروف",
+      "periodLabel": "الفترة المالية",
+      "allocatedLabel": "المبلغ المخصص (دج)",
+      "spentLabel": "المبلغ المستهلك حاليًا (دج)",
+      "thresholdLabel": "حد التنبيه (%)",
+      "thresholdHelp": "سيظهر تنبيه بصري عندما تبلغ النفقات هذه النسبة.",
+      "startDateLabel": "تاريخ البداية",
+      "endDateLabel": "تاريخ النهاية",
+      "descriptionLabel": "الوصف والمبررات",
+      "descriptionPlaceholder": "وضح الهدف أو شروط استخدام هذا الظرف المالي...",
+      "colorLabel": "اللون الدلالي",
+      "statusLabel": "الحالة",
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "create": "إنشاء الظرف",
+      "cancel": "إلغاء",
+      "successCreate": "تم إنشاء الظرف المالي بنجاح.",
+      "successUpdate": "تم تحديث الظرف المالي بنجاح.",
+      "successClose": "تم إغلاق الظرف المالي.",
+      "confirmClose": "هل أنت متأكد من رغبتك في إغلاق هذا الظرف المالي؟",
+      "confirmDelete": "هل أنت متأكد من رغبتك في حذف هذا الظرف المالي؟"
+    },
+    "empty": {
+      "title": "لم يتم العثور على أي ظرف مالي",
+      "description": "أنشئ أول ظرف مالي لبدء تخطيط ومتابعة نفقات المسجد."
+    }
   }
 }

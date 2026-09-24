@@ -38,8 +38,14 @@ const NAV = [
     ready: true,
   },
   {
+    href: "/enveloppes",
+    label: "Enveloppes",
+    icon: "envelope",
+    ready: true,
+  },
+  {
     href: "/settings",
-    label: "Param\u00e8tres",
+    label: "Paramètres",
     icon: "settings",
     ready: true,
   },

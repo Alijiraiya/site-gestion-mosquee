@@ -509,5 +509,91 @@
       "alreadyLocked": "Ce statut a déjà été verrouillé.",
       "locked": "Statut verrouillé"
     }
+  },
+  "Envelopes": {
+    "title": "Enveloppes Budgétaires",
+    "subtitle": "Planifiez vos allocations, suivez les consommations par poste de dépense et maîtrisez le budget de la mosquée.",
+    "newEnvelope": "Nouvelle Enveloppe",
+    "kpi": {
+      "allocated": "Budget total alloué",
+      "spent": "Total consommé",
+      "remaining": "Solde disponible",
+      "warningAlert": "Enveloppes en alerte",
+      "exhaustedAlert": "Enveloppes épuisées",
+      "activeEnvelopes": "Enveloppes actives",
+      "closedEnvelopes": "Enveloppes clôturées"
+    },
+    "filters": {
+      "searchPlaceholder": "Rechercher une enveloppe...",
+      "allCategories": "Toutes les catégories",
+      "allStatuses": "Tous les statuts",
+      "allPeriods": "Toutes les périodes",
+      "statusActive": "Actives",
+      "statusClosed": "Clôturées",
+      "statusExhausted": "Épuisées",
+      "statusDraft": "Brouillons"
+    },
+    "categories": {
+      "MAINTENANCE": "Maintenance & Travaux",
+      "UTILITIES": "Factures (Eau, Électricité)",
+      "SALARIES": "Rémunérations & Salaires",
+      "EVENTS": "Événements & Iftar",
+      "SOCIAL": "Aide sociale directe",
+      "SUPPLIES": "Fournitures & Consommables",
+      "OTHER": "Autres dépenses"
+    },
+    "periods": {
+      "MONTHLY": "Mensuel",
+      "QUARTERLY": "Trimestriel",
+      "ANNUAL": "Annuel",
+      "CUSTOM": "Personnalisé"
+    },
+    "card": {
+      "consumed": "Consommé",
+      "remaining": "Restant",
+      "allocated": "Alloué",
+      "thresholdAlert": "Seuil d'alerte : {threshold}%",
+      "exhaustedBadge": "Budget Épuisé",
+      "warningBadge": "Alerte Seuil",
+      "healthyBadge": "Conforme",
+      "closedBadge": "Clôturée",
+      "viewDetails": "Consulter détails",
+      "edit": "Modifier",
+      "close": "Clôturer",
+      "reopen": "Rouvrir",
+      "delete": "Supprimer"
+    },
+    "modal": {
+      "createTitle": "Créer une nouvelle enveloppe budgétaire",
+      "editTitle": "Modifier l'enveloppe budgétaire",
+      "detailsTitle": "Détails de l'enveloppe",
+      "nameLabel": "Intitulé de l'enveloppe",
+      "namePlaceholder": "Ex. Factures Sonelgaz 2026, Maintenance Sanitaires...",
+      "categoryLabel": "Catégorie de dépense",
+      "periodLabel": "Période budgétaire",
+      "allocatedLabel": "Montant alloué (DA)",
+      "spentLabel": "Montant déjà consommé (DA)",
+      "thresholdLabel": "Seuil d'alerte (%)",
+      "thresholdHelp": "Une alerte visuelle s'affiche lorsque les dépenses atteignent ce pourcentage.",
+      "startDateLabel": "Date de début",
+      "endDateLabel": "Date de fin",
+      "descriptionLabel": "Description & Justification",
+      "descriptionPlaceholder": "Précisez l'objectif ou les conditions d'utilisation de cette enveloppe...",
+      "colorLabel": "Couleur indicative",
+      "statusLabel": "Statut",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "create": "Créer l'enveloppe",
+      "cancel": "Annuler",
+      "successCreate": "Enveloppe créée avec succès.",
+      "successUpdate": "Enveloppe mise à jour avec succès.",
+      "successClose": "Enveloppe clôturée.",
+      "confirmClose": "Êtes-vous sûr de vouloir clôturer cette enveloppe ?",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette enveloppe ?"
+    },
+    "empty": {
+      "title": "Aucune enveloppe budgétaire trouvée",
+      "description": "Créez votre première enveloppe pour commencer à planifier et suivre les dépenses de la mosquée."
+    }
   }
 }

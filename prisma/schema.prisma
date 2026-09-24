@@ -172,6 +172,8 @@ model User {
   createdDonors         Donor[]          @relation("DonorCreatedBy")
   createdMosqueFamilies MosqueFamily[]   @relation("MosqueFamilyCreatedBy")
   uploadedDocuments     FamilyDocument[]
+  createdEnvelopes      BudgetEnvelope[]   @relation("EnvelopeCreatedBy")
+  createdTransfers      EnvelopeTransfer[] @relation("TransferCreatedBy")
 
   @@index([role])
 }
@@ -218,6 +220,7 @@ model Mosque {
   families       Family[]        @relation("FamilyCreatedByMosque")
   auditLogs      AuditLog[]
   settings       MosqueSettings?
+  envelopes      BudgetEnvelope[]
   @@unique([name, wilaya, commune])
   @@index([wilaya, commune])
   @@index([verificationStatus])
@@ -537,4 +540,90 @@ model Notification {
   createdAt DateTime         @default(now())
 
   @@index([userId, isRead])
+}
+
+// =========================================================
+// ENVELOPES & BUDGET MANAGEMENT (Mohamed)
+// =========================================================
+
+enum EnvelopeCategory {
+  MAINTENANCE
+  UTILITIES
+  SALARIES
+  EVENTS
+  SOCIAL
+  SUPPLIES
+  OTHER
+}
+
+enum EnvelopePeriod {
+  MONTHLY
+  QUARTERLY
+  ANNUAL
+  CUSTOM
+}
+
+enum EnvelopeStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+  EXHAUSTED
+}
+
+enum TransferStatus {
+  PENDING
+  PARTIALLY_REPAID
+  REPAID
+  CANCELLED
+}
+
+model BudgetEnvelope {
+  id              String           @id @default(cuid())
+  mosqueId        String
+  mosque          Mosque           @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  name            String
+  category        EnvelopeCategory @default(OTHER)
+  periodType      EnvelopePeriod   @default(ANNUAL)
+  allocatedAmount Decimal          @db.Decimal(14, 2)
+  spentAmount     Decimal          @default(0) @db.Decimal(14, 2)
+  alertThreshold  Int              @default(80)
+  startDate       DateTime
+  endDate         DateTime
+  status          EnvelopeStatus   @default(ACTIVE)
+  description     String?
+  color           String?
+  createdById     String
+  createdBy       User             @relation("EnvelopeCreatedBy", fields: [createdById], references: [id])
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  transfersSent     EnvelopeTransfer[] @relation("SourceEnvelope")
+  transfersReceived EnvelopeTransfer[] @relation("DestEnvelope")
+
+  @@index([mosqueId])
+  @@index([status])
+  @@index([category])
+  @@index([startDate, endDate])
+}
+
+model EnvelopeTransfer {
+  id               String         @id @default(cuid())
+  sourceEnvelopeId String
+  sourceEnvelope   BudgetEnvelope @relation("SourceEnvelope", fields: [sourceEnvelopeId], references: [id], onDelete: Cascade)
+  destEnvelopeId   String
+  destEnvelope     BudgetEnvelope @relation("DestEnvelope", fields: [destEnvelopeId], references: [id], onDelete: Cascade)
+  amount           Decimal        @db.Decimal(14, 2)
+  reason           String
+  status           TransferStatus @default(PENDING)
+  repaidAmount     Decimal        @default(0) @db.Decimal(14, 2)
+  dueDate          DateTime?
+  repaidAt         DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  createdById      String
+  createdBy        User           @relation("TransferCreatedBy", fields: [createdById], references: [id])
+
+  @@index([sourceEnvelopeId])
+  @@index([destEnvelopeId])
+  @@index([status])
 }
