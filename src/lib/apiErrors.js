@@ -37,6 +37,12 @@ const FIELD_NAMES = {
     maritalStatus: "La situation familiale",
     paymentMethod: "Le mode de paiement",
     paymentStatus: "Le statut de paiement",
+    phone: "Le téléphone",
+    email: "L'e-mail",
+    notes: "Les notes",
+    paymentType: "Le type de paiement",
+    paymentFrequency: "La fréquence de paiement",
+    usualAmount: "Le montant habituel",
     svfMaxScore: "Le score SVF maximum",
     pointsIfIncomeBelowSMIG: "Les points (revenu sous le SMIG)",
     pointsIfIncomeBelow2xSMIG: "Les points (revenu sous 2x le SMIG)",
@@ -80,6 +86,12 @@ const FIELD_NAMES = {
     maritalStatus: "الحالة العائلية",
     paymentMethod: "طريقة الدفع",
     paymentStatus: "حالة الدفع",
+    phone: "الهاتف",
+    email: "البريد الإلكتروني",
+    notes: "ملاحظات",
+    paymentType: "نوع الدفع",
+    paymentFrequency: "وتيرة الدفع",
+    usualAmount: "المبلغ المعتاد",
     svfMaxScore: "أقصى نتيجة SVF",
     pointsIfIncomeBelowSMIG: "النقاط (دخل أقل من الحد الأدنى للأجور)",
     pointsIfIncomeBelow2xSMIG: "النقاط (دخل أقل من ضعف الحد الأدنى للأجور)",
@@ -135,6 +147,16 @@ const VALUE_NAMES = {
     RETIRED: "Retraité",
     DISABLED: "Handicapé",
     NONE: "Aucun",
+    IMAM: "Imam",
+    MUEZZIN: "Muezzin",
+    MAINTENANCE_STAFF: "Agent d'entretien",
+    ARTISAN: "Artisan",
+    SUPPLIER: "Fournisseur",
+    REGULAR: "Régulier",
+    OCCASIONAL: "Occasionnel",
+    WEEKLY: "Hebdomadaire",
+    MONTHLY: "Mensuel",
+    CHEQUE: "Chèque",
   },
   ar: {
     ZAKAT_MAL: "زكاة المال",
@@ -164,6 +186,16 @@ const VALUE_NAMES = {
     RETIRED: "متقاعد",
     DISABLED: "معاق",
     NONE: "لا شيء",
+    IMAM: "إمام",
+    MUEZZIN: "مؤذن",
+    MAINTENANCE_STAFF: "عامل صيانة",
+    ARTISAN: "حرفي",
+    SUPPLIER: "مورّد",
+    REGULAR: "منتظم",
+    OCCASIONAL: "مناسباتي",
+    WEEKLY: "أسبوعي",
+    MONTHLY: "شهري",
+    CHEQUE: "شيك",
   },
 };
 
@@ -202,6 +234,10 @@ const EXACT_MESSAGES = {
     fr: "Un montant positif est requis.",
     ar: "المبلغ مطلوب ويجب أن يكون موجبًا.",
   },
+  "Administrator access required.": {
+    fr: "Accès administrateur requis.",
+    ar: "الوصول مخصص للمسؤول فقط.",
+  },
   "An unexpected error occurred during registration.": {
     fr: "Une erreur inattendue est survenue lors de l'inscription.",
     ar: "حدث خطأ غير متوقع أثناء التسجيل.",
@@ -209,6 +245,10 @@ const EXACT_MESSAGES = {
   "An unexpected error occurred. Please try again.": {
     fr: "Une erreur inattendue est survenue. Veuillez réessayer.",
     ar: "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+  },
+  "Beneficiary not found.": {
+    fr: "Bénéficiaire introuvable.",
+    ar: "المستفيد غير موجود.",
   },
   "Child not found.": {
     fr: "Enfant introuvable.",
@@ -285,6 +325,10 @@ const EXACT_MESSAGES = {
   "Mosque not found.": {
     fr: "Mosquée introuvable.",
     ar: "المسجد غير موجود.",
+  },
+  "Payment not found.": {
+    fr: "Paiement introuvable.",
+    ar: "الدفعة غير موجودة.",
   },
   "New password must be at least 8 characters.": {
     fr: "Le nouveau mot de passe doit contenir au moins 8 caractères.",
